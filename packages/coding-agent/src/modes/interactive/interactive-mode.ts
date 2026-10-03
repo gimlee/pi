@@ -3804,7 +3804,12 @@ export class InteractiveMode {
 	private addMessageToChat(message: AgentMessage, options?: { populateHistory?: boolean }): void {
 		switch (message.role) {
 			case "bashExecution": {
-				const component = new BashExecutionComponent(message.command, this.ui, message.excludeFromContext);
+				const component = new BashExecutionComponent(
+					message.command,
+					this.ui,
+					message.excludeFromContext,
+					this.outputPad,
+				);
 				if (message.output) {
 					component.appendOutput(message.output);
 				}
@@ -4995,10 +5000,14 @@ export class InteractiveMode {
 								if (
 									child instanceof AssistantMessageComponent ||
 									child instanceof CustomMessageComponent ||
-									child instanceof UserMessageComponent
+									child instanceof UserMessageComponent ||
+									child instanceof BashExecutionComponent
 								) {
 									child.setOutputPad(padding);
 								}
+							}
+							for (const child of this.pendingBashComponents) {
+								child.setOutputPad(padding);
 							}
 							if (this.streamingComponent) {
 								this.streamingComponent.setOutputPad(padding);
@@ -6921,7 +6930,7 @@ export class InteractiveMode {
 			const result = eventResult.result;
 
 			// Create UI component for display
-			this.bashComponent = new BashExecutionComponent(command, this.ui, excludeFromContext);
+			this.bashComponent = new BashExecutionComponent(command, this.ui, excludeFromContext, this.outputPad);
 			if (this.session.isStreaming) {
 				this.pendingMessagesContainer.addChild(this.bashComponent);
 				this.pendingBashComponents.push(this.bashComponent);
@@ -6949,7 +6958,7 @@ export class InteractiveMode {
 
 		// Normal execution path (possibly with custom operations)
 		const isDeferred = this.session.isStreaming;
-		this.bashComponent = new BashExecutionComponent(command, this.ui, excludeFromContext);
+		this.bashComponent = new BashExecutionComponent(command, this.ui, excludeFromContext, this.outputPad);
 
 		if (isDeferred) {
 			// Show in pending area when agent is streaming

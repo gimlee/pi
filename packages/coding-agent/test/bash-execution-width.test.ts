@@ -6,6 +6,7 @@ import { visibleWidth } from "@earendil-works/pi-tui";
 import { beforeAll, describe, expect, it } from "vitest";
 import { BashExecutionComponent } from "../src/modes/interactive/components/bash-execution.ts";
 import { initTheme } from "../src/modes/interactive/theme/theme.ts";
+import { stripAnsi } from "../src/utils/ansi.ts";
 
 /** Minimal TUI stub that only exposes terminal.columns */
 function createTuiStub(columns: number): { columns: number; stub: any } {
@@ -76,5 +77,21 @@ describe("BashExecutionComponent width handling (#2569)", () => {
 			const w = visibleWidth(lines60[i]);
 			expect(w, `Line ${i} visibleWidth=${w} > 60`).toBeLessThanOrEqual(60);
 		}
+	});
+
+	it("uses configured output padding for command headers and output (#9946)", () => {
+		const { stub } = createTuiStub(80);
+		const component = new BashExecutionComponent("pwd", stub, false, 0);
+		component.appendOutput("/home/user/project\n");
+		component.setComplete(0, false);
+
+		const unpaddedLines = component.render(80).map((line) => stripAnsi(line));
+		expect(unpaddedLines.some((line) => line.includes("/home/user/project"))).toBe(true);
+		expect(unpaddedLines.some((line) => line.includes(" /home/user/project"))).toBe(false);
+		expect(unpaddedLines.some((line) => line.includes("$ pwd"))).toBe(true);
+
+		component.setOutputPad(1);
+		const paddedLines = component.render(80).map((line) => stripAnsi(line));
+		expect(paddedLines.some((line) => line.includes(" /home/user/project"))).toBe(true);
 	});
 });
