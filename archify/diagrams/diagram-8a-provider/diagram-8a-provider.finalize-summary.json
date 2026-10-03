@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "architecture",
+  "quality": "showcase",
+  "specification": {
+    "path": "F:\\github\\pi\\archify\\diagrams\\diagram-8a-provider\\candidate.json",
+    "sha256": "27dc07c8045a50436f8a09df8b7ffeb6318688a23511ca866528a1ff4f5dbd40",
+    "bytes": 3449
+  },
+  "artifact": {
+    "path": "F:\\github\\pi\\archify\\diagrams\\diagram-8a-provider\\diagram-8a-provider.html",
+    "sha256": "18c59326717390a97efeb0f2118271bdf72a530d8a2fd45910c763a4bdb8e823",
+    "bytes": 749411
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "F:\\github\\pi\\archify\\diagrams\\diagram-8a-provider\\diagram-8a-provider.finalize.json",
+    "summaryReceipt": "F:\\github\\pi\\archify\\diagrams\\diagram-8a-provider\\diagram-8a-provider.finalize-summary.json",
+    "browserCheckReceipt": "F:\\github\\pi\\archify\\diagrams\\diagram-8a-provider\\diagram-8a-provider.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.0.1",
+    "availableVersion": "3.0.1",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-02T18:25:19.682Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 4575
+}

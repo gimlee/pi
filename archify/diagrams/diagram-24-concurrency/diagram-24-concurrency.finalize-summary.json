@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "architecture",
+  "quality": "showcase",
+  "specification": {
+    "path": "F:\\github\\pi\\archify\\diagrams\\diagram-24-concurrency\\candidate.json",
+    "sha256": "943eb82b6c60d35aad9c2551cf5783f66721af8bad83bfbca5fc00fee8fca521",
+    "bytes": 4149
+  },
+  "artifact": {
+    "path": "F:\\github\\pi\\archify\\diagrams\\diagram-24-concurrency\\diagram-24-concurrency.html",
+    "sha256": "ed12f1a070aae5a995e9d50d3217311e3e442224b72b14e37a756cabef01b62f",
+    "bytes": 752375
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "F:\\github\\pi\\archify\\diagrams\\diagram-24-concurrency\\diagram-24-concurrency.finalize.json",
+    "summaryReceipt": "F:\\github\\pi\\archify\\diagrams\\diagram-24-concurrency\\diagram-24-concurrency.finalize-summary.json",
+    "browserCheckReceipt": "F:\\github\\pi\\archify\\diagrams\\diagram-24-concurrency\\diagram-24-concurrency.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.0.1",
+    "availableVersion": "3.0.1",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-02T18:25:19.682Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 4745,
+  "visualReviewRecommendation": {
+    "action": "inspect-route-readability",
+    "signals": {
+      "resolvedCrossovers": 2,
+      "routesOverSuggestedBends": 2
+    },
+    "reason": "Automated gates passed, but crossings or detours still need perceptual review before claiming visual quality.",
+    "affectedRoutes": {
+      "crossings": [
+        {
+          "left": {
+            "from": "batch",
+            "to": "files",
+            "label": "mutations",
+            "collectionIndex": 1,
+            "artifactIndex": 2
+          },
+          "right": {
+            "from": "batch",
+            "to": "shell",
+            "label": "spawn",
+            "collectionIndex": 2,
+            "artifactIndex": 3
+          },
+          "point": [
+            455.3999999999999,
+            366
+          ],
+          "sharedNode": "batch"
+        },
+        {
+          "left": {
+            "from": "batch",
+            "to": "worker",
+            "label": "scripts",
+            "collectionIndex": 3,
+            "artifactIndex": 4
+          },
+          "right": {
+            "from": "batch",
+            "to": "mcp",
+            "label": "calls",
+            "collectionIndex": 4,
+            "artifactIndex": 5
+          },
+          "point": [
+            912.5,
+            366
+          ],
+          "sharedNode": "batch"
+        }
+      ],
+      "detours": [
+        {
+          "relationship": {
+            "from": "batch",
+            "to": "files",
+            "label": "mutations",
+            "collectionIndex": 1,
+            "artifactIndex": 2
+          },
+          "bends": 3,
+          "stretch": 1
+        },
+        {
+          "relationship": {
+            "from": "batch",
+            "to": "mcp",
+            "label": "calls",
+            "collectionIndex": 4,
+            "artifactIndex": 5
+          },
+          "bends": 3,
+          "stretch": 1
+        }
+      ],
+      "truncated": false
+    },
+    "hints": [
+      "batch → files and batch → shell cross next to batch: move node files or shell so the two reach batch from different sides (for example one level with it, one directly above or below it).",
+      "batch → worker and batch → mcp cross next to batch: move node worker or mcp so the two reach batch from different sides (for example one level with it, one directly above or below it).",
+      "batch → files needs 3 bends: move node batch or files so they share a row or column with matching centers, or sit diagonally with a clear corner.",
+      "batch → mcp needs 3 bends: move node batch or mcp so they share a row or column with matching centers, or sit diagonally with a clear corner."
+    ],
+    "repair": "Trace these relationships at the desktop viewport. For Architecture, use references/architecture-layout-repair.md: reflow a blocked main path or tangled connected scene, and repair an isolated defect locally only when the surrounding composition is accepted. Preserve all semantic content and user-fixed geometry. Rerun finalize once after the edit."
+  },
+  "layoutReviewRecommendation": {
+    "action": "inspect-leading-space",
+    "evidence": {
+      "measured": true,
+      "emptyTopPx": 260,
+      "emptyTopRatio": 0.394,
+      "occupiedTop": 260,
+      "viewBoxTop": 0,
+      "canvasHeight": 660,
+      "typicalNodeHeight": 82,
+      "reviewSuggested": true
+    },
+    "reason": "Measured content, including routes and labels, leaves a large empty area above the diagram. This is a composition suggestion, not a failed gate.",
+    "repair": "Check whether that leading space is intentional. If not, reposition the connected scene nearer the canvas origin while retaining room for its actual boundaries, labels and return routes. Preserve all meaning and user-fixed geometry, then rerun finalize. No screenshot is required."
+  }
+}

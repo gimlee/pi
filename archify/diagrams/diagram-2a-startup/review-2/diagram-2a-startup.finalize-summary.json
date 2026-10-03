@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "workflow",
+  "quality": "showcase",
+  "specification": {
+    "path": "F:\\github\\pi\\archify\\diagrams\\diagram-2a-startup\\candidate.json",
+    "sha256": "f183fc67c18de61243824daa1ce0508f7edf4648c819e0750e18f7f098fbc530",
+    "bytes": 12465
+  },
+  "artifact": {
+    "path": "F:\\github\\pi\\archify\\diagrams\\diagram-2a-startup\\diagram-2a-startup.html",
+    "sha256": "604e5deb978ff946454300d32aff0b16ccf90afdae7507d1f18e240462cd7b06",
+    "bytes": 771342
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "F:\\github\\pi\\archify\\diagrams\\diagram-2a-startup\\review-2\\diagram-2a-startup.finalize.json",
+    "summaryReceipt": "F:\\github\\pi\\archify\\diagrams\\diagram-2a-startup\\review-2\\diagram-2a-startup.finalize-summary.json",
+    "browserCheckReceipt": "F:\\github\\pi\\archify\\diagrams\\diagram-2a-startup\\review-2\\diagram-2a-startup.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.0.1",
+    "availableVersion": "3.0.1",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-02T18:25:19.682Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 4733,
+  "visualReviewRecommendation": {
+    "action": "inspect-route-readability",
+    "signals": {
+      "routesOverSuggestedBends": 2,
+      "routesOverSuggestedStretch": 1
+    },
+    "reason": "Automated gates passed, but crossings or detours still need perceptual review before claiming visual quality.",
+    "affectedRoutes": {
+      "crossings": [],
+      "detours": [
+        {
+          "relationship": {
+            "id": "runtime-error",
+            "from": "runtime",
+            "to": "error",
+            "label": "启动诊断失败",
+            "collectionIndex": 12,
+            "artifactIndex": 13
+          },
+          "bends": 3,
+          "stretch": 1
+        },
+        {
+          "relationship": {
+            "id": "runtime-metadata",
+            "from": "runtime",
+            "to": "metadata",
+            "label": "metadata 请求",
+            "collectionIndex": 13,
+            "artifactIndex": 14
+          },
+          "bends": 4,
+          "stretch": 9.639
+        }
+      ],
+      "truncated": false
+    },
+    "hints": [
+      "runtime → error needs 3 bends: move node runtime or error so they share a row or column with matching centers, or sit diagonally with a clear corner.",
+      "runtime → metadata needs 4 bends: move node runtime or metadata so they share a row or column with matching centers, or sit diagonally with a clear corner."
+    ],
+    "repair": "Trace these relationships at the desktop viewport. For Architecture, use references/architecture-layout-repair.md: reflow a blocked main path or tangled connected scene, and repair an isolated defect locally only when the surrounding composition is accepted. Preserve all semantic content and user-fixed geometry. Rerun finalize once after the edit."
+  }
+}

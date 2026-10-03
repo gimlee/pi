@@ -1,0 +1,161 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "14A · Repository Understanding Workflow",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "output": "archify/diagrams/diagram-14a-search/diagram-14a-search.html"
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "实际执行边界",
+      "items": [
+        "文件选择和语义理解来自模型",
+        "Harness 提供可靠 I/O 与上下文"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "阅读边界",
+      "items": [
+        "无默认语义 repo-map/LSP",
+        "图是可发生路径，非强制阶段"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "main",
+      "label": "模型选择与 Harness 执行"
+    },
+    {
+      "id": "other",
+      "label": "条件 / 恢复"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "task",
+      "label": "任务与规则",
+      "sublabel": "用户 / cwd / AGENTS",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 1921,
+          "end_line": 1955,
+          "label": "async prompt("
+        }
+      ],
+      "lane": "main",
+      "col": 0,
+      "width": 160,
+      "height": 80
+    },
+    {
+      "id": "select",
+      "label": "模型选搜索",
+      "sublabel": "词 / 文件范围",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 381,
+          "end_line": 415,
+          "label": "async function streamAssistantResponse"
+        }
+      ],
+      "lane": "main",
+      "col": 1,
+      "width": 160,
+      "height": 80
+    },
+    {
+      "id": "search",
+      "label": "搜索与枚举",
+      "sublabel": "rg / fd / ls",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/tools/grep.ts",
+          "line": 70,
+          "end_line": 104,
+          "label": "export function createGrepToolDefinition("
+        }
+      ],
+      "lane": "main",
+      "col": 2,
+      "width": 160,
+      "height": 80
+    },
+    {
+      "id": "read",
+      "label": "局部 read",
+      "sublabel": "offset / limit",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/tools/read.ts",
+          "line": 66,
+          "end_line": 100,
+          "label": "export function createReadToolDefinition("
+        }
+      ],
+      "lane": "main",
+      "col": 3,
+      "width": 160,
+      "height": 80
+    },
+    {
+      "id": "reason",
+      "label": "模型判断",
+      "sublabel": "再查或修改",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 381,
+          "end_line": 415,
+          "label": "async function streamAssistantResponse"
+        }
+      ],
+      "lane": "main",
+      "col": 4,
+      "width": 160,
+      "height": 80
+    }
+  ],
+  "edges": [
+    {
+      "from": "task",
+      "to": "select",
+      "label": "请求",
+      "variant": "emphasis"
+    },
+    {
+      "from": "select",
+      "to": "search",
+      "label": "toolCall",
+      "variant": "emphasis"
+    },
+    {
+      "from": "search",
+      "to": "read",
+      "label": "模型选文件",
+      "variant": "emphasis"
+    },
+    {
+      "from": "read",
+      "to": "reason",
+      "label": "结果回灌",
+      "variant": "emphasis"
+    }
+  ]
+}

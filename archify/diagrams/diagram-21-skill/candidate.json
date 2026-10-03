@@ -1,0 +1,134 @@
+{
+  "schema_version": 2,
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "21 · Skill Activation Lifecycle",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "output": "archify/diagrams/diagram-21-skill/diagram-21-skill.html"
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "实际执行边界",
+      "items": [
+        "展示按需使用步骤，不是核心 FSM",
+        "Skill 是指令文件，不是 factory"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "阅读边界",
+      "items": [
+        "没有 Skill.execute 强制流程",
+        "技能正文消耗上下文 tokens"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "main",
+      "label": "实现中的阶段 / 谓词映射"
+    },
+    {
+      "id": "other",
+      "label": "异常 / 合作取消"
+    }
+  ],
+  "states": [
+    {
+      "id": "discover",
+      "label": "发现 Skill",
+      "sublabel": "frontmatter / diagnostics",
+      "type": "start",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/skills.ts",
+          "line": 409,
+          "end_line": 443,
+          "label": "export function loadSkills("
+        }
+      ],
+      "lane": "main",
+      "col": 0,
+      "width": 180,
+      "height": 84
+    },
+    {
+      "id": "listed",
+      "label": "提示列出摘要",
+      "sublabel": "名称 / 描述 / 路径",
+      "type": "active",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/skills.ts",
+          "line": 355,
+          "end_line": 389,
+          "label": "export function formatSkillsForPrompt("
+        }
+      ],
+      "lane": "main",
+      "col": 1,
+      "width": 180,
+      "height": 84
+    },
+    {
+      "id": "loaded",
+      "label": "正文进入消息",
+      "sublabel": "/skill 展开或 read",
+      "type": "active",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 171,
+          "end_line": 205,
+          "label": "export function parseSkillBlock("
+        }
+      ],
+      "lane": "main",
+      "col": 2,
+      "width": 180,
+      "height": 84
+    },
+    {
+      "id": "used",
+      "label": "模型使用指令",
+      "sublabel": "普通工具循环",
+      "type": "failure",
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 163,
+          "end_line": 197,
+          "label": "async function runLoop("
+        }
+      ],
+      "lane": "main",
+      "col": 3,
+      "width": 180,
+      "height": 84
+    }
+  ],
+  "transitions": [
+    {
+      "from": "discover",
+      "to": "listed",
+      "label": "提示构建"
+    },
+    {
+      "from": "listed",
+      "to": "loaded",
+      "label": "显式命令 / 按需读取"
+    },
+    {
+      "from": "loaded",
+      "to": "used",
+      "label": "模型决定"
+    }
+  ]
+}

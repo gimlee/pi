@@ -1,0 +1,171 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "8A · Provider Architecture",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "output": "archify/diagrams/diagram-8a-provider/diagram-8a-provider.html"
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "实际执行边界",
+      "items": [
+        "42 identities 与 10 chat API 不同",
+        "OpenRouter 支持多个 API"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "阅读边界",
+      "items": [
+        "典型四族深入调查",
+        "未声称全部 adapter 已实测"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "models",
+      "label": "Models",
+      "sublabel": "auth / catalogs",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/ai/src/models.ts",
+          "line": 985,
+          "end_line": 1019,
+          "label": "export function createModels("
+        }
+      ],
+      "pos": [
+        40,
+        260
+      ],
+      "size": [
+        225,
+        82
+      ]
+    },
+    {
+      "id": "factory",
+      "label": "Provider factory",
+      "sublabel": "身份 / baseURL / API",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/ai/src/providers/openrouter.ts",
+          "line": 10,
+          "end_line": 36,
+          "label": "export function openrouterProvider("
+        }
+      ],
+      "pos": [
+        380,
+        260
+      ],
+      "size": [
+        225,
+        82
+      ]
+    },
+    {
+      "id": "api",
+      "label": "API adapter",
+      "sublabel": "message / tools / stream",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/ai/src/api/openai-completions.ts",
+          "line": 299,
+          "end_line": 333,
+          "label": "export const stream:"
+        }
+      ],
+      "pos": [
+        730,
+        260
+      ],
+      "size": [
+        225,
+        82
+      ]
+    },
+    {
+      "id": "wire",
+      "label": "SDK / Transport",
+      "sublabel": "实际网络请求",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/ai/src/api/openai-completions.ts",
+          "line": 370,
+          "end_line": 404,
+          "label": "retryProviderRequest("
+        }
+      ],
+      "pos": [
+        1080,
+        260
+      ],
+      "size": [
+        225,
+        82
+      ]
+    },
+    {
+      "id": "registry",
+      "label": "Compat registry",
+      "sublabel": "global API streams",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/ai/src/compat.ts",
+          "line": 165,
+          "end_line": 199,
+          "label": "registerApiProvider("
+        }
+      ],
+      "pos": [
+        730,
+        40
+      ],
+      "size": [
+        225,
+        82
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "models",
+      "to": "factory",
+      "label": "注册实例",
+      "variant": "emphasis"
+    },
+    {
+      "from": "factory",
+      "to": "api",
+      "label": "API dispatch",
+      "variant": "emphasis"
+    },
+    {
+      "from": "api",
+      "to": "wire",
+      "label": "发送",
+      "variant": "emphasis"
+    },
+    {
+      "from": "registry",
+      "to": "api",
+      "label": "兼容入口",
+      "variant": "emphasis"
+    }
+  ]
+}

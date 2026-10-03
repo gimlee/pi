@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "169b7271-ce54-44e6-860d-6206576afc53",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "F:\\github\\pi\\archify\\diagrams\\diagram-24-concurrency\\candidate.json",
+  "output": "F:\\github\\pi\\archify\\diagrams\\diagram-24-concurrency\\diagram-24-concurrency.html",
+  "specification": {
+    "sha256": "3204070ee45c183ce559b2656c55e223d61dbdbc001d8fa6f282d73db6d3776e",
+    "bytes": 4147
+  },
+  "artifact": {
+    "sha256": "8f35ac2c74facf5a5d7e048f36de86ba9cc73409de3f14c7e2eba9f4713cdc84",
+    "bytes": 751834
+  }
+}

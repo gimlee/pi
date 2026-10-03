@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "6cd0c17f-0d5b-40bf-9d06-300eec91d134",
+  "status": "current",
+  "command": "deliver",
+  "type": "lifecycle",
+  "input": "F:\\github\\pi\\archify\\diagrams\\diagram-29-retry\\candidate.json",
+  "output": "F:\\github\\pi\\archify\\diagrams\\diagram-29-retry\\diagram-29-retry.html",
+  "specification": {
+    "sha256": "8d051ed827177163d900a05716291da66c2c7111950b6940d62066e4e04eb346",
+    "bytes": 3650
+  },
+  "artifact": {
+    "sha256": "558edfc490f69eddb96cff030b2fcd1bff588af1b05671835adf7040b4cbaf47",
+    "bytes": 753710
+  }
+}

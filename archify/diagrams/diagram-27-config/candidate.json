@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "27 · Configuration Flow",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "output": "archify/diagrams/diagram-27-config/diagram-27-config.html",
+    "viewBox": [
+      1080,
+      360
+    ]
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "实际执行边界",
+      "items": [
+        "示意产品设置主路径",
+        "models/MCP 有各自 reader 和覆盖规则"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "阅读边界",
+      "items": [
+        "无统一所有键优先级公式",
+        "credentials 不是 models.json snapshot"
+      ]
+    }
+  ],
+  "stages": [
+    {
+      "label": "配置来源"
+    },
+    {
+      "label": "SettingsManager"
+    },
+    {
+      "label": "SDK options"
+    },
+    {
+      "label": "Runtime request"
+    },
+    {
+      "label": "Provider params"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "files",
+      "label": "配置来源",
+      "sublabel": "settings / models / MCP",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/settings-manager.ts",
+          "line": 133,
+          "end_line": 167,
+          "label": "export interface Settings"
+        }
+      ],
+      "stage": 0,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "settings",
+      "label": "SettingsManager",
+      "sublabel": "merge / trust / defaults",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/settings-manager.ts",
+          "line": 379,
+          "end_line": 413,
+          "label": "export class SettingsManager"
+        }
+      ],
+      "stage": 1,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "sdk",
+      "label": "SDK options",
+      "sublabel": "model/thinking/tools 解析",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/sdk.ts",
+          "line": 175,
+          "end_line": 209,
+          "label": "export async function createAgentSession("
+        }
+      ],
+      "stage": 2,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "session",
+      "label": "Runtime request",
+      "sublabel": "动态设置 / hooks",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 362,
+          "end_line": 396,
+          "label": "export class AgentSession"
+        }
+      ],
+      "stage": 3,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "provider",
+      "label": "Provider params",
+      "sublabel": "credentials / compat",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/ai/src/api/openai-completions.ts",
+          "line": 797,
+          "end_line": 831,
+          "label": "function buildParams("
+        }
+      ],
+      "stage": 4,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    }
+  ],
+  "flows": [
+    {
+      "from": "files",
+      "to": "settings",
+      "label": "装载",
+      "variant": "emphasis",
+      "labelDy": 66
+    },
+    {
+      "from": "settings",
+      "to": "sdk",
+      "label": "有效设置",
+      "variant": "emphasis",
+      "labelDy": 66
+    },
+    {
+      "from": "sdk",
+      "to": "session",
+      "label": "初始化",
+      "variant": "emphasis",
+      "labelDy": 66
+    },
+    {
+      "from": "session",
+      "to": "provider",
+      "label": "请求选项",
+      "variant": "emphasis",
+      "labelDy": 66
+    }
+  ]
+}

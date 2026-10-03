@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "12B · File Edit Sequence",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "output": "archify/diagrams/diagram-12b-edit/diagram-12b-edit.html",
+    "column_fit": "spread",
+    "viewBox": [
+      1080,
+      510
+    ]
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "实际执行边界",
+      "items": [
+        "全部 edits 匹配同一原内容",
+        "不同文件可并发"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "阅读边界",
+      "items": [
+        "没有外部版本 CAS",
+        "取消不承诺写入回滚"
+      ]
+    }
+  ],
+  "participants": [
+    {
+      "id": "agent",
+      "label": "Tool runtime",
+      "sublabel": "prepare / schema",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 707,
+          "end_line": 741,
+          "label": "async function prepareToolCall("
+        }
+      ]
+    },
+    {
+      "id": "edit",
+      "label": "Edit tool",
+      "sublabel": "oldText/newText",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/tools/edit.ts",
+          "line": 143,
+          "end_line": 177,
+          "label": "export function createEditToolDefinition("
+        }
+      ]
+    },
+    {
+      "id": "queue",
+      "label": "File queue",
+      "sublabel": "realpath key",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/tools/file-mutation-queue.ts",
+          "line": 32,
+          "end_line": 61,
+          "label": "export async function withFileMutationQueue"
+        }
+      ]
+    },
+    {
+      "id": "fs",
+      "label": "Filesystem",
+      "sublabel": "read → write",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/tools/edit.ts",
+          "line": 186,
+          "end_line": 220,
+          "label": "await ops.readFile"
+        }
+      ]
+    }
+  ],
+  "messages": [
+    {
+      "id": "m1",
+      "from": "agent",
+      "to": "edit",
+      "label": "edits 参数",
+      "y": 170,
+      "variant": "emphasis"
+    },
+    {
+      "id": "m2",
+      "from": "edit",
+      "to": "queue",
+      "label": "按路径等待锁",
+      "y": 215,
+      "variant": "emphasis"
+    },
+    {
+      "id": "m3",
+      "from": "edit",
+      "to": "fs",
+      "label": "read 当前内容",
+      "y": 260,
+      "variant": "emphasis"
+    },
+    {
+      "id": "m4",
+      "from": "fs",
+      "to": "edit",
+      "label": "UTF-8 文本",
+      "y": 305,
+      "variant": "return"
+    },
+    {
+      "id": "m5",
+      "from": "edit",
+      "to": "fs",
+      "label": "唯一定位 / 替换 / write",
+      "y": 350,
+      "variant": "emphasis"
+    },
+    {
+      "id": "m6",
+      "from": "edit",
+      "to": "agent",
+      "label": "成功 + diff details",
+      "y": 395,
+      "variant": "return"
+    }
+  ]
+}

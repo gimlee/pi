@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "e8fe9667-1681-4fdb-9918-8dc0b07b4cdc",
+  "status": "current",
+  "command": "deliver",
+  "type": "sequence",
+  "input": "F:\\github\\pi\\archify\\diagrams\\diagram-25b-input\\candidate.json",
+  "output": "F:\\github\\pi\\archify\\diagrams\\diagram-25b-input\\diagram-25b-input.html",
+  "specification": {
+    "sha256": "b47ec37125689c7d28fafcabb4c40357e8b7f81e32d043e21a0fac136e6ee3c3",
+    "bytes": 2987
+  },
+  "artifact": {
+    "sha256": "d569c40ad9a79b360f0340219c1055ee9e7af8004249ce0c80c9e68a5bfbb024",
+    "bytes": 748608
+  }
+}

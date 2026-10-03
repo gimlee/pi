@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "4e79de77-2083-41e6-b445-ae8da44b88c9",
+  "status": "current",
+  "command": "deliver",
+  "type": "lifecycle",
+  "input": "F:\\github\\pi\\archify\\diagrams\\diagram-21-skill\\candidate.json",
+  "output": "F:\\github\\pi\\archify\\diagrams\\diagram-21-skill\\diagram-21-skill.html",
+  "specification": {
+    "sha256": "8cf6b27b9dcfdd31781efb6cf82c274dac285b3e9f902dcd7cb705fdce112dda",
+    "bytes": 3023
+  },
+  "artifact": {
+    "sha256": "bf647387f54bfe91b9cc9376f778fe3cdd9becd0a21d17d271eb97c1b80f1c37",
+    "bytes": 749532
+  }
+}

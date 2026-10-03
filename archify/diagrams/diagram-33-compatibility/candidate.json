@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "33 · Cross-provider Compatibility Layer",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "output": "archify/diagrams/diagram-33-compatibility/diagram-33-compatibility.html",
+    "viewBox": [
+      1080,
+      360
+    ]
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "实际执行边界",
+      "items": [
+        "兼容需要执行逻辑而非类型 alias",
+        "identity / API / model capability 分开"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "阅读边界",
+      "items": [
+        "并未实测全部 Providers",
+        "无法按百分比量化 Harness 厚度"
+      ]
+    }
+  ],
+  "stages": [
+    {
+      "label": "Canonical message"
+    },
+    {
+      "label": "Transcript replay"
+    },
+    {
+      "label": "Shared transform"
+    },
+    {
+      "label": "Native encoding"
+    },
+    {
+      "label": "Canonical response"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "messages",
+      "label": "Canonical message",
+      "sublabel": "roles / content / usage",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/ai/src/types.ts",
+          "line": 610,
+          "end_line": 644,
+          "label": "export type Message ="
+        }
+      ],
+      "stage": 0,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "transcript",
+      "label": "Transcript replay",
+      "sublabel": "system/tool state",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/ai/src/utils/transcript.ts",
+          "line": 30,
+          "end_line": 64,
+          "label": "export function normalizeContext"
+        }
+      ],
+      "stage": 1,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "repair",
+      "label": "Shared transform",
+      "sublabel": "signatures / tool IDs",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/ai/src/api/transform-messages.ts",
+          "line": 64,
+          "end_line": 98,
+          "label": "export function transformMessages<"
+        }
+      ],
+      "stage": 2,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "api",
+      "label": "Native encoding",
+      "sublabel": "roles/schema/thinking",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/ai/src/api/openai-completions.ts",
+          "line": 797,
+          "end_line": 831,
+          "label": "function buildParams("
+        }
+      ],
+      "stage": 3,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "events",
+      "label": "Canonical response",
+      "sublabel": "events / stop / usage",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/ai/src/utils/event-stream.ts",
+          "line": 91,
+          "end_line": 110,
+          "label": "export class AssistantMessageEventStream"
+        }
+      ],
+      "stage": 4,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    }
+  ],
+  "flows": [
+    {
+      "from": "messages",
+      "to": "transcript",
+      "label": "normalize",
+      "variant": "emphasis",
+      "labelDy": 66
+    },
+    {
+      "from": "transcript",
+      "to": "repair",
+      "label": "重放",
+      "variant": "emphasis",
+      "labelDy": 66
+    },
+    {
+      "from": "repair",
+      "to": "api",
+      "label": "请求编码",
+      "variant": "emphasis",
+      "labelDy": 66
+    },
+    {
+      "from": "api",
+      "to": "events",
+      "label": "响应归一",
+      "variant": "emphasis",
+      "labelDy": 66
+    }
+  ]
+}

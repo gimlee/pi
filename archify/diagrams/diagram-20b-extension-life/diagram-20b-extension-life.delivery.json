@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "5528a13f-0fd9-4214-a623-4bd4037990ff",
+  "status": "current",
+  "command": "deliver",
+  "type": "lifecycle",
+  "input": "F:\\github\\pi\\archify\\diagrams\\diagram-20b-extension-life\\candidate.json",
+  "output": "F:\\github\\pi\\archify\\diagrams\\diagram-20b-extension-life\\diagram-20b-extension-life.html",
+  "specification": {
+    "sha256": "2e93c8373a6f7429e8afb074bd8e8a00dd6775693b91ccf9a6048154b9d245de",
+    "bytes": 3570
+  },
+  "artifact": {
+    "sha256": "73f0decbfa4d525db3fdb3438a0cb2bd8257251f5cd99436d55f45510151d5ed",
+    "bytes": 752444
+  }
+}

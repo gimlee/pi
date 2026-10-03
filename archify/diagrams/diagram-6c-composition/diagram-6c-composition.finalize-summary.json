@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "dataflow",
+  "quality": "showcase",
+  "specification": {
+    "path": "F:\\github\\pi\\archify\\diagrams\\diagram-6c-composition\\candidate.json",
+    "sha256": "ce479e99c615604130a1d387f77c444c12754b6a00d45244b55e55dd8f732942",
+    "bytes": 3304
+  },
+  "artifact": {
+    "path": "F:\\github\\pi\\archify\\diagrams\\diagram-6c-composition\\diagram-6c-composition.html",
+    "sha256": "b2cdb7469e4159a5ec0c2b15b4fe989ec951b4d76dbc9ffcb155460c1a4324be",
+    "bytes": 748296
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "F:\\github\\pi\\archify\\diagrams\\diagram-6c-composition\\diagram-6c-composition.finalize.json",
+    "summaryReceipt": "F:\\github\\pi\\archify\\diagrams\\diagram-6c-composition\\diagram-6c-composition.finalize-summary.json",
+    "browserCheckReceipt": "F:\\github\\pi\\archify\\diagrams\\diagram-6c-composition\\diagram-6c-composition.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.0.1",
+    "availableVersion": "3.0.1",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-02T18:25:19.682Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 4516
+}

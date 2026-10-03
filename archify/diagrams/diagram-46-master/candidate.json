@@ -1,0 +1,611 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Pi Agent Master Architecture Map",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "output": "archify/diagrams/diagram-46-master/diagram-46-master.html"
+  },
+  "components": [
+    {
+      "id": "user",
+      "label": "User",
+      "sublabel": "任务 / 规则 / 取消",
+      "pos": [
+        40,
+        40
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "type": "frontend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/modes/print-mode.ts",
+          "line": 33,
+          "end_line": 62,
+          "label": "export async function runPrintMode"
+        }
+      ]
+    },
+    {
+      "id": "host",
+      "label": "CLI / TUI / RPC",
+      "sublabel": "输入与展示 Host",
+      "pos": [
+        350,
+        40
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "type": "frontend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/main.ts",
+          "line": 573,
+          "end_line": 602,
+          "label": "export async function main("
+        }
+      ]
+    },
+    {
+      "id": "runtime",
+      "label": "SessionRuntime",
+      "sublabel": "服务装配 / 会话替换",
+      "pos": [
+        660,
+        40
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session-runtime.ts",
+          "line": 74,
+          "end_line": 103,
+          "label": "export class AgentSessionRuntime"
+        }
+      ]
+    },
+    {
+      "id": "session",
+      "label": "AgentSession",
+      "sublabel": "编码行为 / 恢复",
+      "pos": [
+        970,
+        40
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 362,
+          "end_line": 391,
+          "label": "export class AgentSession"
+        }
+      ]
+    },
+    {
+      "id": "agent",
+      "label": "Agent Runtime",
+      "sublabel": "runLoop / queue / abort",
+      "pos": [
+        970,
+        300
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 163,
+          "end_line": 192,
+          "label": "async function runLoop("
+        }
+      ]
+    },
+    {
+      "id": "context",
+      "label": "Context / Prompt",
+      "sublabel": "投影 / hooks / 摘要",
+      "pos": [
+        970,
+        560
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 759,
+          "end_line": 788,
+          "label": "private _installAgentRequestProjection"
+        }
+      ]
+    },
+    {
+      "id": "message",
+      "label": "Canonical Message",
+      "sublabel": "统一角色 / 工具 / usage",
+      "pos": [
+        970,
+        820
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/ai/src/types.ts",
+          "line": 610,
+          "end_line": 639,
+          "label": "export type Message ="
+        }
+      ]
+    },
+    {
+      "id": "model",
+      "label": "Model layer",
+      "sublabel": "路由 / capability / auth",
+      "pos": [
+        660,
+        820
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/model-runtime.ts",
+          "line": 171,
+          "end_line": 200,
+          "label": "export class ModelRuntime"
+        }
+      ]
+    },
+    {
+      "id": "provider",
+      "label": "Provider / API",
+      "sublabel": "原生请求 / 事件转换",
+      "pos": [
+        350,
+        820
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/ai/src/api/openai-completions.ts",
+          "line": 299,
+          "end_line": 328,
+          "label": "export const stream:"
+        }
+      ]
+    },
+    {
+      "id": "llm",
+      "label": "LLM Service",
+      "sublabel": "模型推理 / tool choice",
+      "pos": [
+        40,
+        820
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "type": "cloud",
+      "sources": [
+        {
+          "path": "packages/ai/src/api/openai-completions.ts",
+          "line": 370,
+          "end_line": 399,
+          "label": "retryProviderRequest("
+        }
+      ]
+    },
+    {
+      "id": "tools",
+      "label": "Tool Runtime",
+      "sublabel": "validate / execute / result",
+      "pos": [
+        660,
+        300
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 707,
+          "end_line": 736,
+          "label": "async function prepareToolCall("
+        }
+      ]
+    },
+    {
+      "id": "file",
+      "label": "File tools",
+      "sublabel": "read / write / edit",
+      "pos": [
+        350,
+        300
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/tools/edit.ts",
+          "line": 143,
+          "end_line": 172,
+          "label": "export function createEditToolDefinition("
+        }
+      ]
+    },
+    {
+      "id": "shell",
+      "label": "Shell",
+      "sublabel": "child process / 输出限制",
+      "pos": [
+        350,
+        560
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/tools/bash.ts",
+          "line": 243,
+          "end_line": 272,
+          "label": "export function createShellToolDefinition("
+        }
+      ]
+    },
+    {
+      "id": "search",
+      "label": "Search tools",
+      "sublabel": "grep / find / ls",
+      "pos": [
+        40,
+        300
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/tools/grep.ts",
+          "line": 70,
+          "end_line": 99,
+          "label": "export function createGrepToolDefinition("
+        }
+      ]
+    },
+    {
+      "id": "mcp",
+      "label": "MCP Integration",
+      "sublabel": "工具适配 / Client / Server",
+      "pos": [
+        660,
+        560
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/extensions/mcp/runtime.ts",
+          "line": 155,
+          "end_line": 184,
+          "label": "export class McpServerConnection"
+        }
+      ]
+    },
+    {
+      "id": "extension",
+      "label": "Extension / Skill",
+      "sublabel": "注册 / hooks / 指令",
+      "pos": [
+        660,
+        165
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/extensions/runner.ts",
+          "line": 356,
+          "end_line": 385,
+          "label": "export class ExtensionRunner"
+        }
+      ]
+    },
+    {
+      "id": "events",
+      "label": "Event streams",
+      "sublabel": "Provider / Agent / Session",
+      "pos": [
+        970,
+        1060
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/agent/src/agent.ts",
+          "line": 565,
+          "end_line": 594,
+          "label": "private async processEvents("
+        }
+      ]
+    },
+    {
+      "id": "persistence",
+      "label": "Persistence",
+      "sublabel": "JSONL tree / branch / usage",
+      "pos": [
+        660,
+        1060
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "type": "database",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/session-manager.ts",
+          "line": 987,
+          "end_line": 1016,
+          "label": "export class SessionManager"
+        }
+      ]
+    },
+    {
+      "id": "config",
+      "label": "Configuration",
+      "sublabel": "设置 / Models / Auth",
+      "pos": [
+        350,
+        1060
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/settings-manager.ts",
+          "line": 379,
+          "end_line": 408,
+          "label": "export class SettingsManager"
+        }
+      ]
+    },
+    {
+      "id": "workspace",
+      "label": "Workspace resources",
+      "sublabel": "cwd / AGENTS / Skills",
+      "pos": [
+        350,
+        165
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/resource-loader.ts",
+          "line": 309,
+          "end_line": 338,
+          "label": "export class DefaultResourceLoader"
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "user",
+      "to": "host",
+      "label": "任务",
+      "variant": "emphasis"
+    },
+    {
+      "from": "host",
+      "to": "runtime",
+      "label": "初始化 / 输入",
+      "variant": "emphasis"
+    },
+    {
+      "from": "runtime",
+      "to": "session",
+      "label": "当前会话",
+      "variant": "emphasis"
+    },
+    {
+      "from": "session",
+      "to": "agent",
+      "label": "prompt / continue",
+      "variant": "emphasis"
+    },
+    {
+      "from": "agent",
+      "to": "context",
+      "label": "prepareRequest",
+      "variant": "emphasis"
+    },
+    {
+      "from": "context",
+      "to": "message",
+      "label": "请求视图",
+      "variant": "emphasis"
+    },
+    {
+      "from": "message",
+      "to": "model",
+      "label": "统一 context",
+      "variant": "emphasis"
+    },
+    {
+      "from": "model",
+      "to": "provider",
+      "label": "物理请求",
+      "variant": "emphasis"
+    },
+    {
+      "from": "provider",
+      "to": "llm",
+      "label": "原生 payload",
+      "variant": "emphasis"
+    },
+    {
+      "from": "agent",
+      "to": "tools",
+      "label": "toolCalls",
+      "variant": "emphasis"
+    },
+    {
+      "from": "tools",
+      "to": "file",
+      "label": "文件操作",
+      "variant": "emphasis"
+    },
+    {
+      "from": "tools",
+      "to": "shell",
+      "label": "执行命令",
+      "variant": "emphasis"
+    },
+    {
+      "from": "tools",
+      "to": "search",
+      "label": "检索",
+      "variant": "emphasis"
+    },
+    {
+      "from": "tools",
+      "to": "mcp",
+      "label": "远端调用",
+      "variant": "emphasis"
+    },
+    {
+      "from": "extension",
+      "to": "tools",
+      "label": "注册 / hooks",
+      "variant": "emphasis"
+    },
+    {
+      "from": "workspace",
+      "to": "host",
+      "label": "资源发现",
+      "variant": "emphasis"
+    },
+    {
+      "from": "agent",
+      "to": "events",
+      "label": "typed events",
+      "variant": "emphasis"
+    },
+    {
+      "from": "events",
+      "to": "persistence",
+      "label": "Session 持久化",
+      "variant": "emphasis"
+    },
+    {
+      "from": "config",
+      "to": "model",
+      "label": "模型设置",
+      "variant": "emphasis"
+    },
+    {
+      "from": "tools",
+      "to": "context",
+      "label": "结果回灌",
+      "variant": "emphasis"
+    },
+    {
+      "from": "persistence",
+      "to": "context",
+      "label": "分支重建",
+      "variant": "dashed"
+    },
+    {
+      "from": "extension",
+      "to": "session",
+      "label": "策略 hooks",
+      "variant": "dashed"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "主执行链",
+      "items": [
+        "Host → Session → Agent → Context → Model → Provider",
+        "模型选择工具；Tool Runtime 验证、执行并回灌结果",
+        "图中的层次关系不表示每个组件都创建独立线程"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "证据与边界",
+      "items": [
+        "模型负责任务含义、动作选择与最终判断",
+        "日志投影、恢复、兼容、I/O 与取消由 Harness 管理",
+        "LLM 节点引用实际发送代码；本轮未调用外部模型"
+      ]
+    }
+  ]
+}

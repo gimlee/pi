@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "10B · Tool Call Sequence",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "output": "archify/diagrams/diagram-10b-call/diagram-10b-call.html",
+    "column_fit": "spread",
+    "viewBox": [
+      1080,
+      480
+    ]
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "实际执行边界",
+      "items": [
+        "任一 sequential 则整批串行",
+        "并行结果最终按调用顺序回灌"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "阅读边界",
+      "items": [
+        "阻断也产生关联结果",
+        "仅全批 terminate 才终结工具续轮"
+      ]
+    }
+  ],
+  "participants": [
+    {
+      "id": "batch",
+      "label": "Tool batch",
+      "sublabel": "parallel / sequential",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 508,
+          "end_line": 542,
+          "label": "async function executeToolCalls("
+        }
+      ]
+    },
+    {
+      "id": "prepare",
+      "label": "Prepare",
+      "sublabel": "查名称 / schema / hook",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 707,
+          "end_line": 741,
+          "label": "async function prepareToolCall("
+        }
+      ]
+    },
+    {
+      "id": "tool",
+      "label": "AgentTool",
+      "sublabel": "execute / onUpdate",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 820,
+          "end_line": 854,
+          "label": "async function executePreparedToolCall("
+        }
+      ]
+    },
+    {
+      "id": "result",
+      "label": "Finalize",
+      "sublabel": "after hook / result",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 853,
+          "end_line": 887,
+          "label": "async function finalizeExecutedToolCall("
+        }
+      ]
+    }
+  ],
+  "messages": [
+    {
+      "id": "m1",
+      "from": "batch",
+      "to": "prepare",
+      "label": "prepare arguments",
+      "y": 170,
+      "variant": "emphasis"
+    },
+    {
+      "id": "m2",
+      "from": "prepare",
+      "to": "tool",
+      "label": "validated execute",
+      "y": 215,
+      "variant": "emphasis"
+    },
+    {
+      "id": "m3",
+      "from": "tool",
+      "to": "batch",
+      "label": "execution_update",
+      "y": 260,
+      "variant": "dashed"
+    },
+    {
+      "id": "m4",
+      "from": "tool",
+      "to": "result",
+      "label": "result / caught error",
+      "y": 305,
+      "variant": "return"
+    },
+    {
+      "id": "m5",
+      "from": "result",
+      "to": "batch",
+      "label": "ToolResultMessage",
+      "y": 350,
+      "variant": "return"
+    }
+  ]
+}

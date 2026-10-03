@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "12C · File Editing Data Flow",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "output": "archify/diagrams/diagram-12c-data/diagram-12c-data.html",
+    "viewBox": [
+      1080,
+      360
+    ]
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "实际执行边界",
+      "items": [
+        "unified patch 是生成的展示数据",
+        "非 AST / patch 执行引擎"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "阅读边界",
+      "items": [
+        "模型决定修改内容",
+        "语法 / tests 未自动运行"
+      ]
+    }
+  ],
+  "stages": [
+    {
+      "label": "原文件 + edits"
+    },
+    {
+      "label": "LF 基线"
+    },
+    {
+      "label": "唯一范围"
+    },
+    {
+      "label": "替换后文本"
+    },
+    {
+      "label": "write + diff"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "input",
+      "label": "原文件 + edits",
+      "sublabel": "UTF-8 / BOM / EOL",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/tools/edit.ts",
+          "line": 143,
+          "end_line": 177,
+          "label": "export function createEditToolDefinition("
+        }
+      ],
+      "stage": 0,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "normalize",
+      "label": "LF 基线",
+      "sublabel": "BOM split / fuzzy",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/tools/edit-diff.ts",
+          "line": 34,
+          "end_line": 68,
+          "label": "export function normalizeForFuzzyMatch"
+        }
+      ],
+      "stage": 1,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "match",
+      "label": "唯一范围",
+      "sublabel": "拒绝重复 / 重叠",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/tools/edit-diff.ts",
+          "line": 300,
+          "end_line": 334,
+          "label": "export function applyEditsToNormalizedContent"
+        }
+      ],
+      "stage": 2,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "apply",
+      "label": "替换后文本",
+      "sublabel": "保留未改行 / EOL",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/tools/edit-diff.ts",
+          "line": 132,
+          "end_line": 166,
+          "label": "export function applyReplacementsPreservingUncha"
+        }
+      ],
+      "stage": 3,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "write",
+      "label": "write + diff",
+      "sublabel": "实际文件与 details",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/tools/edit.ts",
+          "line": 198,
+          "end_line": 220,
+          "label": "await ops.writeFile"
+        }
+      ],
+      "stage": 4,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    }
+  ],
+  "flows": [
+    {
+      "from": "input",
+      "to": "normalize",
+      "label": "归一",
+      "variant": "emphasis",
+      "labelDy": 66
+    },
+    {
+      "from": "normalize",
+      "to": "match",
+      "label": "精确 / 模糊",
+      "variant": "emphasis",
+      "labelDy": 66
+    },
+    {
+      "from": "match",
+      "to": "apply",
+      "label": "逆序替换",
+      "variant": "emphasis",
+      "labelDy": 66
+    },
+    {
+      "from": "apply",
+      "to": "write",
+      "label": "恢复",
+      "variant": "emphasis",
+      "labelDy": 66
+    }
+  ]
+}

@@ -1,0 +1,264 @@
+{
+  "scope": "final inventory; all Batch 0–48",
+  "status": "pass",
+  "diagrams": [
+    {
+      "slug": "diagram-0-repository",
+      "status": "pass",
+      "receipt": "diagrams/diagram-0-repository/review-4/diagram-0-repository.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-0-repository/review-4/diagram-0-repository.browser-check.json"
+    },
+    {
+      "slug": "diagram-2a-startup",
+      "status": "pass",
+      "receipt": "diagrams/diagram-2a-startup/review-2/diagram-2a-startup.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-2a-startup/review-2/diagram-2a-startup.browser-check.json"
+    },
+    {
+      "slug": "diagram-2b-runtime",
+      "status": "pass",
+      "receipt": "diagrams/diagram-2b-runtime/review-2/diagram-2b-runtime.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-2b-runtime/review-2/diagram-2b-runtime.browser-check.json"
+    },
+    {
+      "slug": "diagram-3a-runtime",
+      "status": "pass",
+      "receipt": "diagrams/diagram-3a-runtime/diagram-3a-runtime.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-3a-runtime/diagram-3a-runtime.browser-check.json"
+    },
+    {
+      "slug": "diagram-3b-loop",
+      "status": "pass",
+      "receipt": "diagrams/diagram-3b-loop/diagram-3b-loop.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-3b-loop/diagram-3b-loop.browser-check.json"
+    },
+    {
+      "slug": "diagram-3c-state",
+      "status": "pass",
+      "receipt": "diagrams/diagram-3c-state/diagram-3c-state.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-3c-state/diagram-3c-state.browser-check.json"
+    },
+    {
+      "slug": "diagram-4-messages",
+      "status": "pass",
+      "receipt": "diagrams/diagram-4-messages/diagram-4-messages.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-4-messages/diagram-4-messages.browser-check.json"
+    },
+    {
+      "slug": "diagram-5a-composition",
+      "status": "pass",
+      "receipt": "diagrams/diagram-5a-composition/diagram-5a-composition.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-5a-composition/diagram-5a-composition.browser-check.json"
+    },
+    {
+      "slug": "diagram-5b-build",
+      "status": "pass",
+      "receipt": "diagrams/diagram-5b-build/diagram-5b-build.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-5b-build/diagram-5b-build.browser-check.json"
+    },
+    {
+      "slug": "diagram-6a-context",
+      "status": "pass",
+      "receipt": "diagrams/diagram-6a-context/diagram-6a-context.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-6a-context/diagram-6a-context.browser-check.json"
+    },
+    {
+      "slug": "diagram-6b-compaction",
+      "status": "pass",
+      "receipt": "diagrams/diagram-6b-compaction/diagram-6b-compaction.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-6b-compaction/diagram-6b-compaction.browser-check.json"
+    },
+    {
+      "slug": "diagram-6c-composition",
+      "status": "pass",
+      "receipt": "diagrams/diagram-6c-composition/diagram-6c-composition.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-6c-composition/diagram-6c-composition.browser-check.json"
+    },
+    {
+      "slug": "diagram-7-model",
+      "status": "pass",
+      "receipt": "diagrams/diagram-7-model/diagram-7-model.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-7-model/diagram-7-model.browser-check.json"
+    },
+    {
+      "slug": "diagram-8a-provider",
+      "status": "pass",
+      "receipt": "diagrams/diagram-8a-provider/diagram-8a-provider.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-8a-provider/diagram-8a-provider.browser-check.json"
+    },
+    {
+      "slug": "diagram-8b-request",
+      "status": "pass",
+      "receipt": "diagrams/diagram-8b-request/diagram-8b-request.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-8b-request/diagram-8b-request.browser-check.json"
+    },
+    {
+      "slug": "diagram-8c-conversion",
+      "status": "pass",
+      "receipt": "diagrams/diagram-8c-conversion/diagram-8c-conversion.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-8c-conversion/diagram-8c-conversion.browser-check.json"
+    },
+    {
+      "slug": "diagram-10a-tools",
+      "status": "pass",
+      "receipt": "diagrams/diagram-10a-tools/diagram-10a-tools.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-10a-tools/diagram-10a-tools.browser-check.json"
+    },
+    {
+      "slug": "diagram-10b-call",
+      "status": "pass",
+      "receipt": "diagrams/diagram-10b-call/diagram-10b-call.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-10b-call/diagram-10b-call.browser-check.json"
+    },
+    {
+      "slug": "diagram-10c-result",
+      "status": "pass",
+      "receipt": "diagrams/diagram-10c-result/diagram-10c-result.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-10c-result/diagram-10c-result.browser-check.json"
+    },
+    {
+      "slug": "diagram-12a-read",
+      "status": "pass",
+      "receipt": "diagrams/diagram-12a-read/diagram-12a-read.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-12a-read/diagram-12a-read.browser-check.json"
+    },
+    {
+      "slug": "diagram-12b-edit",
+      "status": "pass",
+      "receipt": "diagrams/diagram-12b-edit/diagram-12b-edit.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-12b-edit/diagram-12b-edit.browser-check.json"
+    },
+    {
+      "slug": "diagram-12c-data",
+      "status": "pass",
+      "receipt": "diagrams/diagram-12c-data/diagram-12c-data.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-12c-data/diagram-12c-data.browser-check.json"
+    },
+    {
+      "slug": "diagram-13-shell",
+      "status": "pass",
+      "receipt": "diagrams/diagram-13-shell/diagram-13-shell.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-13-shell/diagram-13-shell.browser-check.json"
+    },
+    {
+      "slug": "diagram-14a-search",
+      "status": "pass",
+      "receipt": "diagrams/diagram-14a-search/diagram-14a-search.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-14a-search/diagram-14a-search.browser-check.json"
+    },
+    {
+      "slug": "diagram-14b-context",
+      "status": "pass",
+      "receipt": "diagrams/diagram-14b-context/diagram-14b-context.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-14b-context/diagram-14b-context.browser-check.json"
+    },
+    {
+      "slug": "diagram-15-coding",
+      "status": "pass",
+      "receipt": "diagrams/diagram-15-coding/diagram-15-coding.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-15-coding/diagram-15-coding.browser-check.json"
+    },
+    {
+      "slug": "diagram-16-session",
+      "status": "pass",
+      "receipt": "diagrams/diagram-16-session/diagram-16-session.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-16-session/diagram-16-session.browser-check.json"
+    },
+    {
+      "slug": "diagram-17-state",
+      "status": "pass",
+      "receipt": "diagrams/diagram-17-state/diagram-17-state.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-17-state/diagram-17-state.browser-check.json"
+    },
+    {
+      "slug": "diagram-18-persistence",
+      "status": "pass",
+      "receipt": "diagrams/diagram-18-persistence/diagram-18-persistence.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-18-persistence/diagram-18-persistence.browser-check.json"
+    },
+    {
+      "slug": "diagram-20a-extensions",
+      "status": "pass",
+      "receipt": "diagrams/diagram-20a-extensions/diagram-20a-extensions.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-20a-extensions/diagram-20a-extensions.browser-check.json"
+    },
+    {
+      "slug": "diagram-20b-extension-life",
+      "status": "pass",
+      "receipt": "diagrams/diagram-20b-extension-life/diagram-20b-extension-life.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-20b-extension-life/diagram-20b-extension-life.browser-check.json"
+    },
+    {
+      "slug": "diagram-21-skill",
+      "status": "pass",
+      "receipt": "diagrams/diagram-21-skill/diagram-21-skill.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-21-skill/diagram-21-skill.browser-check.json"
+    },
+    {
+      "slug": "diagram-22a-mcp",
+      "status": "pass",
+      "receipt": "diagrams/diagram-22a-mcp/diagram-22a-mcp.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-22a-mcp/diagram-22a-mcp.browser-check.json"
+    },
+    {
+      "slug": "diagram-22b-mcp-call",
+      "status": "pass",
+      "receipt": "diagrams/diagram-22b-mcp-call/diagram-22b-mcp-call.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-22b-mcp-call/diagram-22b-mcp-call.browser-check.json"
+    },
+    {
+      "slug": "diagram-23-events",
+      "status": "pass",
+      "receipt": "diagrams/diagram-23-events/diagram-23-events.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-23-events/diagram-23-events.browser-check.json"
+    },
+    {
+      "slug": "diagram-24-concurrency",
+      "status": "pass",
+      "receipt": "diagrams/diagram-24-concurrency/review-2/diagram-24-concurrency.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-24-concurrency/review-2/diagram-24-concurrency.browser-check.json"
+    },
+    {
+      "slug": "diagram-25a-ui",
+      "status": "pass",
+      "receipt": "diagrams/diagram-25a-ui/diagram-25a-ui.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-25a-ui/diagram-25a-ui.browser-check.json"
+    },
+    {
+      "slug": "diagram-25b-input",
+      "status": "pass",
+      "receipt": "diagrams/diagram-25b-input/diagram-25b-input.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-25b-input/diagram-25b-input.browser-check.json"
+    },
+    {
+      "slug": "diagram-27-config",
+      "status": "pass",
+      "receipt": "diagrams/diagram-27-config/diagram-27-config.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-27-config/diagram-27-config.browser-check.json"
+    },
+    {
+      "slug": "diagram-29-retry",
+      "status": "pass",
+      "receipt": "diagrams/diagram-29-retry/diagram-29-retry.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-29-retry/diagram-29-retry.browser-check.json"
+    },
+    {
+      "slug": "diagram-33-compatibility",
+      "status": "pass",
+      "receipt": "diagrams/diagram-33-compatibility/diagram-33-compatibility.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-33-compatibility/diagram-33-compatibility.browser-check.json"
+    },
+    {
+      "slug": "diagram-34-tests",
+      "status": "pass",
+      "receipt": "diagrams/diagram-34-tests/diagram-34-tests.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-34-tests/diagram-34-tests.browser-check.json"
+    },
+    {
+      "slug": "diagram-46-master",
+      "status": "pass",
+      "receipt": "diagrams/diagram-46-master/review-3/diagram-46-master.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-46-master/review-3/diagram-46-master.browser-check.json"
+    }
+  ]
+}

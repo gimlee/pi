@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "6A · Context Data Flow",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "output": "archify/diagrams/diagram-6a-context/diagram-6a-context.html",
+    "viewBox": [
+      1080,
+      360
+    ]
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "实际执行边界",
+      "items": [
+        "日志树并非全量 history 数组",
+        "context_edit 改可见投影，保留原 entry"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "阅读边界",
+      "items": [
+        "后续 Provider 仍有协议转换",
+        "Token estimate 与实际 usage 分开"
+      ]
+    }
+  ],
+  "stages": [
+    {
+      "label": "Branch entries"
+    },
+    {
+      "label": "Projection"
+    },
+    {
+      "label": "请求边界"
+    },
+    {
+      "label": "Canonical messages"
+    },
+    {
+      "label": "Transcript request"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "log",
+      "label": "Branch entries",
+      "sublabel": "canonical log / leaf",
+      "type": "database",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/session-manager.ts",
+          "line": 390,
+          "end_line": 424,
+          "label": "buildSessionPath("
+        }
+      ],
+      "stage": 0,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "projection",
+      "label": "Projection",
+      "sublabel": "压缩边界与 context edit",
+      "type": "database",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/session-manager.ts",
+          "line": 543,
+          "end_line": 577,
+          "label": "export function buildSessionProjection("
+        }
+      ],
+      "stage": 1,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "boundary",
+      "label": "请求边界",
+      "sublabel": "会话投影与 hooks",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 910,
+          "end_line": 944,
+          "label": "private _refreshFinalizedContext"
+        }
+      ],
+      "stage": 2,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "convert",
+      "label": "Canonical messages",
+      "sublabel": "transform / convertToLlm",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 381,
+          "end_line": 415,
+          "label": "async function streamAssistantResponse"
+        }
+      ],
+      "stage": 3,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "request",
+      "label": "Transcript request",
+      "sublabel": "system / tools 重放",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/ai/src/utils/transcript.ts",
+          "line": 30,
+          "end_line": 64,
+          "label": "export function normalizeContext"
+        }
+      ],
+      "stage": 4,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    }
+  ],
+  "flows": [
+    {
+      "from": "log",
+      "to": "projection",
+      "label": "分支",
+      "variant": "emphasis",
+      "labelDy": 66
+    },
+    {
+      "from": "projection",
+      "to": "boundary",
+      "label": "可见消息",
+      "variant": "emphasis",
+      "labelDy": 66
+    },
+    {
+      "from": "boundary",
+      "to": "convert",
+      "label": "请求视图",
+      "variant": "emphasis",
+      "labelDy": 66
+    },
+    {
+      "from": "convert",
+      "to": "request",
+      "label": "Message[]",
+      "variant": "emphasis",
+      "labelDy": 66
+    }
+  ]
+}

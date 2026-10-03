@@ -31,7 +31,7 @@ SessionManager 决定哪个历史片段参与请求；Compaction 的纯函数决
 
 ## Key Functions
 
-`SessionManager.buildSessionProjection()` → `buildSessionPath()` / `buildContextEntries()` → `projectContextEntry()`；`AgentSession.prepareRequestWithContext` 每请求接入投影；`estimateProjectedContextTokens()` → `shouldCompact()`；`prepareCompaction()` → `findProjectedCutPoint()` → `compact()` → `generateSummaryWithUsage()` / `generateTurnPrefixSummary()` → `completeSummarization()`。
+`SessionManager.buildSessionProjection()` → `buildSessionPath()` / `buildContextEntries()` → `projectContextEntry()`；`AgentSession._installAgentRequestProjection() 安装的 prepareRequest hook` 每请求接入投影；`estimateProjectedContextTokens()` → `shouldCompact()`；`prepareCompaction()` → `findProjectedCutPoint()` → `compact()` → `generateSummaryWithUsage()` / `generateTurnPrefixSummary()` → `completeSummarization()`。
 
 ## Control Flow
 

@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "23 · Event Flow",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "output": "archify/diagrams/diagram-23-events/diagram-23-events.html",
+    "viewBox": [
+      1080,
+      360
+    ]
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "实际执行边界",
+      "items": [
+        "EventBus 是另外的任意频道通信",
+        "agent_end 与 agent_settled 不同"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "阅读边界",
+      "items": [
+        "不声称事件自动遥测上传",
+        "partial args 尚未最终验证"
+      ]
+    }
+  ],
+  "stages": [
+    {
+      "label": "原生流"
+    },
+    {
+      "label": "统一事件流"
+    },
+    {
+      "label": "AgentEvent"
+    },
+    {
+      "label": "SessionEvent"
+    },
+    {
+      "label": "Mode Host"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "provider",
+      "label": "原生流",
+      "sublabel": "SSE / SDK chunks",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/ai/src/api/openai-completions.ts",
+          "line": 299,
+          "end_line": 333,
+          "label": "export const stream:"
+        }
+      ],
+      "stage": 0,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "canonical",
+      "label": "统一事件流",
+      "sublabel": "text / thinking / tool",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/ai/src/utils/event-stream.ts",
+          "line": 91,
+          "end_line": 110,
+          "label": "export class AssistantMessageEventStream"
+        }
+      ],
+      "stage": 1,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "agent",
+      "label": "AgentEvent",
+      "sublabel": "state reducer / tools",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 381,
+          "end_line": 415,
+          "label": "async function streamAssistantResponse"
+        }
+      ],
+      "stage": 2,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "session",
+      "label": "SessionEvent",
+      "sublabel": "persist / recovery / settle",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 1074,
+          "end_line": 1108,
+          "label": "private _handleAgentEvent"
+        }
+      ],
+      "stage": 3,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "host",
+      "label": "Mode Host",
+      "sublabel": "render / JSON / stdout",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/modes/print-mode.ts",
+          "line": 33,
+          "end_line": 67,
+          "label": "export async function runPrintMode"
+        }
+      ],
+      "stage": 4,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    }
+  ],
+  "flows": [
+    {
+      "from": "provider",
+      "to": "canonical",
+      "label": "归一",
+      "variant": "emphasis",
+      "labelDy": 66
+    },
+    {
+      "from": "canonical",
+      "to": "agent",
+      "label": "消费",
+      "variant": "emphasis",
+      "labelDy": 66
+    },
+    {
+      "from": "agent",
+      "to": "session",
+      "label": "subscribe",
+      "variant": "emphasis",
+      "labelDy": 66
+    },
+    {
+      "from": "session",
+      "to": "host",
+      "label": "订阅",
+      "variant": "emphasis",
+      "labelDy": 66
+    }
+  ]
+}

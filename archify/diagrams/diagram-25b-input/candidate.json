@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "25B · User Input to UI Output",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "output": "archify/diagrams/diagram-25b-input/diagram-25b-input.html",
+    "column_fit": "spread",
+    "viewBox": [
+      1080,
+      480
+    ]
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "实际执行边界",
+      "items": [
+        "流中多次更新，不是一次完整文本返回",
+        "最终输出与 idle 有不同边界"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "阅读边界",
+      "items": [
+        "Host 选择呈现方式",
+        "用户命令可能在 prompt 前消费"
+      ]
+    }
+  ],
+  "participants": [
+    {
+      "id": "host",
+      "label": "Host",
+      "sublabel": "input / render",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/modes/print-mode.ts",
+          "line": 33,
+          "end_line": 67,
+          "label": "export async function runPrintMode"
+        }
+      ]
+    },
+    {
+      "id": "session",
+      "label": "Session",
+      "sublabel": "prompt / events",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 1921,
+          "end_line": 1955,
+          "label": "async prompt("
+        }
+      ]
+    },
+    {
+      "id": "agent",
+      "label": "Agent",
+      "sublabel": "streamFn / state",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/agent/src/agent.ts",
+          "line": 371,
+          "end_line": 405,
+          "label": "async prompt("
+        }
+      ]
+    },
+    {
+      "id": "loop",
+      "label": "Loop",
+      "sublabel": "request / tools",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 163,
+          "end_line": 197,
+          "label": "async function runLoop("
+        }
+      ]
+    }
+  ],
+  "messages": [
+    {
+      "id": "m1",
+      "from": "host",
+      "to": "session",
+      "label": "prompt input",
+      "y": 170,
+      "variant": "emphasis"
+    },
+    {
+      "id": "m2",
+      "from": "session",
+      "to": "agent",
+      "label": "expanded messages",
+      "y": 215,
+      "variant": "emphasis"
+    },
+    {
+      "id": "m3",
+      "from": "agent",
+      "to": "loop",
+      "label": "runAgentLoop",
+      "y": 260,
+      "variant": "emphasis"
+    },
+    {
+      "id": "m4",
+      "from": "loop",
+      "to": "session",
+      "label": "message / tool events",
+      "y": 305,
+      "variant": "return"
+    },
+    {
+      "id": "m5",
+      "from": "session",
+      "to": "host",
+      "label": "render events / settled",
+      "y": 350,
+      "variant": "return"
+    }
+  ]
+}

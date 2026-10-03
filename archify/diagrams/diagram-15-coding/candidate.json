@@ -1,0 +1,193 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "15 · Coding Task Workflow",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "output": "archify/diagrams/diagram-15-coding/diagram-15-coding.html"
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "实际执行边界",
+      "items": [
+        "只有执行/回灌由系统保证",
+        "模型可跳过任意可选工作步骤"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "阅读边界",
+      "items": [
+        "exit=0 不等于需求验收",
+        "不存在核心 Planner/Reviewer 强制管线"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "main",
+      "label": "模型选择与 Harness 执行"
+    },
+    {
+      "id": "other",
+      "label": "条件 / 恢复"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "task",
+      "label": "用户任务",
+      "sublabel": "bug / 约束",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 1921,
+          "end_line": 1955,
+          "label": "async prompt("
+        }
+      ],
+      "lane": "main",
+      "col": 0,
+      "width": 160,
+      "height": 80
+    },
+    {
+      "id": "inspect",
+      "label": "模型查读",
+      "sublabel": "grep/read 调用",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/tools/grep.ts",
+          "line": 70,
+          "end_line": 104,
+          "label": "export function createGrepToolDefinition("
+        }
+      ],
+      "lane": "main",
+      "col": 1,
+      "width": 160,
+      "height": 80
+    },
+    {
+      "id": "edit",
+      "label": "模型改文件",
+      "sublabel": "edit / write",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/tools/edit.ts",
+          "line": 143,
+          "end_line": 177,
+          "label": "export function createEditToolDefinition("
+        }
+      ],
+      "lane": "main",
+      "col": 2,
+      "width": 160,
+      "height": 80
+    },
+    {
+      "id": "test",
+      "label": "模型运行验证",
+      "sublabel": "bash / powershell",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/tools/bash.ts",
+          "line": 243,
+          "end_line": 277,
+          "label": "export function createShellToolDefinition("
+        }
+      ],
+      "lane": "main",
+      "col": 3,
+      "width": 160,
+      "height": 80
+    },
+    {
+      "id": "answer",
+      "label": "模型结束或续轮",
+      "sublabel": "无工具 + 队列空",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 163,
+          "end_line": 197,
+          "label": "async function runLoop("
+        }
+      ],
+      "lane": "main",
+      "col": 4,
+      "width": 160,
+      "height": 80
+    },
+    {
+      "id": "failure",
+      "label": "失败日志回灌",
+      "sublabel": "模型自行修复",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 922,
+          "end_line": 940,
+          "label": "function createToolResultMessage("
+        }
+      ],
+      "lane": "other",
+      "col": 0,
+      "width": 160,
+      "height": 80
+    }
+  ],
+  "edges": [
+    {
+      "from": "task",
+      "to": "inspect",
+      "label": "模型选择",
+      "variant": "emphasis"
+    },
+    {
+      "from": "inspect",
+      "to": "edit",
+      "label": "修改方案",
+      "variant": "emphasis"
+    },
+    {
+      "from": "edit",
+      "to": "test",
+      "label": "选择测试",
+      "variant": "emphasis"
+    },
+    {
+      "from": "test",
+      "to": "answer",
+      "label": "结果",
+      "variant": "emphasis"
+    },
+    {
+      "from": "test",
+      "to": "failure",
+      "label": "错误",
+      "variant": "dashed",
+      "role": "error"
+    },
+    {
+      "from": "failure",
+      "to": "edit",
+      "label": "模型修复",
+      "variant": "dashed",
+      "role": "return"
+    }
+  ]
+}

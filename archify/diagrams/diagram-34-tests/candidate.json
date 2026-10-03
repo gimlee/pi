@@ -1,0 +1,171 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "34 · Testing Architecture",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "output": "archify/diagrams/diagram-34-tests/diagram-34-tests.html"
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "实际执行边界",
+      "items": [
+        "确定性 Harness 与 live eval 分开",
+        "PI_OFFLINE 默认测试配置"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "阅读边界",
+      "items": [
+        "本轮没有运行项目测试/eval",
+        "源码存在不等于当前检查通过"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "faux",
+      "label": "Faux provider",
+      "sublabel": "确定性 steps",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/test/suite/harness.ts",
+          "line": 150,
+          "end_line": 184,
+          "label": "export async function createHarness"
+        }
+      ],
+      "pos": [
+        40,
+        260
+      ],
+      "size": [
+        225,
+        82
+      ]
+    },
+    {
+      "id": "session",
+      "label": "Session under test",
+      "sublabel": "真实核心 / I/O fixtures",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 362,
+          "end_line": 396,
+          "label": "export class AgentSession"
+        }
+      ],
+      "pos": [
+        380,
+        260
+      ],
+      "size": [
+        225,
+        82
+      ]
+    },
+    {
+      "id": "assert",
+      "label": "Test assertions",
+      "sublabel": "events / messages",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/test/suite/harness.ts",
+          "line": 139,
+          "end_line": 173,
+          "label": "eventsOfType<T"
+        }
+      ],
+      "pos": [
+        730,
+        260
+      ],
+      "size": [
+        225,
+        82
+      ]
+    },
+    {
+      "id": "eval",
+      "label": "Live eval Harness",
+      "sublabel": "模型选择 / artifacts",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/evals/src/harness.ts",
+          "line": 471,
+          "end_line": 505,
+          "label": "export function createPiCodingAgentHarness"
+        }
+      ],
+      "pos": [
+        380,
+        40
+      ],
+      "size": [
+        225,
+        82
+      ]
+    },
+    {
+      "id": "judge",
+      "label": "Eval judges",
+      "sublabel": "结构 / 工具结果",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/evals/evals/extensions.docs.eval.ts",
+          "line": 30,
+          "end_line": 60,
+          "label": "StructuredOutputJudge("
+        }
+      ],
+      "pos": [
+        730,
+        40
+      ],
+      "size": [
+        225,
+        82
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "faux",
+      "to": "session",
+      "label": "注入响应",
+      "variant": "emphasis"
+    },
+    {
+      "from": "session",
+      "to": "assert",
+      "label": "观察",
+      "variant": "emphasis"
+    },
+    {
+      "from": "eval",
+      "to": "session",
+      "label": "真实模型会话",
+      "variant": "emphasis"
+    },
+    {
+      "from": "eval",
+      "to": "judge",
+      "label": "评估结果",
+      "variant": "emphasis"
+    }
+  ]
+}

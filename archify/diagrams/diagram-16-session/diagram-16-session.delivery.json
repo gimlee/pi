@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "592f40f7-33e3-43b8-b443-d7326289293d",
+  "status": "current",
+  "command": "deliver",
+  "type": "lifecycle",
+  "input": "F:\\github\\pi\\archify\\diagrams\\diagram-16-session\\candidate.json",
+  "output": "F:\\github\\pi\\archify\\diagrams\\diagram-16-session\\diagram-16-session.html",
+  "specification": {
+    "sha256": "af2737ed5d6ce32b2208df3dc2b2456b2cbfe02c1a23786a03467749ca0354d9",
+    "bytes": 3564
+  },
+  "artifact": {
+    "sha256": "93223bb2fb12ab00e544f5ed1963529e353eedb22e025ecc8ff46a4e9847b416",
+    "bytes": 753146
+  }
+}

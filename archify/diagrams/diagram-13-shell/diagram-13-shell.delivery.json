@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "9ebac50d-84fe-4eaa-8407-ffa4783417d0",
+  "status": "current",
+  "command": "deliver",
+  "type": "lifecycle",
+  "input": "F:\\github\\pi\\archify\\diagrams\\diagram-13-shell\\candidate.json",
+  "output": "F:\\github\\pi\\archify\\diagrams\\diagram-13-shell\\diagram-13-shell.html",
+  "specification": {
+    "sha256": "8c42ef4463d18f42e78a7c91f341a88d20790b8a4b9d156760c46f0ac49d25fa",
+    "bytes": 3511
+  },
+  "artifact": {
+    "sha256": "fe925f4c3c881aace8379f133cb54750d9ec44b8b892262884ef29177c652a36",
+    "bytes": 752320
+  }
+}

@@ -35,7 +35,7 @@
 
 ## Key Functions
 
-`builtinProviders()` → `createProvider()`；`createModels()` / `setProvider()`；`ModelRuntime.create()` / `refresh()` / `prepareRequest()`；`ModelRuntime.streamSimple()`；`ModelsImpl.streamSimple()`；`lazyStream()`；`Agent.streamAssistantResponse()` 调用配置中的 streamFn。
+`builtinProviders()` → `createProvider()`；`createModels()` / `setProvider()`；`ModelRuntime.create()` / `refresh()` / `prepareRequest()`；`ModelRuntime.streamSimple()`；`ModelsImpl.streamSimple()`；`lazyStream()`；`streamAssistantResponse()` 调用配置中的 streamFn。
 
 ## Control Flow
 

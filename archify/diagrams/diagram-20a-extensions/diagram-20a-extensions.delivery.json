@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "e8bf9ad8-78c3-4c2f-b6f7-d25dca2ff899",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "F:\\github\\pi\\archify\\diagrams\\diagram-20a-extensions\\candidate.json",
+  "output": "F:\\github\\pi\\archify\\diagrams\\diagram-20a-extensions\\diagram-20a-extensions.html",
+  "specification": {
+    "sha256": "e9bffee3b4049fb76168df9a53d2aa7f64a00c01f18a298ab1f0b92987566643",
+    "bytes": 3589
+  },
+  "artifact": {
+    "sha256": "b436dae54c802e0abe5fd6337c16283976bf0a6167c101ffe6304abcb3357854",
+    "bytes": 749594
+  }
+}

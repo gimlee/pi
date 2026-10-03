@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "275d90f8-878b-439f-9962-fe52f072fb40",
+  "status": "current",
+  "command": "deliver",
+  "type": "dataflow",
+  "input": "F:\\github\\pi\\archify\\diagrams\\diagram-33-compatibility\\candidate.json",
+  "output": "F:\\github\\pi\\archify\\diagrams\\diagram-33-compatibility\\diagram-33-compatibility.html",
+  "specification": {
+    "sha256": "bbb7bd20b6a5c84bacd9247fa06ac98de94136c8bed3e2cd5b9c1aa00fa954b1",
+    "bytes": 3818
+  },
+  "artifact": {
+    "sha256": "4710f417fd051cddf9bb6ed763bb1d177eb0b8d17deb3f951e4900d5f4ae04c3",
+    "bytes": 749627
+  }
+}

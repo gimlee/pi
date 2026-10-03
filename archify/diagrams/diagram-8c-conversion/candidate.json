@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "8C · Provider Message Conversion",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "output": "archify/diagrams/diagram-8c-conversion/diagram-8c-conversion.html",
+    "viewBox": [
+      1080,
+      360
+    ]
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "实际执行边界",
+      "items": [
+        "共享修复 + API 专属转换",
+        "Google 与 Anthropic wire 形状不同"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "阅读边界",
+      "items": [
+        "签名非跨模型原样搬运",
+        "兼容不保证隐式推理状态无损"
+      ]
+    }
+  ],
+  "stages": [
+    {
+      "label": "Message[]"
+    },
+    {
+      "label": "Transcript"
+    },
+    {
+      "label": "历史修复"
+    },
+    {
+      "label": "Native payload"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "canonical",
+      "label": "Message[]",
+      "sublabel": "system/user/assistant/tool",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/ai/src/types.ts",
+          "line": 610,
+          "end_line": 644,
+          "label": "export type Message ="
+        }
+      ],
+      "stage": 0,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "transcript",
+      "label": "Transcript",
+      "sublabel": "系统与声明重放",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/ai/src/utils/transcript.ts",
+          "line": 30,
+          "end_line": 64,
+          "label": "export function normalizeContext"
+        }
+      ],
+      "stage": 1,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "repair",
+      "label": "历史修复",
+      "sublabel": "thinking / tools / IDs",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/ai/src/api/transform-messages.ts",
+          "line": 64,
+          "end_line": 98,
+          "label": "export function transformMessages<"
+        }
+      ],
+      "stage": 2,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "wire",
+      "label": "Native payload",
+      "sublabel": "角色 / schema / images",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/ai/src/api/openai-completions.ts",
+          "line": 1185,
+          "end_line": 1219,
+          "label": "function convertMessages("
+        }
+      ],
+      "stage": 3,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    }
+  ],
+  "flows": [
+    {
+      "from": "canonical",
+      "to": "transcript",
+      "label": "normalize",
+      "variant": "emphasis",
+      "labelDy": 66
+    },
+    {
+      "from": "transcript",
+      "to": "repair",
+      "label": "conversation",
+      "variant": "emphasis",
+      "labelDy": 66
+    },
+    {
+      "from": "repair",
+      "to": "wire",
+      "label": "编码",
+      "variant": "emphasis",
+      "labelDy": 66
+    }
+  ]
+}

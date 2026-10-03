@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "820b9ff3-ffdb-4118-9952-bd498d0e6f31",
+  "status": "current",
+  "command": "deliver",
+  "type": "dataflow",
+  "input": "F:\\github\\pi\\archify\\diagrams\\diagram-18-persistence\\candidate.json",
+  "output": "F:\\github\\pi\\archify\\diagrams\\diagram-18-persistence\\diagram-18-persistence.html",
+  "specification": {
+    "sha256": "65a6ede3b8c396165377338616daea44cc0394fea1f35bd0ca7cce8672083541",
+    "bytes": 3171
+  },
+  "artifact": {
+    "sha256": "e5a0aff726b4615a878ca97b0bb417bfdd1b31e2cadb64c7ebd931adf1c78442",
+    "bytes": 747918
+  }
+}

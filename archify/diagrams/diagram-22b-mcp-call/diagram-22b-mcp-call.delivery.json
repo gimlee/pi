@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "8391dc22-7f3e-4fc2-92b2-1885e4245d51",
+  "status": "current",
+  "command": "deliver",
+  "type": "sequence",
+  "input": "F:\\github\\pi\\archify\\diagrams\\diagram-22b-mcp-call\\candidate.json",
+  "output": "F:\\github\\pi\\archify\\diagrams\\diagram-22b-mcp-call\\diagram-22b-mcp-call.html",
+  "specification": {
+    "sha256": "fa89c84de987797e05281b287d6f3e83cc5eda95f2910b22c47bc89f3f7d9216",
+    "bytes": 3735
+  },
+  "artifact": {
+    "sha256": "2c02ee2af24d7257f9c1583bb16526efb5a74e987c1cc40b64aecb7a6e36420a",
+    "bytes": 751098
+  }
+}

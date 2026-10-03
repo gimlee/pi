@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "22B · MCP Tool Call Sequence",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "output": "archify/diagrams/diagram-22b-mcp-call/diagram-22b-mcp-call.html",
+    "column_fit": "spread",
+    "viewBox": [
+      1080,
+      555
+    ]
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "实际执行边界",
+      "items": [
+        "取消先本地结束并发送 notification",
+        "progress 重置 request timeout"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "阅读边界",
+      "items": [
+        "普通 transient 不重放 tool",
+        "会话过期特例一次恢复"
+      ]
+    }
+  ],
+  "participants": [
+    {
+      "id": "pipeline",
+      "label": "Tool runtime",
+      "sublabel": "schema / hooks",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 707,
+          "end_line": 741,
+          "label": "async function prepareToolCall("
+        }
+      ]
+    },
+    {
+      "id": "adapter",
+      "label": "MCP adapter",
+      "sublabel": "pi tool definition",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/extensions/mcp/tools.ts",
+          "line": 254,
+          "end_line": 288,
+          "label": "export function createMcpToolDefinition"
+        }
+      ]
+    },
+    {
+      "id": "connection",
+      "label": "Connection",
+      "sublabel": "getClient / withClient",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/extensions/mcp/runtime.ts",
+          "line": 258,
+          "end_line": 292,
+          "label": "callTool(name:"
+        }
+      ]
+    },
+    {
+      "id": "client",
+      "label": "McpClient",
+      "sublabel": "id / timeout / progress",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/mcp/src/client.ts",
+          "line": 376,
+          "end_line": 410,
+          "label": "async callTool("
+        }
+      ]
+    },
+    {
+      "id": "server",
+      "label": "Transport",
+      "sublabel": "remote server I/O",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/extensions/mcp/runtime.ts",
+          "line": 97,
+          "end_line": 131,
+          "label": "export function createDefaultTransport("
+        }
+      ]
+    }
+  ],
+  "messages": [
+    {
+      "id": "m1",
+      "from": "pipeline",
+      "to": "adapter",
+      "label": "execute params/signal",
+      "y": 170,
+      "variant": "emphasis"
+    },
+    {
+      "id": "m2",
+      "from": "adapter",
+      "to": "connection",
+      "label": "callTool",
+      "y": 215,
+      "variant": "emphasis"
+    },
+    {
+      "id": "m3",
+      "from": "connection",
+      "to": "client",
+      "label": "tools/call",
+      "y": 260,
+      "variant": "emphasis"
+    },
+    {
+      "id": "m4",
+      "from": "client",
+      "to": "server",
+      "label": "JSON-RPC request",
+      "y": 305,
+      "variant": "emphasis"
+    },
+    {
+      "id": "m5",
+      "from": "server",
+      "to": "client",
+      "label": "result/progress",
+      "y": 350,
+      "variant": "return"
+    },
+    {
+      "id": "m6",
+      "from": "client",
+      "to": "adapter",
+      "label": "CallToolResult",
+      "y": 395,
+      "variant": "return"
+    },
+    {
+      "id": "m7",
+      "from": "adapter",
+      "to": "pipeline",
+      "label": "content + structuredContent",
+      "y": 440,
+      "variant": "return"
+    }
+  ]
+}

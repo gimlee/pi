@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "5d79aeb7-0a4a-42a5-84fe-55d8a74d4950",
+  "status": "current",
+  "command": "deliver",
+  "type": "dataflow",
+  "input": "F:\\github\\pi\\archify\\diagrams\\diagram-23-events\\candidate.json",
+  "output": "F:\\github\\pi\\archify\\diagrams\\diagram-23-events\\diagram-23-events.html",
+  "specification": {
+    "sha256": "cda245cf5ee28385eb31570fb615d759c444323c129c661aee7aacd1b858cff2",
+    "bytes": 3744
+  },
+  "artifact": {
+    "sha256": "12f51a640e01d3b0084b43ff930831c97ca17a590f0191254618dfd84bd49503",
+    "bytes": 749325
+  }
+}

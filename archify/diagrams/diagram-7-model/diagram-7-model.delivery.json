@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "c598a9ea-6eb8-4690-adf7-7fd776353d22",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "F:\\github\\pi\\archify\\diagrams\\diagram-7-model\\candidate.json",
+  "output": "F:\\github\\pi\\archify\\diagrams\\diagram-7-model\\diagram-7-model.html",
+  "specification": {
+    "sha256": "31752b959c3d484380c1d6d8d524db452d9e4a4a0957b6abea78d76f094bae37",
+    "bytes": 4058
+  },
+  "artifact": {
+    "sha256": "e5955c1f078ea7e36178a6cc0fef9377d1eac527ff30c9350bf177b927f1a1c0",
+    "bytes": 752169
+  }
+}

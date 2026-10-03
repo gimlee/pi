@@ -1,0 +1,157 @@
+{
+  "schema_version": 2,
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "6B · Context Compaction Lifecycle",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "output": "archify/diagrams/diagram-6b-compaction/diagram-6b-compaction.html"
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "实际执行边界",
+      "items": [
+        "phase 名称是调用步骤映射",
+        "成功后刷新投影；不是删除文件历史"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "阅读边界",
+      "items": [
+        "摘要可能有损",
+        "失败前已有 context_edit 不自动回滚"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "main",
+      "label": "实现中的阶段 / 谓词映射"
+    },
+    {
+      "id": "other",
+      "label": "异常 / 合作取消"
+    }
+  ],
+  "states": [
+    {
+      "id": "ready",
+      "label": "可压缩",
+      "sublabel": "manual / threshold / overflow",
+      "type": "start",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 2717,
+          "end_line": 2751,
+          "label": "async compact("
+        }
+      ],
+      "lane": "main",
+      "col": 0,
+      "width": 180,
+      "height": 84
+    },
+    {
+      "id": "prepare",
+      "label": "准备切点",
+      "sublabel": "保留近期与工具关联",
+      "type": "active",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/compaction/compaction.ts",
+          "line": 872,
+          "end_line": 906,
+          "label": "export function prepareCompaction("
+        }
+      ],
+      "lane": "main",
+      "col": 1,
+      "width": 180,
+      "height": 84
+    },
+    {
+      "id": "summary",
+      "label": "生成摘要",
+      "sublabel": "模型 / hook 替代",
+      "type": "active",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/compaction/compaction.ts",
+          "line": 965,
+          "end_line": 999,
+          "label": "export async function compact("
+        }
+      ],
+      "lane": "main",
+      "col": 2,
+      "width": 180,
+      "height": 84
+    },
+    {
+      "id": "commit",
+      "label": "边界已提交",
+      "sublabel": "summary + retained tail",
+      "type": "success",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/session-manager.ts",
+          "line": 1261,
+          "end_line": 1295,
+          "label": "appendCompaction<T"
+        }
+      ],
+      "lane": "main",
+      "col": 3,
+      "width": 180,
+      "height": 84
+    },
+    {
+      "id": "failed",
+      "label": "失败 / 取消",
+      "sublabel": "不提交压缩边界",
+      "type": "failure",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 2867,
+          "end_line": 2901,
+          "label": "abortCompaction():"
+        }
+      ],
+      "lane": "other",
+      "col": 2,
+      "width": 180,
+      "height": 84
+    }
+  ],
+  "transitions": [
+    {
+      "from": "ready",
+      "to": "prepare",
+      "label": "prepare"
+    },
+    {
+      "from": "prepare",
+      "to": "summary",
+      "label": "有可压缩内容"
+    },
+    {
+      "from": "summary",
+      "to": "commit",
+      "label": "成功"
+    },
+    {
+      "from": "summary",
+      "to": "failed",
+      "label": "错误 / abort"
+    }
+  ]
+}

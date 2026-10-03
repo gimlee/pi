@@ -1,0 +1,199 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "24 · Concurrency Architecture",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "output": "archify/diagrams/diagram-24-concurrency/diagram-24-concurrency.html"
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "实际执行边界",
+      "items": [
+        "取消由多个 owner 合作实现",
+        "脚本模型请求 limiter=4，不是所有工具全局上限"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "阅读边界",
+      "items": [
+        "独立会话与进程可并行",
+        "已执行副作用不自动撤销"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "loop",
+      "label": "Agent run",
+      "sublabel": "单次运行 / 队列",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 163,
+          "end_line": 197,
+          "label": "async function runLoop("
+        }
+      ],
+      "pos": [
+        40,
+        260
+      ],
+      "size": [
+        225,
+        82
+      ]
+    },
+    {
+      "id": "batch",
+      "label": "工具批次",
+      "sublabel": "Promise parallel / sequential",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 586,
+          "end_line": 620,
+          "label": "async function executeToolCallsParallel("
+        }
+      ],
+      "pos": [
+        380,
+        260
+      ],
+      "size": [
+        225,
+        82
+      ]
+    },
+    {
+      "id": "files",
+      "label": "File queue",
+      "sublabel": "同路径串行",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/tools/file-mutation-queue.ts",
+          "line": 32,
+          "end_line": 61,
+          "label": "export async function withFileMutationQueue"
+        }
+      ],
+      "pos": [
+        380,
+        40
+      ],
+      "size": [
+        225,
+        82
+      ]
+    },
+    {
+      "id": "shell",
+      "label": "OS child",
+      "sublabel": "stdout / kill tree",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/tools/bash.ts",
+          "line": 97,
+          "end_line": 131,
+          "label": "export function createLocalShellOperations("
+        }
+      ],
+      "pos": [
+        380,
+        510
+      ],
+      "size": [
+        225,
+        82
+      ]
+    },
+    {
+      "id": "worker",
+      "label": "Codemode worker",
+      "sublabel": "QuickJS / nested tools",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/extensions/codemode/execute.ts",
+          "line": 377,
+          "end_line": 411,
+          "label": "const sandbox = new CodemodeSandbox"
+        }
+      ],
+      "pos": [
+        730,
+        260
+      ],
+      "size": [
+        225,
+        82
+      ]
+    },
+    {
+      "id": "mcp",
+      "label": "MCP pending",
+      "sublabel": "async requests / progress",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/extensions/mcp/runtime.ts",
+          "line": 155,
+          "end_line": 189,
+          "label": "export class McpServerConnection"
+        }
+      ],
+      "pos": [
+        730,
+        510
+      ],
+      "size": [
+        225,
+        82
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "loop",
+      "to": "batch",
+      "label": "执行",
+      "variant": "emphasis"
+    },
+    {
+      "from": "batch",
+      "to": "files",
+      "label": "mutations",
+      "variant": "emphasis"
+    },
+    {
+      "from": "batch",
+      "to": "shell",
+      "label": "spawn",
+      "variant": "emphasis"
+    },
+    {
+      "from": "batch",
+      "to": "worker",
+      "label": "scripts",
+      "variant": "emphasis"
+    },
+    {
+      "from": "batch",
+      "to": "mcp",
+      "label": "calls",
+      "variant": "emphasis"
+    }
+  ]
+}

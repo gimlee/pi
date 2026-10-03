@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "12648f4b-b60b-42ad-8a2e-9df60246a0d1",
+  "status": "current",
+  "command": "deliver",
+  "type": "dataflow",
+  "input": "F:\\github\\pi\\archify\\diagrams\\diagram-10c-result\\candidate.json",
+  "output": "F:\\github\\pi\\archify\\diagrams\\diagram-10c-result\\diagram-10c-result.html",
+  "specification": {
+    "sha256": "5df3c3078f9f9019f7f58ca2e6431f9dbc30cc4eb2e045b04bf2df31255a9c9b",
+    "bytes": 3741
+  },
+  "artifact": {
+    "sha256": "31e92fd358f6d0a6b70f6821ae8952449a5446c1b0fa2feaba8e906101400df3",
+    "bytes": 749927
+  }
+}

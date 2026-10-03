@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "14B · Repository Evidence to Context",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "output": "archify/diagrams/diagram-14b-context/diagram-14b-context.html",
+    "viewBox": [
+      1080,
+      360
+    ]
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "实际执行边界",
+      "items": [
+        "无需全仓库自动注入",
+        "大输出可按临时路径继续读"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "阅读边界",
+      "items": [
+        "检索描述非源码 embedding",
+        "未实测理解准确率"
+      ]
+    }
+  ],
+  "stages": [
+    {
+      "label": "Repository I/O"
+    },
+    {
+      "label": "输出上限"
+    },
+    {
+      "label": "ToolResult"
+    },
+    {
+      "label": "日志与投影"
+    },
+    {
+      "label": "模型请求"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "repo",
+      "label": "Repository I/O",
+      "sublabel": "文件 / 搜索结果",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/tools/grep.ts",
+          "line": 70,
+          "end_line": 104,
+          "label": "export function createGrepToolDefinition("
+        }
+      ],
+      "stage": 0,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "cap",
+      "label": "输出上限",
+      "sublabel": "line / bytes",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/tools/truncate.ts",
+          "line": 78,
+          "end_line": 112,
+          "label": "export function truncateHead"
+        }
+      ],
+      "stage": 1,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "message",
+      "label": "ToolResult",
+      "sublabel": "callId / content",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 922,
+          "end_line": 940,
+          "label": "function createToolResultMessage("
+        }
+      ],
+      "stage": 2,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "history",
+      "label": "日志与投影",
+      "sublabel": "保留 / 压缩 / edit",
+      "type": "database",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/session-manager.ts",
+          "line": 543,
+          "end_line": 577,
+          "label": "export function buildSessionProjection("
+        }
+      ],
+      "stage": 3,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "request",
+      "label": "模型请求",
+      "sublabel": "下一步选择",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 381,
+          "end_line": 415,
+          "label": "async function streamAssistantResponse"
+        }
+      ],
+      "stage": 4,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    }
+  ],
+  "flows": [
+    {
+      "from": "repo",
+      "to": "cap",
+      "label": "取结果",
+      "variant": "emphasis",
+      "labelDy": 66
+    },
+    {
+      "from": "cap",
+      "to": "message",
+      "label": "可见正文",
+      "variant": "emphasis",
+      "labelDy": 66
+    },
+    {
+      "from": "message",
+      "to": "history",
+      "label": "追加",
+      "variant": "emphasis",
+      "labelDy": 66
+    },
+    {
+      "from": "history",
+      "to": "request",
+      "label": "请求投影",
+      "variant": "emphasis",
+      "labelDy": 66
+    }
+  ]
+}

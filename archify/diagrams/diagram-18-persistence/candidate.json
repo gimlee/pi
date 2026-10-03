@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "18 · Persistence Flow",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "output": "archify/diagrams/diagram-18-persistence/diagram-18-persistence.html",
+    "viewBox": [
+      1080,
+      360
+    ]
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "实际执行边界",
+      "items": [
+        "配置/鉴权/目录为另几种 JSON store",
+        "custom entries 存储明确程序状态"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "阅读边界",
+      "items": [
+        "无统一跨文件事务",
+        "临时输出不是 durable execution"
+      ]
+    }
+  ],
+  "stages": [
+    {
+      "label": "终结事件"
+    },
+    {
+      "label": "追加日志树"
+    },
+    {
+      "label": "Session JSONL"
+    },
+    {
+      "label": "读取与重建"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "event",
+      "label": "终结事件",
+      "sublabel": "messages / usage",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 1074,
+          "end_line": 1108,
+          "label": "private _handleAgentEvent"
+        }
+      ],
+      "stage": 0,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "entry",
+      "label": "追加日志树",
+      "sublabel": "id / parentId",
+      "type": "database",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/session-manager.ts",
+          "line": 1204,
+          "end_line": 1238,
+          "label": "appendMessage("
+        }
+      ],
+      "stage": 1,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "jsonl",
+      "label": "Session JSONL",
+      "sublabel": "header / branches",
+      "type": "database",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/session-manager.ts",
+          "line": 627,
+          "end_line": 661,
+          "label": "loadEntriesFromFile("
+        }
+      ],
+      "stage": 2,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "projection",
+      "label": "读取与重建",
+      "sublabel": "当前 leaf 投影",
+      "type": "database",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/session-manager.ts",
+          "line": 543,
+          "end_line": 577,
+          "label": "export function buildSessionProjection("
+        }
+      ],
+      "stage": 3,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    }
+  ],
+  "flows": [
+    {
+      "from": "event",
+      "to": "entry",
+      "label": "persist",
+      "variant": "emphasis",
+      "labelDy": 66
+    },
+    {
+      "from": "entry",
+      "to": "jsonl",
+      "label": "存储",
+      "variant": "emphasis",
+      "labelDy": 66
+    },
+    {
+      "from": "jsonl",
+      "to": "projection",
+      "label": "重建",
+      "variant": "emphasis",
+      "labelDy": 66
+    }
+  ]
+}

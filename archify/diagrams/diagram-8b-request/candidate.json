@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "8B · LLM Request Sequence",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "output": "archify/diagrams/diagram-8b-request/diagram-8b-request.html",
+    "column_fit": "spread",
+    "viewBox": [
+      1080,
+      480
+    ]
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "实际执行边界",
+      "items": [
+        "SDK 注入将 loop 与 Provider 解耦",
+        "onPayload / headers hooks 在发送前"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "阅读边界",
+      "items": [
+        "图为代表路径",
+        "不等同 Models 与 compat 双重顺序调用"
+      ]
+    }
+  ],
+  "participants": [
+    {
+      "id": "loop",
+      "label": "Loop",
+      "sublabel": "canonical context",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 381,
+          "end_line": 415,
+          "label": "async function streamAssistantResponse"
+        }
+      ]
+    },
+    {
+      "id": "runtime",
+      "label": "ModelRuntime",
+      "sublabel": "物理路由 / 鉴权",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/model-runtime.ts",
+          "line": 699,
+          "end_line": 733,
+          "label": "prepareRequest("
+        }
+      ]
+    },
+    {
+      "id": "adapter",
+      "label": "Adapter",
+      "sublabel": "Completions example",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/ai/src/api/openai-completions.ts",
+          "line": 299,
+          "end_line": 333,
+          "label": "export const stream:"
+        }
+      ]
+    },
+    {
+      "id": "network",
+      "label": "SDK / LLM",
+      "sublabel": "streaming response",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/ai/src/api/openai-completions.ts",
+          "line": 370,
+          "end_line": 404,
+          "label": "retryProviderRequest("
+        }
+      ]
+    }
+  ],
+  "messages": [
+    {
+      "id": "m1",
+      "from": "loop",
+      "to": "runtime",
+      "label": "streamFn 请求",
+      "y": 170,
+      "variant": "emphasis"
+    },
+    {
+      "id": "m2",
+      "from": "runtime",
+      "to": "adapter",
+      "label": "物理 model + options",
+      "y": 215,
+      "variant": "emphasis"
+    },
+    {
+      "id": "m3",
+      "from": "adapter",
+      "to": "network",
+      "label": "原生 payload",
+      "y": 260,
+      "variant": "emphasis"
+    },
+    {
+      "id": "m4",
+      "from": "network",
+      "to": "adapter",
+      "label": "chunks / usage",
+      "y": 305,
+      "variant": "return"
+    },
+    {
+      "id": "m5",
+      "from": "adapter",
+      "to": "loop",
+      "label": "canonical events",
+      "y": 350,
+      "variant": "return"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "6f3e15a0-e231-47f8-b716-ac2a56ac2fbf",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "F:\\github\\pi\\archify\\diagrams\\diagram-22a-mcp\\candidate.json",
+  "output": "F:\\github\\pi\\archify\\diagrams\\diagram-22a-mcp\\diagram-22a-mcp.html",
+  "specification": {
+    "sha256": "bd78d99b2f4fd3e07ac5648d9df624342accc7b5ea27f00efd1bd1bffd7d153e",
+    "bytes": 4294
+  },
+  "artifact": {
+    "sha256": "079374534d6fbf653954e189b3b7b293a5c1b39f1a38202eeb6725b209eb39fd",
+    "bytes": 752920
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "d883715b-bddf-48d8-95f7-e12364bcb000",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "F:\\github\\pi\\archify\\diagrams\\diagram-8a-provider\\candidate.json",
+  "output": "F:\\github\\pi\\archify\\diagrams\\diagram-8a-provider\\diagram-8a-provider.html",
+  "specification": {
+    "sha256": "27dc07c8045a50436f8a09df8b7ffeb6318688a23511ca866528a1ff4f5dbd40",
+    "bytes": 3449
+  },
+  "artifact": {
+    "sha256": "18c59326717390a97efeb0f2118271bdf72a530d8a2fd45910c763a4bdb8e823",
+    "bytes": 749411
+  }
+}

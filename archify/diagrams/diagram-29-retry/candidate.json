@@ -1,0 +1,162 @@
+{
+  "schema_version": 2,
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "29 · Retry / Recovery Lifecycle",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "output": "archify/diagrams/diagram-29-retry/diagram-29-retry.html"
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "实际执行边界",
+      "items": [
+        "图为 Session 决策映射",
+        "Provider / summary / MCP 各有独立预算"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "阅读边界",
+      "items": [
+        "无 token checkpoint 网络续传",
+        "恢复不等于工具副作用回滚"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "main",
+      "label": "实现中的阶段 / 谓词映射"
+    },
+    {
+      "id": "other",
+      "label": "异常 / 合作取消"
+    }
+  ],
+  "states": [
+    {
+      "id": "request",
+      "label": "运行请求",
+      "sublabel": "Provider 初始重试另管",
+      "type": "start",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 1775,
+          "end_line": 1809,
+          "label": "private async _runAgentPrompt("
+        }
+      ],
+      "lane": "main",
+      "col": 0,
+      "width": 180,
+      "height": 84
+    },
+    {
+      "id": "classify",
+      "label": "外层分类",
+      "sublabel": "overflow / transient / abort",
+      "type": "active",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 2900,
+          "end_line": 2934,
+          "label": "private async _checkCompaction("
+        }
+      ],
+      "lane": "main",
+      "col": 1,
+      "width": 180,
+      "height": 84
+    },
+    {
+      "id": "recover",
+      "label": "压缩或 backoff",
+      "sublabel": "有界预算 / signal",
+      "type": "active",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 396,
+          "end_line": 430,
+          "label": "private _retryAttempt"
+        }
+      ],
+      "lane": "main",
+      "col": 2,
+      "width": 180,
+      "height": 84
+    },
+    {
+      "id": "settled",
+      "label": "最终 settle",
+      "sublabel": "成功或不可恢复",
+      "type": "success",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 1775,
+          "end_line": 1809,
+          "label": "private async _runAgentPrompt("
+        }
+      ],
+      "lane": "main",
+      "col": 3,
+      "width": 180,
+      "height": 84
+    },
+    {
+      "id": "failed",
+      "label": "取消 / 耗尽",
+      "sublabel": "不重放已完成工具",
+      "type": "failure",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 3758,
+          "end_line": 3792,
+          "label": "abortRetry():"
+        }
+      ],
+      "lane": "other",
+      "col": 2,
+      "width": 180,
+      "height": 84
+    }
+  ],
+  "transitions": [
+    {
+      "from": "request",
+      "to": "classify",
+      "label": "assistant error"
+    },
+    {
+      "from": "classify",
+      "to": "recover",
+      "label": "可恢复"
+    },
+    {
+      "from": "recover",
+      "to": "request",
+      "label": "新模型请求"
+    },
+    {
+      "from": "request",
+      "to": "settled",
+      "label": "完成"
+    },
+    {
+      "from": "classify",
+      "to": "failed",
+      "label": "quota / abort / exhausted"
+    }
+  ]
+}

@@ -1,0 +1,157 @@
+{
+  "schema_version": 2,
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "13 · Shell Lifecycle",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "output": "archify/diagrams/diagram-13-shell/diagram-13-shell.html"
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "实际执行边界",
+      "items": [
+        "阶段是步骤映射，非代码 enum",
+        "取消最终由工具管线转错误结果"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "阅读边界",
+      "items": [
+        "无默认工具 timeout",
+        "无后台任务续接 handle / PTY"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "main",
+      "label": "实现中的阶段 / 谓词映射"
+    },
+    {
+      "id": "other",
+      "label": "异常 / 合作取消"
+    }
+  ],
+  "states": [
+    {
+      "id": "init",
+      "label": "准备 spawn",
+      "sublabel": "cwd/env/hook/timeout",
+      "type": "start",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/tools/bash.ts",
+          "line": 186,
+          "end_line": 220,
+          "label": "function resolveSpawnContext("
+        }
+      ],
+      "lane": "main",
+      "col": 0,
+      "width": 180,
+      "height": 84
+    },
+    {
+      "id": "running",
+      "label": "运行 / 收集",
+      "sublabel": "stdout + stderr / updates",
+      "type": "active",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/tools/bash.ts",
+          "line": 97,
+          "end_line": 131,
+          "label": "export function createLocalShellOperations("
+        }
+      ],
+      "lane": "main",
+      "col": 1,
+      "width": 180,
+      "height": 84
+    },
+    {
+      "id": "drain",
+      "label": "exit 后收尾",
+      "sublabel": "输出安静等待",
+      "type": "active",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/utils/child-process.ts",
+          "line": 49,
+          "end_line": 83,
+          "label": "export function waitForChildProcess"
+        }
+      ],
+      "lane": "main",
+      "col": 2,
+      "width": 180,
+      "height": 84
+    },
+    {
+      "id": "done",
+      "label": "返回输出",
+      "sublabel": "tail + temp file / exit",
+      "type": "success",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/tools/bash.ts",
+          "line": 243,
+          "end_line": 277,
+          "label": "export function createShellToolDefinition("
+        }
+      ],
+      "lane": "main",
+      "col": 3,
+      "width": 180,
+      "height": 84
+    },
+    {
+      "id": "cancel",
+      "label": "timeout / abort",
+      "sublabel": "进程树终止",
+      "type": "failure",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/utils/shell.ts",
+          "line": 187,
+          "end_line": 218,
+          "label": "export function killProcessTree"
+        }
+      ],
+      "lane": "other",
+      "col": 2,
+      "width": 180,
+      "height": 84
+    }
+  ],
+  "transitions": [
+    {
+      "from": "init",
+      "to": "running",
+      "label": "spawn"
+    },
+    {
+      "from": "running",
+      "to": "drain",
+      "label": "exit"
+    },
+    {
+      "from": "drain",
+      "to": "done",
+      "label": "输出收尾"
+    },
+    {
+      "from": "running",
+      "to": "cancel",
+      "label": "signal / timeout"
+    }
+  ]
+}

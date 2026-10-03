@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "fb54a4a1-d9a0-4f88-8882-1b8ab28ba24a",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "F:\\github\\pi\\archify\\diagrams\\diagram-15-coding\\candidate.json",
+  "output": "F:\\github\\pi\\archify\\diagrams\\diagram-15-coding\\diagram-15-coding.html",
+  "specification": {
+    "sha256": "e2721d5f72a3cd2c0ead795bad3a6286a452a29b81aa07a63628af686b450db6",
+    "bytes": 4284
+  },
+  "artifact": {
+    "sha256": "d99789bf9d398e329b49071e4d36d1fac172d7bd039c6d222269c7d2a4e5b01d",
+    "bytes": 752002
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "architecture",
+  "quality": "showcase",
+  "specification": {
+    "path": "F:\\github\\pi\\archify\\diagrams\\diagram-22a-mcp\\candidate.json",
+    "sha256": "bd78d99b2f4fd3e07ac5648d9df624342accc7b5ea27f00efd1bd1bffd7d153e",
+    "bytes": 4294
+  },
+  "artifact": {
+    "path": "F:\\github\\pi\\archify\\diagrams\\diagram-22a-mcp\\diagram-22a-mcp.html",
+    "sha256": "079374534d6fbf653954e189b3b7b293a5c1b39f1a38202eeb6725b209eb39fd",
+    "bytes": 752920
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "F:\\github\\pi\\archify\\diagrams\\diagram-22a-mcp\\diagram-22a-mcp.finalize.json",
+    "summaryReceipt": "F:\\github\\pi\\archify\\diagrams\\diagram-22a-mcp\\diagram-22a-mcp.finalize-summary.json",
+    "browserCheckReceipt": "F:\\github\\pi\\archify\\diagrams\\diagram-22a-mcp\\diagram-22a-mcp.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.0.1",
+    "availableVersion": "3.0.1",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-02T18:25:19.682Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 5245
+}

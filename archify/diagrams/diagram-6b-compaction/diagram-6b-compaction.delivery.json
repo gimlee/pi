@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "d32a41a8-982b-44aa-9596-3936b5950bac",
+  "status": "current",
+  "command": "deliver",
+  "type": "lifecycle",
+  "input": "F:\\github\\pi\\archify\\diagrams\\diagram-6b-compaction\\candidate.json",
+  "output": "F:\\github\\pi\\archify\\diagrams\\diagram-6b-compaction\\diagram-6b-compaction.html",
+  "specification": {
+    "sha256": "e2b7280e8c3cc67e41ba4d49febf79c8a79919a47436ce9464688cf6d30a1254",
+    "bytes": 3550
+  },
+  "artifact": {
+    "sha256": "e4f9b4e27fe7ec42d8058e5971a1f359221b81eeb8bd51aa34988daf2645471d",
+    "bytes": 752369
+  }
+}

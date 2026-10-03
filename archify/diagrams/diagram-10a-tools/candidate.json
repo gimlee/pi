@@ -1,0 +1,199 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "10A · Tool Architecture",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "output": "archify/diagrams/diagram-10a-tools/diagram-10a-tools.html"
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "实际执行边界",
+      "items": [
+        "声明集合与 callable 集合不同",
+        "extension 可提供策略 hooks"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "阅读边界",
+      "items": [
+        "无固有逐操作审批",
+        "参数通过不等于业务正确"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "registry",
+      "label": "Session registry",
+      "sublabel": "definitions / active / callable",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 3448,
+          "end_line": 3482,
+          "label": "private _refreshToolRegistry("
+        }
+      ],
+      "pos": [
+        380,
+        260
+      ],
+      "size": [
+        225,
+        82
+      ]
+    },
+    {
+      "id": "definition",
+      "label": "ToolDefinition",
+      "sublabel": "schema / execute / exposure",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/extensions/types.ts",
+          "line": 565,
+          "end_line": 599,
+          "label": "export interface ToolDefinition"
+        }
+      ],
+      "pos": [
+        40,
+        260
+      ],
+      "size": [
+        225,
+        82
+      ]
+    },
+    {
+      "id": "wrap",
+      "label": "AgentTool wrapper",
+      "sublabel": "ctx 注入",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/tools/tool-definition-wrapper.ts",
+          "line": 8,
+          "end_line": 42,
+          "label": "export function wrapToolDefinition<"
+        }
+      ],
+      "pos": [
+        730,
+        260
+      ],
+      "size": [
+        225,
+        82
+      ]
+    },
+    {
+      "id": "pipeline",
+      "label": "Tool pipeline",
+      "sublabel": "validate / hooks / dispatch",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 707,
+          "end_line": 741,
+          "label": "async function prepareToolCall("
+        }
+      ],
+      "pos": [
+        1080,
+        260
+      ],
+      "size": [
+        225,
+        82
+      ]
+    },
+    {
+      "id": "builtin",
+      "label": "File / Shell",
+      "sublabel": "内置操作",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/tools/index.ts",
+          "line": 96,
+          "end_line": 130,
+          "label": "export const allToolNames"
+        }
+      ],
+      "pos": [
+        960,
+        510
+      ],
+      "size": [
+        225,
+        82
+      ]
+    },
+    {
+      "id": "mcp",
+      "label": "MCP adapter",
+      "sublabel": "同一管线",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/extensions/mcp/tools.ts",
+          "line": 254,
+          "end_line": 288,
+          "label": "export function createMcpToolDefinition"
+        }
+      ],
+      "pos": [
+        1270,
+        510
+      ],
+      "size": [
+        225,
+        82
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "definition",
+      "to": "registry",
+      "label": "注册",
+      "variant": "emphasis"
+    },
+    {
+      "from": "registry",
+      "to": "wrap",
+      "label": "可调用集合",
+      "variant": "emphasis"
+    },
+    {
+      "from": "wrap",
+      "to": "pipeline",
+      "label": "执行",
+      "variant": "emphasis"
+    },
+    {
+      "from": "pipeline",
+      "to": "builtin",
+      "label": "I/O",
+      "variant": "emphasis"
+    },
+    {
+      "from": "pipeline",
+      "to": "mcp",
+      "label": "远端工具",
+      "variant": "emphasis"
+    }
+  ]
+}

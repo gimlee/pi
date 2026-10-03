@@ -1,0 +1,205 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "22A · MCP Architecture",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "output": "archify/diagrams/diagram-22a-mcp/diagram-22a-mcp.html"
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "实际执行边界",
+      "items": [
+        "MCP 为内置扩展 + 独立客户端包",
+        "default codemode；direct/deferred/hidden 可调"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "阅读边界",
+      "items": [
+        "Legacy SSE 不支持",
+        "第三方 server 副作用不回滚"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "config",
+      "label": "MCP config/registry",
+      "sublabel": "global / trusted project",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/extensions/mcp/config.ts",
+          "line": 115,
+          "end_line": 149,
+          "label": "export function loadMcpConfig("
+        }
+      ],
+      "pos": [
+        40,
+        260
+      ],
+      "size": [
+        225,
+        82
+      ]
+    },
+    {
+      "id": "extension",
+      "label": "MCP extension",
+      "sublabel": "exposure / discovery",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/extensions/mcp/index.ts",
+          "line": 273,
+          "end_line": 307,
+          "label": "export function createMcpExtension("
+        }
+      ],
+      "pos": [
+        380,
+        260
+      ],
+      "size": [
+        225,
+        82
+      ]
+    },
+    {
+      "id": "connection",
+      "label": "ServerConnection",
+      "sublabel": "state / reconnect",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/extensions/mcp/runtime.ts",
+          "line": 155,
+          "end_line": 189,
+          "label": "export class McpServerConnection"
+        }
+      ],
+      "pos": [
+        730,
+        260
+      ],
+      "size": [
+        225,
+        82
+      ]
+    },
+    {
+      "id": "client",
+      "label": "McpClient",
+      "sublabel": "JSON-RPC / pending",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/mcp/src/client.ts",
+          "line": 153,
+          "end_line": 187,
+          "label": "export class McpClient"
+        }
+      ],
+      "pos": [
+        1080,
+        260
+      ],
+      "size": [
+        225,
+        82
+      ]
+    },
+    {
+      "id": "adapter",
+      "label": "Pi tool adapter",
+      "sublabel": "schema / results",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/extensions/mcp/tools.ts",
+          "line": 254,
+          "end_line": 288,
+          "label": "export function createMcpToolDefinition"
+        }
+      ],
+      "pos": [
+        730,
+        40
+      ],
+      "size": [
+        225,
+        82
+      ]
+    },
+    {
+      "id": "transport",
+      "label": "Transport / Server",
+      "sublabel": "stdio / HTTP",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/extensions/mcp/runtime.ts",
+          "line": 97,
+          "end_line": 131,
+          "label": "export function createDefaultTransport("
+        }
+      ],
+      "pos": [
+        1080,
+        510
+      ],
+      "size": [
+        225,
+        82
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "config",
+      "to": "extension",
+      "label": "servers",
+      "variant": "emphasis"
+    },
+    {
+      "from": "extension",
+      "to": "connection",
+      "label": "建立连接",
+      "variant": "emphasis"
+    },
+    {
+      "from": "connection",
+      "to": "client",
+      "label": "请求",
+      "variant": "emphasis"
+    },
+    {
+      "from": "client",
+      "to": "transport",
+      "label": "JSON-RPC",
+      "variant": "emphasis"
+    },
+    {
+      "from": "extension",
+      "to": "adapter",
+      "label": "注册定义",
+      "variant": "emphasis"
+    },
+    {
+      "from": "adapter",
+      "to": "connection",
+      "label": "普通工具调用",
+      "variant": "emphasis"
+    }
+  ]
+}

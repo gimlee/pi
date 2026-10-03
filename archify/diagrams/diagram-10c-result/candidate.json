@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "10C · Tool Result Projection",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "output": "archify/diagrams/diagram-10c-result/diagram-10c-result.html",
+    "viewBox": [
+      1080,
+      360
+    ]
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "实际执行边界",
+      "items": [
+        "structuredContent 面向程序调用",
+        "details 为诊断/展示，不全自动发送"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "阅读边界",
+      "items": [
+        "嵌套调用有独立记录",
+        "错误文本让模型自行恢复"
+      ]
+    }
+  ],
+  "stages": [
+    {
+      "label": "ToolCall"
+    },
+    {
+      "label": "AgentToolResult"
+    },
+    {
+      "label": "ToolResultMessage"
+    },
+    {
+      "label": "Session log"
+    },
+    {
+      "label": "Next request"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "call",
+      "label": "ToolCall",
+      "sublabel": "id / name / arguments",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/ai/src/types.ts",
+          "line": 417,
+          "end_line": 451,
+          "label": "export interface ToolCall"
+        }
+      ],
+      "stage": 0,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "outcome",
+      "label": "AgentToolResult",
+      "sublabel": "content/details/structured",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 853,
+          "end_line": 887,
+          "label": "async function finalizeExecutedToolCall("
+        }
+      ],
+      "stage": 1,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "message",
+      "label": "ToolResultMessage",
+      "sublabel": "关联 callId / isError",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 922,
+          "end_line": 940,
+          "label": "function createToolResultMessage("
+        }
+      ],
+      "stage": 2,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "log",
+      "label": "Session log",
+      "sublabel": "message_end 持久化",
+      "type": "database",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/session-manager.ts",
+          "line": 1204,
+          "end_line": 1238,
+          "label": "appendMessage("
+        }
+      ],
+      "stage": 3,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    },
+    {
+      "id": "next",
+      "label": "Next request",
+      "sublabel": "convertToLlm / Provider",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 381,
+          "end_line": 415,
+          "label": "async function streamAssistantResponse"
+        }
+      ],
+      "stage": 4,
+      "row": 0,
+      "width": 146,
+      "height": 82
+    }
+  ],
+  "flows": [
+    {
+      "from": "call",
+      "to": "outcome",
+      "label": "运行",
+      "variant": "emphasis",
+      "labelDy": 66
+    },
+    {
+      "from": "outcome",
+      "to": "message",
+      "label": "模型可见投影",
+      "variant": "emphasis",
+      "labelDy": 66
+    },
+    {
+      "from": "message",
+      "to": "log",
+      "label": "追加",
+      "variant": "emphasis",
+      "labelDy": 66
+    },
+    {
+      "from": "log",
+      "to": "next",
+      "label": "下一轮",
+      "variant": "emphasis",
+      "labelDy": 66
+    }
+  ]
+}

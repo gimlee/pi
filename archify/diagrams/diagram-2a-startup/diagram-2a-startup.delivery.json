@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "receiptId": "70f4fe62-c391-46ab-b64e-2d6ad79455f2",
+  "receiptId": "5ef4559b-9e89-4415-82d5-e24fae5b932e",
   "status": "current",
   "command": "deliver",
   "type": "workflow",
   "input": "F:\\github\\pi\\archify\\diagrams\\diagram-2a-startup\\candidate.json",
   "output": "F:\\github\\pi\\archify\\diagrams\\diagram-2a-startup\\diagram-2a-startup.html",
   "specification": {
-    "sha256": "2677d0e7a462e6529267bbb1d88a83e2fbf899d351a8454e20e89711f8dca1b5",
-    "bytes": 13015
+    "sha256": "f183fc67c18de61243824daa1ce0508f7edf4648c819e0750e18f7f098fbc530",
+    "bytes": 12465
   },
   "artifact": {
     "sha256": "604e5deb978ff946454300d32aff0b16ccf90afdae7507d1f18e240462cd7b06",

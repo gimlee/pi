@@ -8,7 +8,7 @@
 
 ## Evidence
 
-- [调度与结果](../packages/agent/src/agent-loop.ts#L508)：存在任一 `executionMode=sequential` 时整批串行，否则并行；并行完成事件可以交错，最终消息按调用顺序回灌。
+- [调度与结果](../packages/agent/src/agent-loop.ts#L508)：配置 `toolExecution=sequential` 或存在任一 `executionMode=sequential` 时整批串行，否则并行；并行完成事件可以交错，最终消息按调用顺序回灌。
 - [参数及 hooks](../packages/agent/src/agent-loop.ts#L693)：prepareArguments 在验证前运行；未知工具、验证失败、执行异常成为关联的错误结果。
 - [单次执行](../packages/agent/src/agent-loop.ts#L810)：`runToolCall()` 复用同一管线，支持非直接模型入口。
 - [包装](../packages/coding-agent/src/core/tools/tool-definition-wrapper.ts)：UI renderer 不属于 AgentTool 的执行接口；调用时注入 ExtensionToolContext。

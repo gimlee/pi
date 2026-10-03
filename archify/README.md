@@ -1,30 +1,23 @@
-# Pi 源码分析：Batch 0～5
+# Pi Agent 源码分析：Batch 0～48
 
-任务来源：[promt/archify-promt.md](../promt/archify-promt.md)。已完成仓库侦察、概念定位、Startup / Runtime、Agent Loop、Message Model 和 Prompt System；Batch 6 及以后只列调查方向，不作为已完成成果。
+任务：[promt/archify-promt.md](../promt/archify-promt.md)。49 个 Batch 的固定十二节报告已齐全；本轮续完 Batch 6～48，增加机制图、综合分析、20 个核心抽象、30 个阅读文件、17 条调用链、20 项开发动作和最终研究报告。
 
 ## 阅读入口
 
-| 报告 | 内容 | 图 |
-|---|---|---|
-| [Batch 0](batch-0-repository.md) | 13 个包、入口、核心候选、依赖与阅读计划 | [Diagram 0：仓库一级模块](diagrams/diagram-0-repository/diagram-0-repository.html) |
-| [Batch 1](batch-1-positioning.md) | Coding Agent / Harness / Runtime 的定位和价值分布 | 复用 Diagram 0 与 2B；任务没有要求 Diagram 1 |
-| [Batch 2](batch-2-startup-runtime.md) | 启动顺序、对象创建、所有权、模式绑定和退出 | [Diagram 2A：启动过程](diagrams/diagram-2a-startup/diagram-2a-startup.html)、[Diagram 2B：运行时职责](diagrams/diagram-2b-runtime/diagram-2b-runtime.html) |
-| [Batch 3](batch-3-agent-loop.md) | 双层循环、六个执行责任、工具并发、停止条件、策略与结束边界 | [Diagram 3A：运行工作流](diagrams/diagram-3a-runtime/diagram-3a-runtime.html)、[Diagram 3B：循环生命周期](diagrams/diagram-3b-loop/diagram-3b-loop.html)、[Diagram 3C：运行状态](diagrams/diagram-3c-state/diagram-3c-state.html) |
-| [Batch 4](batch-4-message-model.md) | 统一消息、内容/元数据、流事件、工具结果和三种协议映射 | [Diagram 4：消息数据流](diagrams/diagram-4-messages/diagram-4-messages.html) |
-| [Batch 5](batch-5-prompt-system.md) | 指令来源、段落顺序、动态 hooks、请求构造与供应商差异 | [Diagram 5A：提示组成](diagrams/diagram-5a-composition/diagram-5a-composition.html)、[Diagram 5B：提示构建](diagrams/diagram-5b-build/diagram-5b-build.html) |
+- [《Pi Agent 源码深度研究报告》](pi-agent-source-study.md)：43 节及最后单独回答的 Q1～Q5。
+- [Pi Agent Master Architecture Map](diagrams/diagram-46-master/diagram-46-master.html)：20 个核心节点。
+- [完整图集](diagram-atlas.md)：43 张 HTML 图、28 项必需概念映射和逐图检查记录。
+- [二次开发地图](batch-45-development-map.md)、[阅读路线](batch-43-reading-path.md)、[关键调用链](batch-44-call-chains.md)。
 
-HTML 可直接用浏览器打开。每张图保留 `candidate.json`、交付记录和浏览器检查记录，可继续编辑与复验。
+HTML 可直接用浏览器打开；候选 JSON 和检查记录保留在各图目录。
 
 ## 分析基线与证据等级
 
-- 分析日期：2026-10-03，Asia/Shanghai。
-- 仓库：`F:/github/pi`；origin：`https://github.com/gimlee/pi`。
-- 分支：`issue-fix/9946-0bd6fea8`。
-- HEAD：`9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16`。
-- 报告以当前工作区源码为准，源码链接为仓库相对路径，行号以本次快照为准。HTML 引用固定 HEAD 的已提交内容，使用 `local-only`，不把未提交改动当作该提交证据。
-- 开始分析时已存在三处修改：`packages/coding-agent/src/modes/interactive/components/bash-execution.ts`、`packages/coding-agent/src/modes/interactive/interactive-mode.ts`、`packages/coding-agent/test/bash-execution-width.test.ts`；另有未跟踪 `promt/`。这些内容未被本次修改。相关改动是 Bash 显示宽度/边距，未改变本报告涉及的启动和 Runtime 创建路径。
+研究快照：2026-10-03，Asia/Shanghai；仓库 F:/github/pi，origin https://github.com/gimlee/pi；固定提交 `9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16`。此前记录的分支为 issue-fix/9946-0bd6fea8。最终检查时工作区已推进到 `4196b29608898e61d77ef3d1f9a148eede45771f`，分支 `main`；本轮未提交或切换分支。
 
-**Confirmed**：已阅读的实现或实际调用点直接支持。**Inference**：基于这些行为作出的架构解释或设计动机判断。**Unknown**：本次没有验证，不能理解为能力不存在。报告不使用未经运行的测试作为通过证据。
+报告基于调查时读取的源码，图引用固定提交并使用 local-only。相对源码链接打开当前工作区，基线行号应通过旧提交确认。后续 MCP 局部覆盖/OAuth、模型生成及其他变化见 [基线推进说明](baseline-drift.md)。原有三个 Bash/TUI 文件修改未由本轮修改；它们的工作区状态随后由外部仓库推进改变。
+
+**Confirmed**：读取的实现或调用点直接支持。**Inference**：结构推导、价值判断或设计解释。**Unknown**：未验证的边界；不代表能力不存在。典型四 API 族深入分析，未逐行审计全部 42 Provider 的所有边界。
 
 ## 当前结论
 
@@ -36,34 +29,63 @@ HTML 可直接用浏览器打开。每张图保留 `candidate.json`、交付记�
 
 **Confirmed**：内部统一消息不等同供应商 wire format。系统段落与工具声明记录在 transcript，Provider 再按能力重放或折叠；统一 `thinking`、签名和工具关联需要协议适配。默认 Coding Prompt builder 没有三套 Claude/GPT/Gemini 模板，差异还存在于 adapter 的角色、系统更新、图像、推理与 OAuth 身份前缀处理。
 
-## 五个核心问题：阶段性答案
 
-任务要求的最终五问将在后续深度分析后定稿；以下只反映 Batch 0～5 的证据。
+## 全部 Batch
 
-| 问题 | 当前答案 | 等级 / 后续边界 |
-|---|---|---|
-| Q1：真正的 Agent Loop 在哪里？ | `packages/agent/src/agent-loop.ts` 的 `runLoop()`；内层处理工具/steering，外层处理 follow-up。编码层 `_runAgentPrompt()` 还管理重试、压缩和 settle。 | Confirmed；责任、并发和停止矩阵见 Batch 3，未做真实模型故障实验。 |
-| Q2：Context Management 在哪里？ | `SessionManager.buildSessionProjection()` 形成分支与压缩感知的消息投影；`AgentSession` 在请求边界应用它；`transformContext`、`convertToLlm` 和 Provider 规范化继续处理。 | Confirmed；不把 Context 简化为一个数组，完整机制留后续 Batch。 |
-| Q3：针对模型做了多少适配？ | 已确认 thinking/签名重放、图片转换、工具 ID/结果修复、系统/工具更新、角色与 schema 编码、usage/stop 归一、OAuth 身份前缀，以及虚拟路由与鉴权。 | Confirmed：Batch 4～5 对 Anthropic Messages / OpenAI Responses / Google GenAI 作具体比较；其他 API 与缓存策略未全部审计，不能量化总体厚度。 |
-| Q4：比 API + Shell + File Tools 多什么？ | 持续工具循环、输入队列与取消、分支会话与恢复、上下文投影与压缩、提示/工具动态装载、扩展事件、模型与鉴权管理、多个 Host。 | Confirmed；具体价值分布见 Batch 1。 |
-| Q5：Mini Pi 最少需要什么？ | 消息/模型流协议、循环与状态、工具 schema/执行/结果回灌、上下文构造、输入输出 Host；若要继续会话与恢复，再加入日志/投影和取消/重试。 | Inference：功能目标决定最小集。暂不按代码行数声称“20% 就够”；Extension、MCP、TUI 等不是所有 Mini Pi 的必需项。 |
+| Batch | 报告 / 内容 |
+| --- | --- |
+| 0 | [Batch 0：Repository Reconnaissance](batch-0-repository.md) |
+| 1 | [Batch 1：Pi 到底是什么](batch-1-positioning.md) |
+| 2 | [Batch 2：Startup 与 Runtime](batch-2-startup-runtime.md) |
+| 3 | [Batch 3：Agent Loop](batch-3-agent-loop.md) |
+| 4 | [Batch 4：Message Model](batch-4-message-model.md) |
+| 5 | [Batch 5：Prompt System](batch-5-prompt-system.md) |
+| 6 | [Batch 6：Context Management](batch-6-context-management.md) |
+| 7 | [Batch 7：Model Abstraction](batch-7-model-abstraction.md) |
+| 8 | [Batch 8：Provider System](batch-8-provider-system.md) |
+| 9 | [Batch 9：Reasoning / Thinking](batch-9-reasoning-thinking.md) |
+| 10 | [Batch 10 · Tool Runtime](batch-10-tool-runtime.md) |
+| 11 | [Batch 11 · Core Tools](batch-11-core-tools.md) |
+| 12 | [Batch 12 · File Read / Edit / Write](batch-12-file-operations.md) |
+| 13 | [Batch 13 · Shell Lifecycle](batch-13-shell.md) |
+| 14 | [Batch 14 · Repository Understanding](batch-14-repository-understanding.md) |
+| 15 | [Batch 15 · Coding / Bugfix Workflow](batch-15-coding-workflow.md) |
+| 16 | [Batch 16 · Session Lifecycle](batch-16-session.md) |
+| 17 | [Batch 17 · State Ownership](batch-17-state.md) |
+| 18 | [Batch 18 · Persistence](batch-18-persistence.md) |
+| 19 | [Batch 19 · Memory Boundaries](batch-19-memory.md) |
+| 20 | [Batch 20 · Extension Architecture / Lifecycle](batch-20-extensions.md) |
+| 21 | [Batch 21 · Skill Lifecycle](batch-21-skills.md) |
+| 22 | [Batch 22 · MCP Integration](batch-22-mcp.md) |
+| 23 | [Batch 23 · Event / Streaming Flow](batch-23-events.md) |
+| 24 | [Batch 24 · Concurrency / Cancellation](batch-24-concurrency.md) |
+| 25 | [Batch 25 · CLI / TUI Architecture](batch-25-cli-tui.md) |
+| 26 | [Batch 26 · Commands / Keybindings](batch-26-commands.md) |
+| 27 | [Batch 27 · Configuration Flow](batch-27-configuration.md) |
+| 28 | [Batch 28 · Error Boundaries](batch-28-errors.md) |
+| 29 | [Batch 29 · Retry / Recovery](batch-29-retry-recovery.md) |
+| 30 | [Batch 30 · Tokens / Usage / Cost](batch-30-tokens-cost.md) |
+| 31 | [Batch 31 · Cache / Warming](batch-31-cache.md) |
+| 32 | [Batch 32 · Model Switching](batch-32-model-switching.md) |
+| 33 | [Batch 33 · Cross-provider Compatibility](batch-33-compatibility.md) |
+| 34 | [Batch 34 · Testing Infrastructure](batch-34-testing.md) |
+| 35 | [Batch 35 · Evaluation / Benchmark](batch-35-evaluation.md) |
+| 36 | [Batch 36 · Core Abstractions](batch-36-core-abstractions.md) |
+| 37 | [Batch 37 · Design Patterns](batch-37-design-patterns.md) |
+| 38 | [Batch 38 · Technical Debt](batch-38-technical-debt.md) |
+| 39 | [Batch 39 · Extension Points](batch-39-extension-points.md) |
+| 40 | [Batch 40 · Harness Value](batch-40-core-value.md) |
+| 41 | [Batch 41 · Minimal Core](batch-41-minimal-core.md) |
+| 42 | [Batch 42 · 30 Core Files](batch-42-top-30-files.md) |
+| 43 | [Batch 43 · Reading Path](batch-43-reading-path.md) |
+| 44 | [Batch 44 · Critical Call Chains](batch-44-call-chains.md) |
+| 45 | [Batch 45 · Pi Development Map](batch-45-development-map.md) |
+| 46 | [Batch 46 · Pi Agent Master Architecture Map](batch-46-master-map.md) |
+| 47 | [Batch 47 · Core Diagram Atlas](batch-47-diagram-atlas.md) |
+| 48 | [Batch 48 · Final Research Report](batch-48-final-study.md) |
 
-## 校验记录
+## 校验与限制
 
-九图使用 Archify 3.0.1，`quality=showcase`。最终候选均通过 `validate`、`deliver`、严格 `check`、真实浏览器 `browser-check`；零错误、零警告。源码范围按固定提交验证。未进行截图人工视觉审查，`visualReview=not-requested`；自动检查通过不等于人工确认视觉质量。Diagram 2A 与 3A 有路由绕行提示，3B 有已处理交叉的人工审查建议，不影响自动检查通过。3C 是源码明确运行谓词的展示映射，不是源码定义的正式阶段枚举。
+Archify 3.0.1，quality=showcase；43 图全部通过 validate、deliver、严格 check 和 browser-check，最终记录零错误、零警告。文档本地链接、源码范围与候选/HTML/浏览器记录哈希核对见 [analysis-checks.json](analysis-checks.json)。[diagram-manifest.json](diagram-manifest.json) 列出全部图与当前有效记录。
 
-[analysis-checks.json](analysis-checks.json) 汇总六份报告的固定标题、文档本地链接和九张图的候选/HTML/浏览器记录哈希核对；它不代替各图的实际交付记录。
-
-| 图型 | 最终检查记录 | 浏览器记录 |
-|---|---|---|
-| Diagram 0 · architecture，15 个一级组件 | [finalize-summary](diagrams/diagram-0-repository/review-3/diagram-0-repository.finalize-summary.json) | [browser-check](diagrams/diagram-0-repository/review-3/diagram-0-repository.browser-check.json) |
-| Diagram 2A · workflow，启动执行顺序 | [finalize-summary](diagrams/diagram-2a-startup/diagram-2a-startup.finalize-summary.json) | [browser-check](diagrams/diagram-2a-startup/diagram-2a-startup.browser-check.json) |
-| Diagram 2B · architecture，12 个运行职责 | [finalize-summary](diagrams/diagram-2b-runtime/review-2/diagram-2b-runtime.finalize-summary.json) | [browser-check](diagrams/diagram-2b-runtime/review-2/diagram-2b-runtime.browser-check.json) |
-| Diagram 3A · workflow，输入到恢复与 settled | [finalize-summary](diagrams/diagram-3a-runtime/diagram-3a-runtime.finalize-summary.json) | [browser-check](diagrams/diagram-3a-runtime/diagram-3a-runtime.browser-check.json) |
-| Diagram 3B · lifecycle，模型/工具/续轮/终止 | [finalize-summary](diagrams/diagram-3b-loop/diagram-3b-loop.finalize-summary.json) | [browser-check](diagrams/diagram-3b-loop/diagram-3b-loop.browser-check.json) |
-| Diagram 3C · lifecycle，idle/active/abort requested | [finalize-summary](diagrams/diagram-3c-state/diagram-3c-state.finalize-summary.json) | [browser-check](diagrams/diagram-3c-state/diagram-3c-state.browser-check.json) |
-| Diagram 4 · dataflow，消息与协议归一 | [finalize-summary](diagrams/diagram-4-messages/diagram-4-messages.finalize-summary.json) | [browser-check](diagrams/diagram-4-messages/diagram-4-messages.browser-check.json) |
-| Diagram 5A · dataflow，指令组成与请求投影 | [finalize-summary](diagrams/diagram-5a-composition/diagram-5a-composition.finalize-summary.json) | [browser-check](diagrams/diagram-5a-composition/diagram-5a-composition.browser-check.json) |
-| Diagram 5B · workflow，提示到最终 payload | [finalize-summary](diagrams/diagram-5b-build/diagram-5b-build.finalize-summary.json) | [browser-check](diagrams/diagram-5b-build/diagram-5b-build.browser-check.json) |
-
-只增加分析文档和图，没有修改项目代码、运行构建或项目测试、提交 Git。
+人工截图视觉审查未执行。Master 保留两处路由交叉建议，部分其他图仍有路由绕行建议，具体见图集。自动通过不等同人工视觉确认。项目测试、真实模型、付费 eval、压缩质量及性能实验未运行；不报告它们的通过率或费用实测。本轮没有修改项目代码、运行构建或提交 Git。

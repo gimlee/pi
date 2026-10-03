@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "8dfadfa0-1dc7-428f-9c49-348ad68e9706",
+  "status": "current",
+  "command": "deliver",
+  "type": "dataflow",
+  "input": "F:\\github\\pi\\archify\\diagrams\\diagram-8c-conversion\\candidate.json",
+  "output": "F:\\github\\pi\\archify\\diagrams\\diagram-8c-conversion\\diagram-8c-conversion.html",
+  "specification": {
+    "sha256": "f3fd59e6405a0053f6c4bc551a4a0f6fd754b7d1d7a2444010bf5bfee1ec3460",
+    "bytes": 3159
+  },
+  "artifact": {
+    "sha256": "50bfa09c0425681b9acd678e626a2c88a78bf25e4dbe78b7762a37088b37ed1f",
+    "bytes": 747302
+  }
+}

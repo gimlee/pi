@@ -1,0 +1,162 @@
+{
+  "schema_version": 2,
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "16 · Session Lifecycle",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "output": "archify/diagrams/diagram-16-session/diagram-16-session.html"
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "实际执行边界",
+      "items": [
+        "phase 为管理步骤映射",
+        "branch 和 fork 的持久结构不同"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "阅读边界",
+      "items": [
+        "不恢复 OS 进程/网络流",
+        "历史保存与执行 checkpoint 分开"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "main",
+      "label": "实现中的阶段 / 谓词映射"
+    },
+    {
+      "id": "other",
+      "label": "异常 / 合作取消"
+    }
+  ],
+  "states": [
+    {
+      "id": "create",
+      "label": "创建 / 打开",
+      "sublabel": "header / file / memory",
+      "type": "start",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/session-manager.ts",
+          "line": 1755,
+          "end_line": 1789,
+          "label": "static create("
+        }
+      ],
+      "lane": "main",
+      "col": 0,
+      "width": 180,
+      "height": 84
+    },
+    {
+      "id": "project",
+      "label": "投影当前分支",
+      "sublabel": "leaf / compaction / edits",
+      "type": "active",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/session-manager.ts",
+          "line": 1493,
+          "end_line": 1527,
+          "label": "buildSessionProjection(): "
+        }
+      ],
+      "lane": "main",
+      "col": 1,
+      "width": 180,
+      "height": 84
+    },
+    {
+      "id": "active",
+      "label": "会话使用",
+      "sublabel": "prompt / log entries",
+      "type": "active",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 1921,
+          "end_line": 1955,
+          "label": "async prompt("
+        }
+      ],
+      "lane": "main",
+      "col": 2,
+      "width": 180,
+      "height": 84
+    },
+    {
+      "id": "closed",
+      "label": "释放 / 替换",
+      "sublabel": "旧 ctx stale",
+      "type": "success",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 1363,
+          "end_line": 1397,
+          "label": "dispose(): "
+        }
+      ],
+      "lane": "main",
+      "col": 3,
+      "width": 180,
+      "height": 84
+    },
+    {
+      "id": "branch",
+      "label": "分支 / fork",
+      "sublabel": "新的路径或 session id",
+      "type": "failure",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/session-manager.ts",
+          "line": 1815,
+          "end_line": 1849,
+          "label": "static forkFrom("
+        }
+      ],
+      "lane": "other",
+      "col": 2,
+      "width": 180,
+      "height": 84
+    }
+  ],
+  "transitions": [
+    {
+      "from": "create",
+      "to": "project",
+      "label": "load"
+    },
+    {
+      "from": "project",
+      "to": "active",
+      "label": "bind / start"
+    },
+    {
+      "from": "active",
+      "to": "closed",
+      "label": "shutdown / dispose"
+    },
+    {
+      "from": "active",
+      "to": "branch",
+      "label": "tree / fork"
+    },
+    {
+      "from": "branch",
+      "to": "project",
+      "label": "恢复投影"
+    }
+  ]
+}

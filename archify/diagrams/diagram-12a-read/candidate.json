@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "12A · File Read Sequence",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "output": "archify/diagrams/diagram-12a-read/diagram-12a-read.html",
+    "column_fit": "spread",
+    "viewBox": [
+      1080,
+      480
+    ]
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "实际执行边界",
+      "items": [
+        "读取由工具实现",
+        "文本超过限额附分页提示"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "阅读边界",
+      "items": [
+        "一般 binary 非通用拒绝",
+        "图片最终发送由模型能力/设置决定"
+      ]
+    }
+  ],
+  "participants": [
+    {
+      "id": "agent",
+      "label": "Tool runtime",
+      "sublabel": "schema / hooks",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 707,
+          "end_line": 741,
+          "label": "async function prepareToolCall("
+        }
+      ]
+    },
+    {
+      "id": "read",
+      "label": "Read tool",
+      "sublabel": "offset / limit",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/tools/read.ts",
+          "line": 66,
+          "end_line": 100,
+          "label": "export function createReadToolDefinition("
+        }
+      ]
+    },
+    {
+      "id": "fs",
+      "label": "Filesystem",
+      "sublabel": "Buffer / UTF-8 / image",
+      "type": "backend",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/tools/read.ts",
+          "line": 114,
+          "end_line": 148,
+          "label": "readFile("
+        }
+      ]
+    }
+  ],
+  "messages": [
+    {
+      "id": "m1",
+      "from": "agent",
+      "to": "read",
+      "label": "path + offset/limit",
+      "y": 170,
+      "variant": "emphasis"
+    },
+    {
+      "id": "m2",
+      "from": "read",
+      "to": "fs",
+      "label": "access / readFile",
+      "y": 215,
+      "variant": "emphasis"
+    },
+    {
+      "id": "m3",
+      "from": "fs",
+      "to": "read",
+      "label": "bytes",
+      "y": 260,
+      "variant": "return"
+    },
+    {
+      "id": "m4",
+      "from": "read",
+      "to": "agent",
+      "label": "head text / image + details",
+      "y": 305,
+      "variant": "return"
+    }
+  ]
+}

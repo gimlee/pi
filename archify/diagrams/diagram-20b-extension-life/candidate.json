@@ -1,0 +1,157 @@
+{
+  "schema_version": 2,
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "20B · Extension Lifecycle",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "output": "archify/diagrams/diagram-20b-extension-life/diagram-20b-extension-life.html"
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "实际执行边界",
+      "items": [
+        "本图为加载状态与绑定阶段映射",
+        "cache 复用 factory，不复用会话上下文"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "阅读边界",
+      "items": [
+        "failed API 不再可用",
+        "不保证清理第三方任意 globals"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "main",
+      "label": "实现中的阶段 / 谓词映射"
+    },
+    {
+      "id": "other",
+      "label": "异常 / 合作取消"
+    }
+  ],
+  "states": [
+    {
+      "id": "discover",
+      "label": "发现路径",
+      "sublabel": "manifest / index / files",
+      "type": "start",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/extensions/loader.ts",
+          "line": 784,
+          "end_line": 818,
+          "label": "function discoverExtensionsInDir("
+        }
+      ],
+      "lane": "main",
+      "col": 0,
+      "width": 180,
+      "height": 84
+    },
+    {
+      "id": "initialize",
+      "label": "Factory 初始化",
+      "sublabel": "registration / pending",
+      "type": "active",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/extensions/loader.ts",
+          "line": 606,
+          "end_line": 640,
+          "label": "async function initializeExtension("
+        }
+      ],
+      "lane": "main",
+      "col": 1,
+      "width": 180,
+      "height": 84
+    },
+    {
+      "id": "bound",
+      "label": "已绑定 / 使用",
+      "sublabel": "session_start / hooks",
+      "type": "active",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 3211,
+          "end_line": 3245,
+          "label": "async bindExtensions("
+        }
+      ],
+      "lane": "main",
+      "col": 2,
+      "width": 180,
+      "height": 84
+    },
+    {
+      "id": "stale",
+      "label": "失效 / 清理",
+      "sublabel": "invalidate / unsubscribe",
+      "type": "success",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/extensions/loader.ts",
+          "line": 192,
+          "end_line": 226,
+          "label": "invalidate: (message)"
+        }
+      ],
+      "lane": "main",
+      "col": 3,
+      "width": 180,
+      "height": 84
+    },
+    {
+      "id": "failed",
+      "label": "Factory 失败",
+      "sublabel": "discard pending",
+      "type": "failure",
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/extensions/loader.ts",
+          "line": 620,
+          "end_line": 654,
+          "label": "load.discard();"
+        }
+      ],
+      "lane": "other",
+      "col": 2,
+      "width": 180,
+      "height": 84
+    }
+  ],
+  "transitions": [
+    {
+      "from": "discover",
+      "to": "initialize",
+      "label": "load"
+    },
+    {
+      "from": "initialize",
+      "to": "bound",
+      "label": "commit / bind"
+    },
+    {
+      "from": "bound",
+      "to": "stale",
+      "label": "reload / replacement"
+    },
+    {
+      "from": "initialize",
+      "to": "failed",
+      "label": "throw"
+    }
+  ]
+}
