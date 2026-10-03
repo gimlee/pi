@@ -1,0 +1,439 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Diagram 2B · 默认 CLI 运行时职责",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": "archify/diagrams/diagram-2b-runtime/diagram-2b-runtime.html",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    }
+  },
+  "components": [
+    {
+      "id": "mode",
+      "type": "frontend",
+      "label": "运行模式 Host",
+      "sublabel": "TUI / print / RPC",
+      "pos": [
+        30,
+        260
+      ],
+      "size": [
+        210,
+        78
+      ],
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/modes/print-mode.ts",
+          "line": 33,
+          "end_line": 118,
+          "label": "绑定与订阅"
+        },
+        {
+          "path": "packages/coding-agent/src/main.ts",
+          "line": 949,
+          "end_line": 998,
+          "label": "模式分发"
+        }
+      ]
+    },
+    {
+      "id": "runtime",
+      "type": "backend",
+      "label": "AgentSessionRuntime",
+      "sublabel": "替换当前 session / services",
+      "pos": [
+        380,
+        260
+      ],
+      "size": [
+        250,
+        78
+      ],
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session-runtime.ts",
+          "line": 74,
+          "end_line": 226,
+          "label": "替换与重绑定"
+        }
+      ]
+    },
+    {
+      "id": "session",
+      "type": "backend",
+      "label": "AgentSession",
+      "sublabel": "编码行为与请求边界",
+      "pos": [
+        770,
+        260
+      ],
+      "size": [
+        230,
+        78
+      ],
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 462,
+          "end_line": 506,
+          "label": "构造与安装 Hook"
+        },
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 1775,
+          "end_line": 1885,
+          "label": "驱动请求并等待 settle"
+        }
+      ]
+    },
+    {
+      "id": "resources",
+      "type": "backend",
+      "label": "DefaultResourceLoader",
+      "sublabel": "扩展、技能、提示与上下文",
+      "pos": [
+        380,
+        30
+      ],
+      "size": [
+        250,
+        78
+      ],
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/resource-loader.ts",
+          "line": 505,
+          "end_line": 550,
+          "label": "资源与信任"
+        }
+      ]
+    },
+    {
+      "id": "settings",
+      "type": "backend",
+      "label": "SettingsManager",
+      "sublabel": "全局 + 受信任项目配置",
+      "pos": [
+        30,
+        30
+      ],
+      "size": [
+        210,
+        78
+      ],
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/settings-manager.ts",
+          "line": 416,
+          "end_line": 516,
+          "label": "文件设置与信任过滤"
+        }
+      ]
+    },
+    {
+      "id": "runner",
+      "type": "backend",
+      "label": "ExtensionRunner",
+      "sublabel": "Hook / command / tool 注册",
+      "pos": [
+        760,
+        30
+      ],
+      "size": [
+        250,
+        78
+      ],
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 3558,
+          "end_line": 3610,
+          "label": "创建 Runner"
+        },
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 3211,
+          "end_line": 3235,
+          "label": "模式绑定与启动事件"
+        }
+      ]
+    },
+    {
+      "id": "agent",
+      "type": "backend",
+      "label": "Agent / runLoop",
+      "sublabel": "单次运行状态与工具循环",
+      "pos": [
+        770,
+        510
+      ],
+      "size": [
+        230,
+        78
+      ],
+      "sources": [
+        {
+          "path": "packages/agent/src/agent.ts",
+          "line": 436,
+          "end_line": 457,
+          "label": "调用 Loop"
+        },
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 163,
+          "end_line": 309,
+          "label": "循环与继续条件"
+        }
+      ]
+    },
+    {
+      "id": "manager",
+      "type": "backend",
+      "label": "SessionManager",
+      "sublabel": "canonical log → projection",
+      "pos": [
+        30,
+        510
+      ],
+      "size": [
+        210,
+        78
+      ],
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/session-manager.ts",
+          "line": 532,
+          "end_line": 583,
+          "label": "投影"
+        },
+        {
+          "path": "packages/coding-agent/src/core/session-manager.ts",
+          "line": 1193,
+          "end_line": 1215,
+          "label": "追加消息"
+        }
+      ]
+    },
+    {
+      "id": "jsonl",
+      "type": "database",
+      "label": "JSONL / 内存",
+      "sublabel": "SessionManager 直接读写",
+      "pos": [
+        30,
+        780
+      ],
+      "size": [
+        210,
+        78
+      ],
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/session-manager.ts",
+          "line": 1165,
+          "end_line": 1202,
+          "label": "延迟首次落盘"
+        },
+        {
+          "path": "packages/coding-agent/src/core/session-manager.ts",
+          "line": 1804,
+          "end_line": 1806,
+          "label": "内存模式"
+        }
+      ]
+    },
+    {
+      "id": "model",
+      "type": "backend",
+      "label": "ModelRuntime",
+      "sublabel": "选择、路由、鉴权与流",
+      "pos": [
+        380,
+        780
+      ],
+      "size": [
+        250,
+        78
+      ],
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/model-runtime.ts",
+          "line": 650,
+          "end_line": 744,
+          "label": "准备请求并分发"
+        },
+        {
+          "path": "packages/coding-agent/src/core/sdk.ts",
+          "line": 387,
+          "end_line": 405,
+          "label": "注入 streamFn"
+        }
+      ]
+    },
+    {
+      "id": "tools",
+      "type": "backend",
+      "label": "AgentTool 实例",
+      "sublabel": "schema / execute / hooks",
+      "pos": [
+        770,
+        780
+      ],
+      "size": [
+        230,
+        78
+      ],
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 3448,
+          "end_line": 3545,
+          "label": "封装与激活工具"
+        },
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 508,
+          "end_line": 522,
+          "label": "选择工具执行方式"
+        }
+      ]
+    },
+    {
+      "id": "provider",
+      "type": "backend",
+      "label": "Provider / API Adapter",
+      "sublabel": "pi-ai 中的协议与模型实现",
+      "pos": [
+        380,
+        1050
+      ],
+      "size": [
+        250,
+        78
+      ],
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/model-runtime.ts",
+          "line": 215,
+          "end_line": 241,
+          "label": "构造 Provider 集合"
+        },
+        {
+          "path": "packages/coding-agent/src/core/model-runtime.ts",
+          "line": 715,
+          "end_line": 739,
+          "label": "调用 Provider.streamSimple"
+        },
+        {
+          "path": "packages/ai/src/providers/anthropic.ts",
+          "line": 80,
+          "end_line": 90,
+          "label": "Provider 工厂示例"
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "mode-runtime",
+      "from": "mode",
+      "to": "runtime",
+      "label": "切换 / dispose",
+      "variant": "default"
+    },
+    {
+      "id": "runtime-session",
+      "from": "runtime",
+      "to": "session",
+      "label": "持有 / 替换",
+      "variant": "default"
+    },
+    {
+      "id": "runtime-resources",
+      "from": "runtime",
+      "to": "resources",
+      "label": "重建 services",
+      "variant": "default"
+    },
+    {
+      "id": "resources-settings",
+      "from": "resources",
+      "to": "settings",
+      "label": "reload",
+      "variant": "default"
+    },
+    {
+      "id": "session-agent",
+      "from": "session",
+      "to": "agent",
+      "label": "prompt / hooks",
+      "variant": "default"
+    },
+    {
+      "id": "session-runner",
+      "from": "session",
+      "to": "runner",
+      "label": "emit / bind",
+      "variant": "default"
+    },
+    {
+      "id": "session-manager",
+      "from": "session",
+      "to": "manager",
+      "label": "append / project",
+      "variant": "default"
+    },
+    {
+      "id": "manager-jsonl",
+      "from": "manager",
+      "to": "jsonl",
+      "label": "读写",
+      "variant": "default"
+    },
+    {
+      "id": "agent-tools",
+      "from": "agent",
+      "to": "tools",
+      "label": "execute",
+      "variant": "default"
+    },
+    {
+      "id": "agent-model",
+      "from": "agent",
+      "to": "model",
+      "label": "streamFn",
+      "variant": "default"
+    },
+    {
+      "id": "model-provider",
+      "from": "model",
+      "to": "provider",
+      "label": "请求分发",
+      "variant": "default"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "对象所有权",
+      "items": [
+        "Host 管理 I/O 与退出；Runtime 管理当前 session 的替换。",
+        "SDK 创建 Agent 与 AgentSession；Session 创建 Runner 与工具。"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "状态与绑定",
+      "items": [
+        "JSONL 保存历史；请求采用当前分支的上下文投影。",
+        "工厂返回 Session 后，Host 绑定扩展并发出 session_start。",
+        "此图展示运行职责，创建先后顺序见 Diagram 2A。"
+      ]
+    }
+  ]
+}

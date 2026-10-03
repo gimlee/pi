@@ -1,0 +1,135 @@
+{
+  "schema_version": 2,
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "Diagram 3C · Pi Agent State Machine（运行谓词映射）",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": "archify/diagrams/diagram-3c-state/diagram-3c-state.html",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    }
+  },
+  "lanes": [
+    {
+      "id": "main",
+      "label": "明确运行状态"
+    },
+    {
+      "id": "cancel",
+      "label": "合作取消状态"
+    }
+  ],
+  "states": [
+    {
+      "id": "idle",
+      "lane": "main",
+      "col": 0,
+      "type": "start",
+      "label": "Idle",
+      "sublabel": "无 activeRun / isStreaming=false",
+      "width": 160,
+      "height": 80,
+      "sources": [
+        {
+          "path": "packages/agent/src/agent.ts",
+          "line": 550,
+          "end_line": 556,
+          "label": "finally 清理"
+        }
+      ]
+    },
+    {
+      "id": "active",
+      "lane": "main",
+      "col": 2,
+      "type": "active",
+      "label": "Active",
+      "sublabel": "有 activeRun / signal 未取消",
+      "width": 160,
+      "height": 80,
+      "sources": [
+        {
+          "path": "packages/agent/src/agent.ts",
+          "line": 507,
+          "end_line": 530,
+          "label": "创建运行"
+        }
+      ]
+    },
+    {
+      "id": "abort_requested",
+      "lane": "cancel",
+      "col": 2,
+      "type": "waiting",
+      "label": "Abort requested",
+      "sublabel": "signal.aborted；仍在运行",
+      "width": 160,
+      "height": 80,
+      "sources": [
+        {
+          "path": "packages/agent/src/agent.ts",
+          "line": 341,
+          "end_line": 349,
+          "label": "取消与等待"
+        },
+        {
+          "path": "packages/agent/src/agent.ts",
+          "line": 507,
+          "end_line": 530,
+          "label": "signal owner"
+        }
+      ]
+    }
+  ],
+  "transitions": [
+    {
+      "from": "idle",
+      "to": "active",
+      "label": "prompt / continue"
+    },
+    {
+      "from": "active",
+      "to": "idle",
+      "label": "finally 清理"
+    },
+    {
+      "from": "active",
+      "to": "abort_requested",
+      "label": "abort()"
+    },
+    {
+      "from": "abort_requested",
+      "to": "idle",
+      "label": "合作退出 / finally"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "violet",
+      "title": "状态解释",
+      "items": [
+        "展示名是源码谓词的映射，不是阶段 enum",
+        "没有虚构 Planning / Reviewing / Approved"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Active 内部数据",
+      "items": [
+        "streamingMessage 随消息事件更新或清空",
+        "pendingToolCalls 随 execution_start/end 增删"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "边界",
+      "items": [
+        "agent_end 监听器完成后才进入 Idle",
+        "Session active 可跨重试，另有 agent_settled"
+      ]
+    }
+  ]
+}

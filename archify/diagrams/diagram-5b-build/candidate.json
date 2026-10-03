@@ -1,0 +1,397 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Diagram 5B · Prompt Build Workflow",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": "archify/diagrams/diagram-5b-build/diagram-5b-build.html",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    }
+  },
+  "lanes": [
+    {
+      "id": "input",
+      "label": "1 · 空闲输入路径"
+    },
+    {
+      "id": "prompt",
+      "label": "2 · 提示与消息装配"
+    },
+    {
+      "id": "request",
+      "label": "3 · 每次请求变换"
+    },
+    {
+      "id": "wire",
+      "label": "4 · Provider / 最终修改 / 发送"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "input_hook",
+      "lane": "input",
+      "col": 2,
+      "yOffset": -170,
+      "label": "input handler",
+      "sublabel": "命令优先；handled 可短路",
+      "type": "backend",
+      "width": 170,
+      "height": 78,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 1921,
+          "end_line": 1960,
+          "label": "输入顺序"
+        }
+      ]
+    },
+    {
+      "id": "expansion",
+      "lane": "input",
+      "col": 2,
+      "yOffset": 0,
+      "label": "Skill / Template",
+      "sublabel": "正文 / 参数展开为 user",
+      "type": "backend",
+      "width": 170,
+      "height": 78,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 1963,
+          "end_line": 1971,
+          "label": "展开调用"
+        },
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 2099,
+          "end_line": 2123,
+          "label": "skill 正文"
+        }
+      ]
+    },
+    {
+      "id": "preflight",
+      "lane": "input",
+      "col": 2,
+      "yOffset": 170,
+      "label": "验证 / 压缩检查",
+      "sublabel": "模型、鉴权、上次响应",
+      "type": "backend",
+      "width": 170,
+      "height": 78,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 1983,
+          "end_line": 2010,
+          "label": "preflight"
+        }
+      ]
+    },
+    {
+      "id": "before_start",
+      "lane": "prompt",
+      "col": 2,
+      "yOffset": -170,
+      "label": "before_agent_start",
+      "sublabel": "options / custom / force",
+      "type": "backend",
+      "width": 170,
+      "height": 78,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/extensions/runner.ts",
+          "line": 1411,
+          "end_line": 1465,
+          "label": "提示修改"
+        }
+      ]
+    },
+    {
+      "id": "messages",
+      "lane": "prompt",
+      "col": 2,
+      "yOffset": 0,
+      "label": "构造输入消息",
+      "sublabel": "user → nextTurn → custom",
+      "type": "backend",
+      "width": 170,
+      "height": 78,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 2029,
+          "end_line": 2057,
+          "label": "消息顺序"
+        }
+      ]
+    },
+    {
+      "id": "patch",
+      "lane": "prompt",
+      "col": 2,
+      "yOffset": 170,
+      "label": "装载 / 系统 patch",
+      "sublabel": "sections diff + tools delta",
+      "type": "backend",
+      "width": 170,
+      "height": 78,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 1689,
+          "end_line": 1705,
+          "label": "prompt diff"
+        },
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 333,
+          "end_line": 365,
+          "label": "tools diff"
+        }
+      ]
+    },
+    {
+      "id": "prepare",
+      "lane": "request",
+      "col": 2,
+      "yOffset": -170,
+      "label": "prepareRequest",
+      "sublabel": "历史投影 / 可选路由",
+      "type": "backend",
+      "width": 170,
+      "height": 78,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 759,
+          "end_line": 818,
+          "label": "请求投影"
+        }
+      ]
+    },
+    {
+      "id": "context",
+      "lane": "request",
+      "col": 2,
+      "yOffset": 0,
+      "label": "context 两阶段",
+      "sublabel": "对话恢复 → 全 transcript",
+      "type": "backend",
+      "width": 170,
+      "height": 78,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/extensions/runner.ts",
+          "line": 1289,
+          "end_line": 1353,
+          "label": "context 顺序"
+        }
+      ]
+    },
+    {
+      "id": "force",
+      "lane": "request",
+      "col": 2,
+      "yOffset": 170,
+      "label": "hidden / forced 投影",
+      "sublabel": "随后 convert → normalize",
+      "type": "backend",
+      "width": 170,
+      "height": 78,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 1720,
+          "end_line": 1760,
+          "label": "声明与 force"
+        },
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 391,
+          "end_line": 411,
+          "label": "转换顺序"
+        }
+      ]
+    },
+    {
+      "id": "build_native",
+      "lane": "wire",
+      "col": 2,
+      "yOffset": -170,
+      "label": "Adapter.buildParams",
+      "sublabel": "按能力 collapse / render",
+      "type": "cloud",
+      "width": 170,
+      "height": 78,
+      "sources": [
+        {
+          "path": "packages/ai/src/api/openai-responses.ts",
+          "line": 305,
+          "end_line": 384,
+          "label": "原生参数"
+        }
+      ]
+    },
+    {
+      "id": "payload",
+      "lane": "wire",
+      "col": 2,
+      "yOffset": 0,
+      "label": "onPayload",
+      "sublabel": "before_provider_request",
+      "type": "backend",
+      "width": 170,
+      "height": 78,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/sdk.ts",
+          "line": 358,
+          "end_line": 363,
+          "label": "最终 hook"
+        },
+        {
+          "path": "packages/coding-agent/src/core/extensions/runner.ts",
+          "line": 1356,
+          "end_line": 1382,
+          "label": "payload 链"
+        }
+      ]
+    },
+    {
+      "id": "send",
+      "lane": "wire",
+      "col": 2,
+      "yOffset": 170,
+      "label": "API 请求",
+      "sublabel": "模型看到最终原生字段",
+      "type": "external",
+      "width": 170,
+      "height": 78,
+      "sources": [
+        {
+          "path": "packages/ai/src/api/openai-responses.ts",
+          "line": 180,
+          "end_line": 204,
+          "label": "API 发送"
+        }
+      ]
+    }
+  ],
+  "mainPath": [
+    "input_hook",
+    "expansion",
+    "preflight",
+    "before_start",
+    "messages",
+    "patch",
+    "prepare",
+    "context",
+    "force",
+    "build_native",
+    "payload",
+    "send"
+  ],
+  "edges": [
+    {
+      "from": "input_hook",
+      "to": "expansion",
+      "label": "未 handled",
+      "role": "main",
+      "variant": "emphasis"
+    },
+    {
+      "from": "expansion",
+      "to": "preflight",
+      "role": "main",
+      "variant": "emphasis"
+    },
+    {
+      "from": "preflight",
+      "to": "before_start",
+      "role": "main",
+      "variant": "emphasis"
+    },
+    {
+      "from": "before_start",
+      "to": "messages",
+      "label": "图片规范化后",
+      "role": "main",
+      "variant": "emphasis"
+    },
+    {
+      "from": "messages",
+      "to": "patch",
+      "role": "main",
+      "variant": "emphasis"
+    },
+    {
+      "from": "patch",
+      "to": "prepare",
+      "role": "main",
+      "variant": "emphasis"
+    },
+    {
+      "from": "prepare",
+      "to": "context",
+      "role": "main",
+      "variant": "emphasis"
+    },
+    {
+      "from": "context",
+      "to": "force",
+      "role": "main",
+      "variant": "emphasis"
+    },
+    {
+      "from": "force",
+      "to": "build_native",
+      "role": "main",
+      "variant": "emphasis"
+    },
+    {
+      "from": "build_native",
+      "to": "payload",
+      "role": "main",
+      "variant": "emphasis"
+    },
+    {
+      "from": "payload",
+      "to": "send",
+      "role": "main",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "请求文字",
+      "items": [
+        "buildSystemPrompt 不是最终网络 payload",
+        "tools schema 与提示 tools 段是两份信息"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "后续 turn",
+      "items": [
+        "prepareNextTurn 刷新 loadout / sections patch",
+        "每个请求仍运行 prepareRequest 和 context"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "入口边界",
+      "items": [
+        "Streaming 输入入 steer / followUp 队列",
+        "本图画空闲普通 prompt，命令可单独处理"
+      ]
+    }
+  ]
+}

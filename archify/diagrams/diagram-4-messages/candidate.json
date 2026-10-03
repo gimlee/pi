@@ -1,0 +1,371 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "Diagram 4 · Message Data Flow",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": "archify/diagrams/diagram-4-messages/diagram-4-messages.html",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "viewBox": [
+      1080,
+      690
+    ]
+  },
+  "stages": [
+    {
+      "label": "输入 / 历史"
+    },
+    {
+      "label": "统一请求视图"
+    },
+    {
+      "label": "Provider 协议"
+    },
+    {
+      "label": "响应归一"
+    },
+    {
+      "label": "状态 / 观察"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "user",
+      "stage": 0,
+      "row": 0,
+      "label": "用户输入",
+      "sublabel": "text / image",
+      "type": "frontend",
+      "width": 146,
+      "height": 76,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 2030,
+          "end_line": 2057,
+          "label": "输入消息"
+        }
+      ]
+    },
+    {
+      "id": "history",
+      "stage": 0,
+      "row": 2,
+      "label": "Session 历史",
+      "sublabel": "system / custom / summaries",
+      "type": "database",
+      "width": 146,
+      "height": 76,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/messages.ts",
+          "line": 164,
+          "end_line": 196,
+          "label": "自定义转换"
+        },
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 1108,
+          "end_line": 1154,
+          "label": "历史记录"
+        }
+      ]
+    },
+    {
+      "id": "canonical",
+      "stage": 1,
+      "row": 0,
+      "label": "Message[]",
+      "sublabel": "投影 → transform → convert",
+      "type": "backend",
+      "width": 146,
+      "height": 76,
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 391,
+          "end_line": 411,
+          "label": "统一消息转换"
+        }
+      ]
+    },
+    {
+      "id": "transcript",
+      "stage": 1,
+      "row": 1,
+      "label": "TranscriptContext",
+      "sublabel": "规范化系统 / 工具声明",
+      "type": "backend",
+      "width": 146,
+      "height": 76,
+      "sources": [
+        {
+          "path": "packages/ai/src/utils/transcript.ts",
+          "line": 29,
+          "end_line": 34,
+          "label": "normalizeContext"
+        }
+      ]
+    },
+    {
+      "id": "wire",
+      "stage": 2,
+      "row": 1,
+      "label": "原生 Request",
+      "sublabel": "system + 对话 + tools",
+      "type": "cloud",
+      "width": 146,
+      "height": 76,
+      "sources": [
+        {
+          "path": "packages/ai/src/api/anthropic-messages.ts",
+          "line": 1124,
+          "end_line": 1203,
+          "label": "Anthropic 请求"
+        },
+        {
+          "path": "packages/ai/src/api/openai-responses-shared.ts",
+          "line": 145,
+          "end_line": 239,
+          "label": "Responses 编码"
+        },
+        {
+          "path": "packages/ai/src/api/google-generative-ai.ts",
+          "line": 373,
+          "end_line": 433,
+          "label": "Google 参数"
+        }
+      ]
+    },
+    {
+      "id": "raw",
+      "stage": 2,
+      "row": 3,
+      "label": "原生响应流",
+      "sublabel": "SSE / SDK events",
+      "type": "external",
+      "width": 146,
+      "height": 76,
+      "sources": [
+        {
+          "path": "packages/ai/src/api/anthropic-messages.ts",
+          "line": 678,
+          "end_line": 715,
+          "label": "SSE 消费"
+        },
+        {
+          "path": "packages/ai/src/api/openai-responses-shared.ts",
+          "line": 637,
+          "end_line": 657,
+          "label": "Responses 流"
+        },
+        {
+          "path": "packages/ai/src/api/google-generative-ai.ts",
+          "line": 114,
+          "end_line": 129,
+          "label": "Google chunk"
+        }
+      ]
+    },
+    {
+      "id": "assistant",
+      "stage": 3,
+      "row": 1,
+      "label": "AssistantMessage",
+      "sublabel": "content / usage / stopReason",
+      "type": "messagebus",
+      "width": 146,
+      "height": 76,
+      "sources": [
+        {
+          "path": "packages/ai/src/types.ts",
+          "line": 547,
+          "end_line": 569,
+          "label": "Assistant 字段"
+        },
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 419,
+          "end_line": 476,
+          "label": "统一流消费"
+        }
+      ]
+    },
+    {
+      "id": "tool",
+      "stage": 4,
+      "row": 2,
+      "label": "工具执行结果",
+      "sublabel": "AgentToolResult",
+      "type": "backend",
+      "width": 146,
+      "height": 76,
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 820,
+          "end_line": 904,
+          "label": "执行及 hooks"
+        }
+      ]
+    },
+    {
+      "id": "result",
+      "stage": 3,
+      "row": 3,
+      "label": "ToolResultMessage",
+      "sublabel": "callId / content / isError",
+      "type": "messagebus",
+      "width": 146,
+      "height": 76,
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 922,
+          "end_line": 940,
+          "label": "结果消息"
+        }
+      ]
+    },
+    {
+      "id": "state",
+      "stage": 4,
+      "row": 0,
+      "label": "Agent / Session",
+      "sublabel": "message_end → 状态和历史",
+      "type": "database",
+      "width": 146,
+      "height": 76,
+      "sources": [
+        {
+          "path": "packages/agent/src/agent.ts",
+          "line": 565,
+          "end_line": 595,
+          "label": "状态 reducer"
+        },
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 1108,
+          "end_line": 1154,
+          "label": "消息持久化"
+        }
+      ]
+    }
+  ],
+  "flows": [
+    {
+      "from": "user",
+      "to": "canonical",
+      "label": "用户消息",
+      "variant": "emphasis",
+      "route": "straight"
+    },
+    {
+      "from": "history",
+      "to": "canonical",
+      "label": "投影视图",
+      "variant": "default"
+    },
+    {
+      "from": "canonical",
+      "to": "transcript",
+      "label": "Message[]",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight",
+      "labelAt": [
+        315,
+        225
+      ]
+    },
+    {
+      "from": "transcript",
+      "to": "wire",
+      "label": "系统 / 对话 / 声明",
+      "variant": "emphasis",
+      "labelAt": [
+        423,
+        233
+      ]
+    },
+    {
+      "from": "wire",
+      "to": "raw",
+      "label": "模型响应",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight",
+      "labelAt": [
+        582,
+        397
+      ]
+    },
+    {
+      "from": "raw",
+      "to": "assistant",
+      "label": "统一流",
+      "variant": "emphasis"
+    },
+    {
+      "from": "assistant",
+      "to": "state",
+      "label": "最终消息",
+      "variant": "emphasis"
+    },
+    {
+      "from": "assistant",
+      "to": "tool",
+      "label": "toolCall",
+      "variant": "emphasis"
+    },
+    {
+      "from": "tool",
+      "to": "result",
+      "label": "可见结果",
+      "variant": "emphasis"
+    },
+    {
+      "from": "result",
+      "to": "history",
+      "label": "追加历史",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "bottom",
+      "route": "bottom-channel",
+      "channelY": 600
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "统一协议",
+      "items": [
+        "role: system / user / assistant / toolResult",
+        "thinking、签名、调用 ID 并非原样跨协议"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "元数据边界",
+      "items": [
+        "details / nestedCalls 不作为输出正文发送",
+        "structuredContent / terminate 不复制到消息"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "重放处理",
+      "items": [
+        "错误 assistant 不重放；孤儿调用补错误结果",
+        "图像不兼容、签名与调用 ID 在请求时处理"
+      ]
+    }
+  ]
+}

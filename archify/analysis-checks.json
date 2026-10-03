@@ -1,0 +1,186 @@
+{
+  "status": "pass",
+  "analysisDate": "2026-10-03",
+  "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+  "reports": 6,
+  "localLinksChecked": 191,
+  "sourceRangesChecked": 140,
+  "sourceFilesChecked": 37,
+  "requiredHeadings": [
+    "Findings",
+    "Evidence",
+    "Key Source Files",
+    "Key Types / Classes",
+    "Key Functions",
+    "Control Flow",
+    "Data Flow",
+    "State",
+    "Design Decisions",
+    "Unknowns",
+    "Archify Diagram",
+    "Follow-up"
+  ],
+  "diagrams": [
+    {
+      "slug": "diagram-0-repository",
+      "type": "architecture",
+      "components": 15,
+      "gates": {
+        "validate": "pass",
+        "deliver": "pass",
+        "check": "pass",
+        "browser-check": "pass"
+      },
+      "candidateSha256": "af2d1861073cb13277809e025b05640758ccc4a9f6903044081fb0ab21a50570",
+      "artifactSha256": "aa2d4db28e4d86c07f3ce85ba5e3dd3f7c590b82782723f8973b1fe8b985fb31",
+      "receipt": "diagrams/diagram-0-repository/review-3/diagram-0-repository.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-0-repository/review-3/diagram-0-repository.browser-check.json",
+      "visualReview": "not-requested",
+      "advisorySignals": {}
+    },
+    {
+      "slug": "diagram-2a-startup",
+      "type": "workflow",
+      "components": 17,
+      "gates": {
+        "validate": "pass",
+        "deliver": "pass",
+        "check": "pass",
+        "browser-check": "pass"
+      },
+      "candidateSha256": "2677d0e7a462e6529267bbb1d88a83e2fbf899d351a8454e20e89711f8dca1b5",
+      "artifactSha256": "604e5deb978ff946454300d32aff0b16ccf90afdae7507d1f18e240462cd7b06",
+      "receipt": "diagrams/diagram-2a-startup/diagram-2a-startup.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-2a-startup/diagram-2a-startup.browser-check.json",
+      "visualReview": "not-requested",
+      "advisorySignals": {
+        "routesOverSuggestedBends": 2,
+        "routesOverSuggestedStretch": 1
+      }
+    },
+    {
+      "slug": "diagram-2b-runtime",
+      "type": "architecture",
+      "components": 12,
+      "gates": {
+        "validate": "pass",
+        "deliver": "pass",
+        "check": "pass",
+        "browser-check": "pass"
+      },
+      "candidateSha256": "c1f0a7858ad29f7e07fe46639f3b7cb35941744d10ae92ce7b6c62d44ea1fdee",
+      "artifactSha256": "1616bde0b18b77fe93413df7b530a565ba45094f21480d3f878484ac6ba4f590",
+      "receipt": "diagrams/diagram-2b-runtime/review-2/diagram-2b-runtime.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-2b-runtime/review-2/diagram-2b-runtime.browser-check.json",
+      "visualReview": "not-requested",
+      "advisorySignals": {}
+    },
+    {
+      "slug": "diagram-3a-runtime",
+      "type": "workflow",
+      "components": 14,
+      "gates": {
+        "validate": "pass",
+        "deliver": "pass",
+        "check": "pass",
+        "browser-check": "pass"
+      },
+      "candidateSha256": "1865f24ac0a566744503d68c02568f24c8af8046c9404dbbe7741e3642635461",
+      "artifactSha256": "e19c79150835261ff21af1466fcce2a8f1f2e454607b7d27125ab58d4ff99ef1",
+      "receipt": "diagrams/diagram-3a-runtime/diagram-3a-runtime.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-3a-runtime/diagram-3a-runtime.browser-check.json",
+      "visualReview": "not-requested",
+      "advisorySignals": {
+        "routesOverSuggestedStretch": 2
+      }
+    },
+    {
+      "slug": "diagram-3b-loop",
+      "type": "lifecycle",
+      "components": 9,
+      "gates": {
+        "validate": "pass",
+        "deliver": "pass",
+        "check": "pass",
+        "browser-check": "pass"
+      },
+      "candidateSha256": "0d0c2b2e43c6cf32fe3a844a99717374e91ca70691877a870cc3ca7461cea1b5",
+      "artifactSha256": "b53cdbcb65552173288347790b5ec47d9aad4113f452c6677e724e00989e1c2e",
+      "receipt": "diagrams/diagram-3b-loop/diagram-3b-loop.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-3b-loop/diagram-3b-loop.browser-check.json",
+      "visualReview": "not-requested",
+      "advisorySignals": {
+        "resolvedCrossovers": 1
+      }
+    },
+    {
+      "slug": "diagram-3c-state",
+      "type": "lifecycle",
+      "components": 3,
+      "gates": {
+        "validate": "pass",
+        "deliver": "pass",
+        "check": "pass",
+        "browser-check": "pass"
+      },
+      "candidateSha256": "188c46bf87b1ae2abbfcd3a310e5e4314415b00b5b293e1a7ec7735657e6e70c",
+      "artifactSha256": "054db9f8aee2e6e7d3eeb898fc83ad87c46dd1a1078e98225884e3a531d27c97",
+      "receipt": "diagrams/diagram-3c-state/diagram-3c-state.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-3c-state/diagram-3c-state.browser-check.json",
+      "visualReview": "not-requested",
+      "advisorySignals": {}
+    },
+    {
+      "slug": "diagram-4-messages",
+      "type": "dataflow",
+      "components": 10,
+      "gates": {
+        "validate": "pass",
+        "deliver": "pass",
+        "check": "pass",
+        "browser-check": "pass"
+      },
+      "candidateSha256": "79999a912ffcc60635ef52b28b134a9bacd675254edafb88efa27ab8472976e7",
+      "artifactSha256": "6ea2bdacad469512608d829ceea486094897af423fd654bedf767953e1b1187c",
+      "receipt": "diagrams/diagram-4-messages/diagram-4-messages.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-4-messages/diagram-4-messages.browser-check.json",
+      "visualReview": "not-requested",
+      "advisorySignals": {}
+    },
+    {
+      "slug": "diagram-5a-composition",
+      "type": "dataflow",
+      "components": 9,
+      "gates": {
+        "validate": "pass",
+        "deliver": "pass",
+        "check": "pass",
+        "browser-check": "pass"
+      },
+      "candidateSha256": "43af37f7c6358c6282edeff46009c961631ddec9ff0aff25ea5089041f803d49",
+      "artifactSha256": "626f6caed0bb09b39f04f2ba0462af5b0f04e723d3c435bc3c2c8a13271db51f",
+      "receipt": "diagrams/diagram-5a-composition/diagram-5a-composition.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-5a-composition/diagram-5a-composition.browser-check.json",
+      "visualReview": "not-requested",
+      "advisorySignals": {}
+    },
+    {
+      "slug": "diagram-5b-build",
+      "type": "workflow",
+      "components": 12,
+      "gates": {
+        "validate": "pass",
+        "deliver": "pass",
+        "check": "pass",
+        "browser-check": "pass"
+      },
+      "candidateSha256": "7b8693882a81326bc369ff1ea74e13573f551bb23addac589dc845f74c0db59b",
+      "artifactSha256": "158bb4506e58875b02d0d299b149aad9428414218594a980460cb134e73887a4",
+      "receipt": "diagrams/diagram-5b-build/diagram-5b-build.finalize-summary.json",
+      "browserReceipt": "diagrams/diagram-5b-build/diagram-5b-build.browser-check.json",
+      "visualReview": "not-requested",
+      "advisorySignals": {}
+    }
+  ],
+  "failures": []
+}

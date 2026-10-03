@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "48c5a724-6631-4cb5-9495-4d8470c95e33",
+  "status": "current",
+  "command": "deliver",
+  "type": "lifecycle",
+  "input": "F:\\github\\pi\\archify\\diagrams\\diagram-3b-loop\\candidate.json",
+  "output": "F:\\github\\pi\\archify\\diagrams\\diagram-3b-loop\\diagram-3b-loop.html",
+  "specification": {
+    "sha256": "0d0c2b2e43c6cf32fe3a844a99717374e91ca70691877a870cc3ca7461cea1b5",
+    "bytes": 6192
+  },
+  "artifact": {
+    "sha256": "b53cdbcb65552173288347790b5ec47d9aad4113f452c6677e724e00989e1c2e",
+    "bytes": 763640
+  }
+}
