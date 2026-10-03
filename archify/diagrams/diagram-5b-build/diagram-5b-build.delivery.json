@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "d60e68e9-98ef-45f9-99ef-16eb277f4ecb",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "F:\\github\\pi\\archify\\diagrams\\diagram-5b-build\\candidate.json",
+  "output": "F:\\github\\pi\\archify\\diagrams\\diagram-5b-build\\diagram-5b-build.html",
+  "specification": {
+    "sha256": "7b8693882a81326bc369ff1ea74e13573f551bb23addac589dc845f74c0db59b",
+    "bytes": 9000
+  },
+  "artifact": {
+    "sha256": "158bb4506e58875b02d0d299b149aad9428414218594a980460cb134e73887a4",
+    "bytes": 762142
+  }
+}

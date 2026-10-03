@@ -1,0 +1,551 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Diagram 2A · Pi Startup Lifecycle",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": "archify/diagrams/diagram-2a-startup/diagram-2a-startup.html",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    }
+  },
+  "lanes": [
+    {
+      "id": "cli_lane",
+      "label": "1 · CLI / 启动配置"
+    },
+    {
+      "id": "services_lane",
+      "label": "2 · 服务 / 资源"
+    },
+    {
+      "id": "assembly_lane",
+      "label": "3 · Session / Agent"
+    },
+    {
+      "id": "host_lane",
+      "label": "4 · 运行模式 / 输入"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "cli",
+      "lane": "cli_lane",
+      "col": 2,
+      "type": "frontend",
+      "label": "cli.ts",
+      "sublabel": "setupCli → main",
+      "width": 150,
+      "height": 72,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/cli.ts",
+          "line": 1,
+          "end_line": 6,
+          "label": "cli.ts"
+        }
+      ],
+      "yOffset": -255
+    },
+    {
+      "id": "boot",
+      "lane": "cli_lane",
+      "col": 2,
+      "type": "backend",
+      "label": "bootstrap",
+      "sublabel": "环境 / 全局配置",
+      "width": 150,
+      "height": 72,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/main.ts",
+          "line": 573,
+          "end_line": 603,
+          "label": "bootstrap"
+        }
+      ],
+      "yOffset": -85
+    },
+    {
+      "id": "args",
+      "lane": "cli_lane",
+      "col": 2,
+      "type": "backend",
+      "label": "parseArgs",
+      "sublabel": "运行模式 / startup 设置",
+      "width": 150,
+      "height": 72,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/main.ts",
+          "line": 629,
+          "end_line": 692,
+          "label": "parseArgs"
+        }
+      ],
+      "yOffset": 85
+    },
+    {
+      "id": "history",
+      "lane": "cli_lane",
+      "col": 2,
+      "type": "database",
+      "label": "SessionManager",
+      "sublabel": "新建 / 恢复 → 实际 cwd",
+      "width": 150,
+      "height": 72,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/main.ts",
+          "line": 693,
+          "end_line": 738,
+          "label": "SessionManager"
+        }
+      ],
+      "yOffset": 255
+    },
+    {
+      "id": "services",
+      "lane": "services_lane",
+      "col": 2,
+      "type": "backend",
+      "label": "createServices",
+      "sublabel": "ModelRuntime / Settings",
+      "width": 150,
+      "height": 72,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session-services.ts",
+          "line": 135,
+          "end_line": 153,
+          "label": "createServices"
+        }
+      ],
+      "yOffset": -255
+    },
+    {
+      "id": "resources",
+      "lane": "services_lane",
+      "col": 2,
+      "type": "security",
+      "label": "资源加载",
+      "sublabel": "pre-trust → 信任 → 项目",
+      "width": 150,
+      "height": 72,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/resource-loader.ts",
+          "line": 505,
+          "end_line": 550,
+          "label": "资源加载"
+        }
+      ],
+      "yOffset": -85
+    },
+    {
+      "id": "registrations",
+      "lane": "services_lane",
+      "col": 2,
+      "type": "backend",
+      "label": "Provider 注册",
+      "sublabel": "pending → refresh 本地",
+      "width": 150,
+      "height": 72,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session-services.ts",
+          "line": 156,
+          "end_line": 197,
+          "label": "Provider 注册"
+        }
+      ],
+      "yOffset": 85
+    },
+    {
+      "id": "select",
+      "lane": "services_lane",
+      "col": 2,
+      "type": "backend",
+      "label": "选择模型 / 工具",
+      "sublabel": "CLI / history / defaults",
+      "width": 150,
+      "height": 72,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/main.ts",
+          "line": 813,
+          "end_line": 850,
+          "label": "选择模型 / 工具"
+        }
+      ],
+      "yOffset": 255
+    },
+    {
+      "id": "agent",
+      "lane": "assembly_lane",
+      "col": 2,
+      "type": "backend",
+      "label": "new Agent",
+      "sublabel": "消息 / streamFn / hooks",
+      "width": 150,
+      "height": 72,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/sdk.ts",
+          "line": 387,
+          "end_line": 414,
+          "label": "new Agent"
+        }
+      ],
+      "yOffset": -255
+    },
+    {
+      "id": "session",
+      "lane": "assembly_lane",
+      "col": 2,
+      "type": "backend",
+      "label": "new AgentSession",
+      "sublabel": "工具 / Runner / Prompt",
+      "width": 150,
+      "height": 72,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/sdk.ts",
+          "line": 437,
+          "end_line": 455,
+          "label": "new AgentSession"
+        }
+      ],
+      "yOffset": -85
+    },
+    {
+      "id": "runtime",
+      "lane": "assembly_lane",
+      "col": 2,
+      "type": "backend",
+      "label": "Runtime 持有",
+      "sublabel": "factory 返回后包装",
+      "width": 150,
+      "height": 72,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session-runtime.ts",
+          "line": 420,
+          "end_line": 440,
+          "label": "Runtime 持有"
+        }
+      ],
+      "yOffset": 85
+    },
+    {
+      "id": "dispatch",
+      "lane": "assembly_lane",
+      "col": 2,
+      "type": "frontend",
+      "label": "模式分发",
+      "sublabel": "TUI / print / RPC",
+      "width": 150,
+      "height": 72,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/main.ts",
+          "line": 949,
+          "end_line": 998,
+          "label": "模式分发"
+        }
+      ],
+      "yOffset": 255
+    },
+    {
+      "id": "bind",
+      "lane": "host_lane",
+      "col": 2,
+      "type": "backend",
+      "label": "bindExtensions",
+      "sublabel": "session_start / resources",
+      "width": 150,
+      "height": 72,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 3211,
+          "end_line": 3258,
+          "label": "bindExtensions"
+        }
+      ],
+      "yOffset": -85
+    },
+    {
+      "id": "input",
+      "lane": "host_lane",
+      "col": 2,
+      "type": "frontend",
+      "label": "接收输入",
+      "sublabel": "prompt → Agent Loop",
+      "width": 150,
+      "height": 72,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/modes/print-mode.ts",
+          "line": 135,
+          "end_line": 141,
+          "label": "接收输入"
+        }
+      ],
+      "yOffset": 85
+    },
+    {
+      "id": "early",
+      "lane": "cli_lane",
+      "col": 4,
+      "type": "external",
+      "label": "短路命令",
+      "sublabel": "auth / package / version",
+      "width": 150,
+      "height": 72,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/main.ts",
+          "line": 582,
+          "end_line": 650,
+          "label": "短路命令"
+        }
+      ],
+      "yOffset": 0
+    },
+    {
+      "id": "metadata",
+      "lane": "assembly_lane",
+      "col": 4,
+      "type": "external",
+      "label": "元数据出口",
+      "sublabel": "help / list-models",
+      "width": 150,
+      "height": 72,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/main.ts",
+          "line": 873,
+          "end_line": 900,
+          "label": "元数据出口"
+        }
+      ],
+      "yOffset": 85
+    },
+    {
+      "id": "error",
+      "lane": "host_lane",
+      "col": 4,
+      "type": "external",
+      "label": "启动失败",
+      "sublabel": "诊断错误 / 缺少模型",
+      "width": 150,
+      "height": 72,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/main.ts",
+          "line": 914,
+          "end_line": 934,
+          "label": "启动失败"
+        }
+      ],
+      "yOffset": -85
+    }
+  ],
+  "edges": [
+    {
+      "id": "cli-boot",
+      "from": "cli",
+      "to": "boot",
+      "label": "",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "boot-args",
+      "from": "boot",
+      "to": "args",
+      "label": "",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "args-history",
+      "from": "args",
+      "to": "history",
+      "label": "",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "history-services",
+      "from": "history",
+      "to": "services",
+      "label": "",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "services-resources",
+      "from": "services",
+      "to": "resources",
+      "label": "",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "resources-registrations",
+      "from": "resources",
+      "to": "registrations",
+      "label": "",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "registrations-select",
+      "from": "registrations",
+      "to": "select",
+      "label": "",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "select-agent",
+      "from": "select",
+      "to": "agent",
+      "label": "",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "agent-session",
+      "from": "agent",
+      "to": "session",
+      "label": "",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "session-runtime",
+      "from": "session",
+      "to": "runtime",
+      "label": "",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "runtime-dispatch",
+      "from": "runtime",
+      "to": "dispatch",
+      "label": "",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "dispatch-bind",
+      "from": "dispatch",
+      "to": "bind",
+      "label": "",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "bind-input",
+      "from": "bind",
+      "to": "input",
+      "label": "",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "boot-early",
+      "from": "boot",
+      "to": "early",
+      "label": "匹配命令",
+      "variant": "dashed",
+      "role": "branch",
+      "fromSide": "right",
+      "toSide": "top"
+    },
+    {
+      "id": "args-early",
+      "from": "args",
+      "to": "early",
+      "label": "version / export",
+      "variant": "dashed",
+      "role": "branch",
+      "fromSide": "right",
+      "toSide": "bottom"
+    },
+    {
+      "id": "runtime-metadata",
+      "from": "runtime",
+      "to": "metadata",
+      "label": "metadata 请求",
+      "variant": "dashed",
+      "role": "branch",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "runtime-error",
+      "from": "runtime",
+      "to": "error",
+      "label": "启动诊断失败",
+      "variant": "security",
+      "role": "error"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "真实次序",
+      "items": [
+        "SessionManager 先确定 cwd，随后创建 services 与编码 Session。",
+        "SDK 先创建 Agent，AgentSession 构造时创建工具及 ExtensionRunner。"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "边界条件",
+      "items": [
+        "普通 CLI 主路径；SDK 与开发 client/server 入口见报告。",
+        "help / list-models 也加载服务和扩展，之后返回。",
+        "TUI 在 bindExtensions 前启动渲染；MCP session_start 可异步连接。",
+        "Startup Lifecycle 使用 workflow 图型表示执行顺序，不伪造状态机。"
+      ]
+    }
+  ],
+  "mainPath": [
+    "cli",
+    "boot",
+    "args",
+    "history",
+    "services",
+    "resources",
+    "registrations",
+    "select",
+    "agent",
+    "session",
+    "runtime",
+    "dispatch",
+    "bind",
+    "input"
+  ]
+}

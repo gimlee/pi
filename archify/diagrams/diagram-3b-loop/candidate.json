@@ -1,0 +1,285 @@
+{
+  "schema_version": 2,
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "Diagram 3B · Pi Agent Loop Lifecycle",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": "archify/diagrams/diagram-3b-loop/diagram-3b-loop.html",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    }
+  },
+  "lanes": [
+    {
+      "id": "main",
+      "label": "一次 turn 的主路径"
+    },
+    {
+      "id": "branches",
+      "label": "调用 / 错误分支"
+    },
+    {
+      "id": "continuation",
+      "label": "下一 turn 准备"
+    },
+    {
+      "id": "terminal",
+      "label": "底层 run 结束"
+    }
+  ],
+  "states": [
+    {
+      "id": "enter",
+      "lane": "main",
+      "col": 0,
+      "type": "start",
+      "label": "进入循环",
+      "sublabel": "agent_start / turn_start",
+      "width": 160,
+      "height": 80,
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 102,
+          "end_line": 151,
+          "label": "循环入口"
+        }
+      ]
+    },
+    {
+      "id": "prepare",
+      "lane": "main",
+      "col": 1,
+      "type": "active",
+      "label": "请求准备",
+      "sublabel": "工具差分 / prepareRequest",
+      "width": 160,
+      "height": 80,
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 211,
+          "end_line": 240,
+          "label": "请求准备"
+        }
+      ]
+    },
+    {
+      "id": "stream",
+      "lane": "main",
+      "col": 2,
+      "type": "active",
+      "label": "模型响应",
+      "sublabel": "transform → streamFn",
+      "width": 160,
+      "height": 80,
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 381,
+          "end_line": 476,
+          "label": "模型流"
+        }
+      ]
+    },
+    {
+      "id": "dispatch",
+      "lane": "main",
+      "col": 3,
+      "type": "decision",
+      "label": "检查最终消息",
+      "sublabel": "stopReason / toolCall 内容",
+      "width": 160,
+      "height": 80,
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 244,
+          "end_line": 265,
+          "label": "响应分派"
+        }
+      ]
+    },
+    {
+      "id": "boundary",
+      "lane": "main",
+      "col": 4,
+      "type": "decision",
+      "label": "turn 完成边界",
+      "sublabel": "finishTurn / steer / followUp",
+      "width": 160,
+      "height": 80,
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 282,
+          "end_line": 324,
+          "label": "完成和继续"
+        }
+      ]
+    },
+    {
+      "id": "tool_batch",
+      "lane": "branches",
+      "col": 3,
+      "type": "active",
+      "label": "工具 / 结果",
+      "sublabel": "length 不执行；批次回灌",
+      "width": 160,
+      "height": 80,
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 266,
+          "end_line": 279,
+          "label": "工具结果"
+        },
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 508,
+          "end_line": 681,
+          "label": "工具批次"
+        }
+      ]
+    },
+    {
+      "id": "error_exit",
+      "lane": "branches",
+      "col": 2,
+      "type": "failure",
+      "label": "错误 / 取消",
+      "sublabel": "error / aborted 强制结束",
+      "width": 160,
+      "height": 80,
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 246,
+          "end_line": 257,
+          "label": "低层错误退出"
+        }
+      ]
+    },
+    {
+      "id": "next",
+      "lane": "continuation",
+      "col": 1,
+      "type": "active",
+      "label": "prepareNextTurn",
+      "sublabel": "替换 context / 注入更新",
+      "width": 160,
+      "height": 80,
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 185,
+          "end_line": 209,
+          "label": "下一 turn"
+        }
+      ]
+    },
+    {
+      "id": "ended",
+      "lane": "terminal",
+      "col": 4,
+      "type": "neutral",
+      "label": "agent_end",
+      "sublabel": "没有后续低层事件",
+      "width": 160,
+      "height": 80,
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 300,
+          "end_line": 331,
+          "label": "终止事件"
+        }
+      ]
+    }
+  ],
+  "transitions": [
+    {
+      "from": "enter",
+      "to": "prepare"
+    },
+    {
+      "from": "prepare",
+      "to": "stream"
+    },
+    {
+      "from": "stream",
+      "to": "dispatch"
+    },
+    {
+      "from": "dispatch",
+      "to": "boundary",
+      "label": "无调用"
+    },
+    {
+      "from": "dispatch",
+      "to": "tool_batch",
+      "label": "有调用"
+    },
+    {
+      "from": "tool_batch",
+      "to": "boundary",
+      "label": "结果"
+    },
+    {
+      "from": "dispatch",
+      "to": "error_exit",
+      "label": "error / aborted",
+      "variant": "security"
+    },
+    {
+      "from": "error_exit",
+      "to": "ended",
+      "variant": "security"
+    },
+    {
+      "from": "boundary",
+      "to": "next",
+      "label": "继续",
+      "variant": "dashed"
+    },
+    {
+      "from": "next",
+      "to": "prepare",
+      "variant": "dashed"
+    },
+    {
+      "from": "boundary",
+      "to": "ended",
+      "label": "无继续 / end"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "继续来源",
+      "items": [
+        "工具批次未全 terminate，或 steering",
+        "followUp 或 finishTurn continue 可续轮"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "失败行为",
+      "items": [
+        "工具错误是 toolResult，通常再请求模型",
+        "assistant error / aborted 的继续决策被忽略"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "限制",
+      "items": [
+        "没有默认 maxTurns 或整次 run token 预算",
+        "agent_end 不表示 Session 已经 settled"
+      ]
+    }
+  ]
+}

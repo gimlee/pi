@@ -1,0 +1,328 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "Diagram 5A · Prompt Composition Data Flow",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": "archify/diagrams/diagram-5a-composition/diagram-5a-composition.html",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    },
+    "viewBox": [
+      1080,
+      690
+    ]
+  },
+  "stages": [
+    {
+      "label": "资源 / 配置"
+    },
+    {
+      "label": "系统状态装配"
+    },
+    {
+      "label": "消息 / 声明"
+    },
+    {
+      "label": "每请求视图"
+    },
+    {
+      "label": "实际 Payload"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "resources",
+      "stage": 0,
+      "row": 0,
+      "label": "Prompt 资源",
+      "sublabel": "SYSTEM / APPEND / AGENTS",
+      "type": "database",
+      "width": 146,
+      "height": 76,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/resource-loader.ts",
+          "line": 631,
+          "end_line": 666,
+          "label": "提示资源"
+        },
+        {
+          "path": "packages/coding-agent/src/core/resource-loader.ts",
+          "line": 233,
+          "end_line": 270,
+          "label": "项目规则顺序"
+        }
+      ]
+    },
+    {
+      "id": "loadout",
+      "stage": 0,
+      "row": 2,
+      "label": "工具 / cwd / skills",
+      "sublabel": "说明、规则、能力目录",
+      "type": "backend",
+      "width": 146,
+      "height": 76,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 1649,
+          "end_line": 1681,
+          "label": "基线选项"
+        }
+      ]
+    },
+    {
+      "id": "options",
+      "stage": 1,
+      "row": 1,
+      "label": "Prompt Options",
+      "sublabel": "before_agent_start 修改",
+      "type": "backend",
+      "width": 146,
+      "height": 76,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/extensions/runner.ts",
+          "line": 1411,
+          "end_line": 1465,
+          "label": "前置 prompt hook"
+        }
+      ]
+    },
+    {
+      "id": "sections",
+      "stage": 2,
+      "row": 0,
+      "label": "Ordered Sections",
+      "sublabel": "preamble → … → cwd",
+      "type": "messagebus",
+      "width": 146,
+      "height": 76,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/system-prompt.ts",
+          "line": 118,
+          "end_line": 176,
+          "label": "段落顺序"
+        },
+        {
+          "path": "packages/coding-agent/src/core/system-prompt.ts",
+          "line": 204,
+          "end_line": 216,
+          "label": "段落差分"
+        }
+      ]
+    },
+    {
+      "id": "tools",
+      "stage": 2,
+      "row": 2,
+      "label": "Tool Declarations",
+      "sublabel": "toolsAdded / toolsRemoved",
+      "type": "messagebus",
+      "width": 146,
+      "height": 76,
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 333,
+          "end_line": 365,
+          "label": "工具声明差分"
+        }
+      ]
+    },
+    {
+      "id": "conversation",
+      "stage": 2,
+      "row": 3,
+      "label": "Conversation",
+      "sublabel": "user / assistant / result",
+      "type": "database",
+      "width": 146,
+      "height": 76,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/messages.ts",
+          "line": 164,
+          "end_line": 196,
+          "label": "消息转换"
+        }
+      ]
+    },
+    {
+      "id": "projection",
+      "stage": 3,
+      "row": 1,
+      "label": "Request Projection",
+      "sublabel": "context hooks / hidden / force",
+      "type": "backend",
+      "width": 146,
+      "height": 76,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/extensions/runner.ts",
+          "line": 1289,
+          "end_line": 1353,
+          "label": "context 两阶段"
+        },
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 1720,
+          "end_line": 1760,
+          "label": "隐藏和强制投影"
+        }
+      ]
+    },
+    {
+      "id": "native",
+      "stage": 4,
+      "row": 1,
+      "label": "Provider Payload",
+      "sublabel": "system + 对话 + tool schema",
+      "type": "cloud",
+      "width": 146,
+      "height": 76,
+      "sources": [
+        {
+          "path": "packages/ai/src/api/anthropic-messages.ts",
+          "line": 1124,
+          "end_line": 1257,
+          "label": "Anthropic buildParams"
+        },
+        {
+          "path": "packages/ai/src/api/openai-responses-shared.ts",
+          "line": 145,
+          "end_line": 239,
+          "label": "Responses input"
+        },
+        {
+          "path": "packages/ai/src/api/google-generative-ai.ts",
+          "line": 373,
+          "end_line": 433,
+          "label": "Google buildParams"
+        }
+      ]
+    },
+    {
+      "id": "payload_hook",
+      "stage": 4,
+      "row": 3,
+      "label": "onPayload → API",
+      "sublabel": "before_provider_request",
+      "type": "external",
+      "width": 146,
+      "height": 76,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/sdk.ts",
+          "line": 358,
+          "end_line": 363,
+          "label": "最终 payload hook"
+        },
+        {
+          "path": "packages/ai/src/api/openai-responses.ts",
+          "line": 180,
+          "end_line": 204,
+          "label": "发送请求"
+        }
+      ]
+    }
+  ],
+  "flows": [
+    {
+      "from": "resources",
+      "to": "options",
+      "label": "加载内容",
+      "variant": "emphasis"
+    },
+    {
+      "from": "loadout",
+      "to": "options",
+      "label": "说明 / cwd",
+      "variant": "emphasis"
+    },
+    {
+      "from": "options",
+      "to": "sections",
+      "label": "desired sections",
+      "variant": "emphasis"
+    },
+    {
+      "from": "sections",
+      "to": "projection",
+      "label": "系统 patch",
+      "variant": "emphasis"
+    },
+    {
+      "from": "tools",
+      "to": "projection",
+      "label": "工具接口",
+      "variant": "emphasis",
+      "labelAt": [
+        600,
+        340
+      ]
+    },
+    {
+      "from": "conversation",
+      "to": "projection",
+      "label": "消息视图",
+      "variant": "default",
+      "labelAt": [600, 455]
+    },
+    {
+      "from": "projection",
+      "to": "native",
+      "label": "统一 Transcript",
+      "variant": "emphasis",
+      "labelAt": [
+        853,
+        233
+      ]
+    },
+    {
+      "from": "native",
+      "to": "payload_hook",
+      "label": "原生字段",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight",
+      "labelAt": [
+        1015,
+        397
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "顺序",
+      "items": [
+        "默认：preamble / tools / rules / docs",
+        "再 addendum / project_context / skills / cwd"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "两种替换",
+      "items": [
+        "customPrompt 替默认前缀，附加段仍可存在",
+        "forceSystemPrompt 替完整文字；保留工具声明"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Provider 差异",
+      "items": [
+        "通用 builder 没有 Claude / GPT / Gemini 分支",
+        "OAuth 身份前缀、角色和 native 更新在 adapter"
+      ]
+    }
+  ]
+}

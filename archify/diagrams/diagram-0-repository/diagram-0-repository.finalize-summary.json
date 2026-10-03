@@ -1,0 +1,183 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "architecture",
+  "quality": "showcase",
+  "specification": {
+    "path": "F:\\github\\pi\\archify\\diagrams\\diagram-0-repository\\candidate.json",
+    "sha256": "f82cf2ec2451bbbf138866bad620e8b515093daf69204c0cdfe2210d72f51322",
+    "bytes": 10400
+  },
+  "artifact": {
+    "path": "F:\\github\\pi\\archify\\diagrams\\diagram-0-repository\\diagram-0-repository.html",
+    "sha256": "0f65f7c7e37f0aa32b370ccbf00f569a54e050cbe8612af247229005fc1b73f0",
+    "bytes": 774013
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "F:\\github\\pi\\archify\\diagrams\\diagram-0-repository\\diagram-0-repository.finalize.json",
+    "summaryReceipt": "F:\\github\\pi\\archify\\diagrams\\diagram-0-repository\\diagram-0-repository.finalize-summary.json",
+    "browserCheckReceipt": "F:\\github\\pi\\archify\\diagrams\\diagram-0-repository\\diagram-0-repository.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.0.1",
+    "availableVersion": "3.0.1",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-02T18:25:19.682Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 4229,
+  "visualReviewRecommendation": {
+    "action": "inspect-route-readability",
+    "signals": {
+      "resolvedCrossovers": 4,
+      "routesOverSuggestedBends": 2
+    },
+    "reason": "Automated gates passed, but crossings or detours still need perceptual review before claiming visual quality.",
+    "affectedRoutes": {
+      "crossings": [
+        {
+          "left": {
+            "id": "entry-session",
+            "from": "entry",
+            "to": "session",
+            "label": "使用",
+            "collectionIndex": 0,
+            "artifactIndex": 1
+          },
+          "right": {
+            "id": "resources-mcp",
+            "from": "resources",
+            "to": "mcp",
+            "label": "内置扩展",
+            "collectionIndex": 7,
+            "artifactIndex": 8
+          },
+          "point": [
+            365.6000000000001,
+            272
+          ]
+        },
+        {
+          "left": {
+            "id": "session-agent",
+            "from": "session",
+            "to": "agent",
+            "label": "驱动",
+            "collectionIndex": 1,
+            "artifactIndex": 2
+          },
+          "right": {
+            "id": "resources-codemode",
+            "from": "resources",
+            "to": "codemode",
+            "label": "内置扩展",
+            "collectionIndex": 8,
+            "artifactIndex": 9
+          },
+          "point": [
+            660,
+            279
+          ]
+        },
+        {
+          "left": {
+            "id": "session-store",
+            "from": "session",
+            "to": "store",
+            "label": "append / project",
+            "collectionIndex": 6,
+            "artifactIndex": 7
+          },
+          "right": {
+            "id": "resources-mcp",
+            "from": "resources",
+            "to": "mcp",
+            "label": "内置扩展",
+            "collectionIndex": 7,
+            "artifactIndex": 8
+          },
+          "point": [
+            365.6,
+            286
+          ]
+        },
+        {
+          "left": {
+            "id": "remote-chord",
+            "from": "remote",
+            "to": "chord",
+            "label": "包依赖",
+            "collectionIndex": 10,
+            "artifactIndex": 11
+          },
+          "right": {
+            "id": "evals-session",
+            "from": "evals",
+            "to": "session",
+            "label": "评估依赖",
+            "collectionIndex": 12,
+            "artifactIndex": 13
+          },
+          "point": [
+            440.6000000000001,
+            1089
+          ]
+        }
+      ],
+      "detours": [
+        {
+          "relationship": {
+            "id": "resources-mcp",
+            "from": "resources",
+            "to": "mcp",
+            "label": "内置扩展",
+            "collectionIndex": 7,
+            "artifactIndex": 8
+          },
+          "bends": 4,
+          "stretch": 1
+        },
+        {
+          "relationship": {
+            "id": "evals-session",
+            "from": "evals",
+            "to": "session",
+            "label": "评估依赖",
+            "collectionIndex": 12,
+            "artifactIndex": 13
+          },
+          "bends": 6,
+          "stretch": 1.082
+        }
+      ],
+      "truncated": false
+    },
+    "hints": [
+      "entry → session crosses resources → mcp: move the node of whichever is a branch, return, or second entrance to the other side of the main path, so that relationship runs through an empty corridor.",
+      "session → agent crosses resources → codemode: move the node of whichever is a branch, return, or second entrance to the other side of the main path, so that relationship runs through an empty corridor.",
+      "session → store crosses resources → mcp: move the node of whichever is a branch, return, or second entrance to the other side of the main path, so that relationship runs through an empty corridor.",
+      "remote → chord crosses evals → session: move the node of whichever is a branch, return, or second entrance to the other side of the main path, so that relationship runs through an empty corridor.",
+      "resources → mcp needs 4 bends: move node resources or mcp so they share a row or column with matching centers, or sit diagonally with a clear corner.",
+      "evals → session needs 6 bends: move node evals or session so they share a row or column with matching centers, or sit diagonally with a clear corner."
+    ],
+    "repair": "Trace these relationships at the desktop viewport. For Architecture, use references/architecture-layout-repair.md: reflow a blocked main path or tangled connected scene, and repair an isolated defect locally only when the surrounding composition is accepted. Preserve all semantic content and user-fixed geometry. Rerun finalize once after the edit."
+  }
+}

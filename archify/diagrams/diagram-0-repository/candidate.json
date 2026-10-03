@@ -1,0 +1,495 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Diagram 0 · Pi 仓库一级模块",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": "archify/diagrams/diagram-0-repository/diagram-0-repository.html",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    }
+  },
+  "components": [
+    {
+      "id": "entry",
+      "type": "frontend",
+      "label": "CLI / 运行模式",
+      "sublabel": "main → TUI / print / RPC",
+      "pos": [
+        30,
+        650
+      ],
+      "size": [
+        220,
+        78
+      ],
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/main.ts",
+          "line": 949,
+          "end_line": 998,
+          "label": "运行模式分发"
+        }
+      ]
+    },
+    {
+      "id": "session",
+      "type": "backend",
+      "label": "Coding Agent Harness",
+      "sublabel": "AgentSession + Runtime + SDK",
+      "pos": [
+        390,
+        650
+      ],
+      "size": [
+        220,
+        78
+      ],
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/sdk.ts",
+          "line": 387,
+          "end_line": 455,
+          "label": "组装 Agent 与 Session"
+        }
+      ]
+    },
+    {
+      "id": "agent",
+      "type": "backend",
+      "label": "pi-agent-core",
+      "sublabel": "通用 Agent / Tool Loop",
+      "pos": [
+        750,
+        650
+      ],
+      "size": [
+        220,
+        78
+      ],
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 163,
+          "end_line": 309,
+          "label": "实际 Agent 循环"
+        }
+      ]
+    },
+    {
+      "id": "ai",
+      "type": "backend",
+      "label": "模型 / Provider",
+      "sublabel": "ModelRuntime + pi-ai",
+      "pos": [
+        750,
+        880
+      ],
+      "size": [
+        220,
+        78
+      ],
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/model-runtime.ts",
+          "line": 715,
+          "end_line": 744,
+          "label": "模型请求分发"
+        }
+      ]
+    },
+    {
+      "id": "tui",
+      "type": "frontend",
+      "label": "pi-tui",
+      "sublabel": "终端渲染库",
+      "pos": [
+        30,
+        440
+      ],
+      "size": [
+        220,
+        78
+      ],
+      "sources": [
+        {
+          "path": "packages/tui/src/index.ts",
+          "line": 111,
+          "end_line": 176,
+          "label": "TUI 公共入口"
+        }
+      ]
+    },
+    {
+      "id": "resources",
+      "type": "backend",
+      "label": "资源 / Extensions",
+      "sublabel": "信任过滤后加载与注册",
+      "pos": [
+        390,
+        240
+      ],
+      "size": [
+        220,
+        78
+      ],
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/resource-loader.ts",
+          "line": 505,
+          "end_line": 550,
+          "label": "信任与资源加载"
+        }
+      ]
+    },
+    {
+      "id": "mcp",
+      "type": "backend",
+      "label": "pi-mcp",
+      "sublabel": "MCP Client / transports",
+      "pos": [
+        30,
+        240
+      ],
+      "size": [
+        220,
+        78
+      ],
+      "sources": [
+        {
+          "path": "packages/mcp/src/index.ts",
+          "line": 1,
+          "end_line": 71,
+          "label": "MCP 客户端导出"
+        },
+        {
+          "path": "packages/coding-agent/src/extensions/mcp/index.ts",
+          "line": 960,
+          "end_line": 997,
+          "label": "会话启动异步连接"
+        }
+      ]
+    },
+    {
+      "id": "codemode",
+      "type": "backend",
+      "label": "pi-codemode",
+      "sublabel": "QuickJS 脚本工具沙箱",
+      "pos": [
+        750,
+        240
+      ],
+      "size": [
+        220,
+        78
+      ],
+      "sources": [
+        {
+          "path": "packages/codemode/src/index.ts",
+          "line": 1,
+          "end_line": 37,
+          "label": "脚本沙箱公共入口"
+        }
+      ]
+    },
+    {
+      "id": "tools",
+      "type": "backend",
+      "label": "内置工具",
+      "sublabel": "8 种可注册；默认启用 4 种",
+      "pos": [
+        390,
+        880
+      ],
+      "size": [
+        220,
+        78
+      ],
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/tools/index.ts",
+          "line": 182,
+          "end_line": 193,
+          "label": "工具定义工厂"
+        },
+        {
+          "path": "packages/coding-agent/src/core/settings-manager.ts",
+          "line": 215,
+          "end_line": 215,
+          "label": "默认工具"
+        }
+      ]
+    },
+    {
+      "id": "store",
+      "type": "database",
+      "label": "SessionManager / JSONL",
+      "sublabel": "分支历史与上下文投影",
+      "pos": [
+        30,
+        880
+      ],
+      "size": [
+        220,
+        78
+      ],
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/session-manager.ts",
+          "line": 1165,
+          "end_line": 1215,
+          "label": "对话持久化写入"
+        }
+      ]
+    },
+    {
+      "id": "telemetry",
+      "type": "backend",
+      "label": "pi-telemetry",
+      "sublabel": "pi-ai 的遥测依赖",
+      "pos": [
+        750,
+        1140
+      ],
+      "size": [
+        220,
+        78
+      ],
+      "sources": [
+        {
+          "path": "packages/ai/package.json",
+          "line": 1,
+          "end_line": 106,
+          "label": "直接依赖声明"
+        },
+        {
+          "path": "packages/telemetry/package.json",
+          "line": 1,
+          "end_line": 47,
+          "label": "独立遥测包"
+        }
+      ]
+    },
+    {
+      "id": "remote",
+      "type": "backend",
+      "label": "client / server / protocol",
+      "sublabel": "开发入口：远程运行通道",
+      "pos": [
+        30,
+        1410
+      ],
+      "size": [
+        300,
+        78
+      ],
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/experimental/commands.ts",
+          "line": 1,
+          "end_line": 98,
+          "label": "开发命令入口"
+        },
+        {
+          "path": "packages/client/src/index.ts",
+          "line": 1,
+          "end_line": 12,
+          "label": "Client 公共 API"
+        },
+        {
+          "path": "packages/protocol/src/index.ts",
+          "line": 1,
+          "end_line": 22,
+          "label": "协议导出"
+        }
+      ]
+    },
+    {
+      "id": "chord",
+      "type": "backend",
+      "label": "Chord",
+      "sublabel": "Facet / Service 组合运行时",
+      "pos": [
+        450,
+        1410
+      ],
+      "size": [
+        250,
+        78
+      ],
+      "sources": [
+        {
+          "path": "packages/chord/src/index.ts",
+          "line": 1,
+          "end_line": 85,
+          "label": "独立组合运行时"
+        }
+      ]
+    },
+    {
+      "id": "durable",
+      "type": "backend",
+      "label": "pi-durable",
+      "sublabel": "独立 Harness / Task / Storage",
+      "pos": [
+        830,
+        1410
+      ],
+      "size": [
+        280,
+        78
+      ],
+      "sources": [
+        {
+          "path": "packages/durable/src/index.ts",
+          "line": 1,
+          "end_line": 40,
+          "label": "独立持久化 Harness"
+        },
+        {
+          "path": "packages/durable/package.json",
+          "line": 1,
+          "end_line": 75,
+          "label": "包依赖与存储导出"
+        }
+      ]
+    },
+    {
+      "id": "evals",
+      "type": "backend",
+      "label": "pi-evals",
+      "sublabel": "测试 / 评估入口",
+      "pos": [
+        750,
+        440
+      ],
+      "size": [
+        300,
+        78
+      ],
+      "sources": [
+        {
+          "path": "packages/evals/package.json",
+          "line": 1,
+          "end_line": 23,
+          "label": "评估工作区脚本"
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "entry-session",
+      "from": "entry",
+      "to": "session",
+      "label": "使用",
+      "variant": "default"
+    },
+    {
+      "id": "session-agent",
+      "from": "session",
+      "to": "agent",
+      "label": "驱动",
+      "variant": "default"
+    },
+    {
+      "id": "agent-ai",
+      "from": "agent",
+      "to": "ai",
+      "label": "streamFn",
+      "variant": "default"
+    },
+    {
+      "id": "entry-tui",
+      "from": "entry",
+      "to": "tui",
+      "label": "交互模式",
+      "variant": "default"
+    },
+    {
+      "id": "session-resources",
+      "from": "session",
+      "to": "resources",
+      "label": "加载结果",
+      "variant": "default"
+    },
+    {
+      "id": "session-tools",
+      "from": "session",
+      "to": "tools",
+      "label": "注册工具",
+      "variant": "default"
+    },
+    {
+      "id": "session-store",
+      "from": "session",
+      "to": "store",
+      "label": "append / project",
+      "variant": "default"
+    },
+    {
+      "id": "resources-mcp",
+      "from": "resources",
+      "to": "mcp",
+      "label": "内置扩展",
+      "variant": "default"
+    },
+    {
+      "id": "resources-codemode",
+      "from": "resources",
+      "to": "codemode",
+      "label": "内置扩展",
+      "variant": "default"
+    },
+    {
+      "id": "ai-telemetry",
+      "from": "ai",
+      "to": "telemetry",
+      "label": "包依赖",
+      "variant": "dashed"
+    },
+    {
+      "id": "remote-chord",
+      "from": "remote",
+      "to": "chord",
+      "label": "包依赖",
+      "variant": "dashed"
+    },
+    {
+      "id": "durable-chord",
+      "from": "durable",
+      "to": "chord",
+      "label": "包依赖",
+      "variant": "dashed"
+    },
+    {
+      "id": "evals-session",
+      "from": "evals",
+      "to": "session",
+      "label": "评估依赖",
+      "variant": "dashed"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "主路径",
+      "items": [
+        "默认 CLI → 编码 Harness → 通用循环 → Provider。",
+        "Tools 与 SessionManager 属于编码 Harness 的运行依赖。"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "范围",
+      "items": [
+        "底部是开发 / 独立包视图，箭头标明包依赖。",
+        "pi-durable 不是默认 CLI 的 SessionManager 存储后端。",
+        "图中仅保留 15 个一级组件；细节见 Batch 0。"
+      ]
+    }
+  ]
+}

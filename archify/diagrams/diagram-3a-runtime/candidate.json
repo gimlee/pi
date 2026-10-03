@@ -1,0 +1,562 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Diagram 3A · Pi Agent Runtime Workflow",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": "archify/diagrams/diagram-3a-runtime/diagram-3a-runtime.html",
+    "repository": {
+      "url": "https://github.com/gimlee/pi",
+      "revision": "9b3c19da5cffc4c5e8b6bd74c45abc1ab6bfcd16",
+      "link_mode": "local-only"
+    }
+  },
+  "lanes": [
+    {
+      "id": "input",
+      "label": "1 · 用户输入 / 编码会话"
+    },
+    {
+      "id": "launch",
+      "label": "2 · 消息 / Agent 运行"
+    },
+    {
+      "id": "request",
+      "label": "3 · 每次模型请求"
+    },
+    {
+      "id": "loop",
+      "label": "4 · 响应 / 工具 / 续轮"
+    },
+    {
+      "id": "settle",
+      "label": "5 · Session 恢复 / 收束"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "host",
+      "lane": "input",
+      "col": 3,
+      "yOffset": -85,
+      "label": "Host 输入",
+      "sublabel": "Interactive / Print / RPC",
+      "type": "frontend",
+      "width": 170,
+      "height": 78,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/modes/print-mode.ts",
+          "line": 129,
+          "end_line": 169,
+          "label": "prompt 调用"
+        }
+      ]
+    },
+    {
+      "id": "session_prompt",
+      "lane": "input",
+      "col": 3,
+      "yOffset": 85,
+      "label": "Session.prompt",
+      "sublabel": "input → skill / template",
+      "type": "backend",
+      "width": 170,
+      "height": 78,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 1921,
+          "end_line": 1982,
+          "label": "输入处理"
+        }
+      ]
+    },
+    {
+      "id": "assemble",
+      "lane": "launch",
+      "col": 3,
+      "yOffset": -85,
+      "label": "准备消息与工具",
+      "sublabel": "before_agent_start / patch",
+      "type": "backend",
+      "width": 170,
+      "height": 78,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 2012,
+          "end_line": 2064,
+          "label": "消息装配"
+        }
+      ]
+    },
+    {
+      "id": "active_run",
+      "lane": "launch",
+      "col": 3,
+      "yOffset": 85,
+      "label": "Agent.prompt",
+      "sublabel": "activeRun / signal / 事件",
+      "type": "backend",
+      "width": 170,
+      "height": 78,
+      "sources": [
+        {
+          "path": "packages/agent/src/agent.ts",
+          "line": 373,
+          "end_line": 383,
+          "label": "prompt"
+        },
+        {
+          "path": "packages/agent/src/agent.ts",
+          "line": 507,
+          "end_line": 530,
+          "label": "运行生命周期"
+        }
+      ]
+    },
+    {
+      "id": "projection",
+      "lane": "request",
+      "col": 3,
+      "yOffset": -170,
+      "label": "prepareRequest",
+      "sublabel": "Session 投影 / 路由",
+      "type": "backend",
+      "width": 170,
+      "height": 78,
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 220,
+          "end_line": 240,
+          "label": "每请求准备"
+        },
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 759,
+          "end_line": 818,
+          "label": "请求投影"
+        }
+      ]
+    },
+    {
+      "id": "canonical",
+      "lane": "request",
+      "col": 3,
+      "yOffset": 0,
+      "label": "上下文转换",
+      "sublabel": "transform → convert → normalize",
+      "type": "backend",
+      "width": 170,
+      "height": 78,
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 381,
+          "end_line": 415,
+          "label": "转换顺序"
+        }
+      ]
+    },
+    {
+      "id": "provider",
+      "lane": "request",
+      "col": 3,
+      "yOffset": 170,
+      "label": "streamFn → Provider",
+      "sublabel": "ModelRuntime → 原生 API",
+      "type": "cloud",
+      "width": 170,
+      "height": 78,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/sdk.ts",
+          "line": 390,
+          "end_line": 409,
+          "label": "streamFn"
+        },
+        {
+          "path": "packages/coding-agent/src/core/model-runtime.ts",
+          "line": 715,
+          "end_line": 740,
+          "label": "Provider 分发"
+        }
+      ]
+    },
+    {
+      "id": "assistant",
+      "lane": "loop",
+      "col": 3,
+      "yOffset": -255,
+      "label": "Assistant 最终消息",
+      "sublabel": "统一流 → message_end",
+      "type": "messagebus",
+      "width": 170,
+      "height": 78,
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 419,
+          "end_line": 476,
+          "label": "响应消费"
+        }
+      ]
+    },
+    {
+      "id": "tools",
+      "lane": "loop",
+      "col": 0,
+      "yOffset": -85,
+      "label": "工具批次",
+      "sublabel": "有调用；length 全部失败",
+      "type": "backend",
+      "width": 170,
+      "height": 78,
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 258,
+          "end_line": 279,
+          "label": "工具条件"
+        },
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 508,
+          "end_line": 529,
+          "label": "并发选择"
+        }
+      ]
+    },
+    {
+      "id": "turn",
+      "lane": "loop",
+      "col": 3,
+      "yOffset": 85,
+      "label": "finishTurn / 队列",
+      "sublabel": "工具、steer、followUp 续轮",
+      "type": "backend",
+      "width": 170,
+      "height": 78,
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 282,
+          "end_line": 331,
+          "label": "续轮和终止"
+        }
+      ]
+    },
+    {
+      "id": "run_end",
+      "lane": "loop",
+      "col": 3,
+      "yOffset": 255,
+      "label": "agent_end → idle",
+      "sublabel": "等监听器；finally 清理",
+      "type": "backend",
+      "width": 170,
+      "height": 78,
+      "sources": [
+        {
+          "path": "packages/agent/src/agent.ts",
+          "line": 550,
+          "end_line": 613,
+          "label": "事件与清理"
+        }
+      ]
+    },
+    {
+      "id": "hard_exit",
+      "lane": "loop",
+      "col": 5,
+      "yOffset": 255,
+      "label": "error / aborted",
+      "sublabel": "finishTurn 后硬退出低层",
+      "type": "security",
+      "width": 170,
+      "height": 78,
+      "sources": [
+        {
+          "path": "packages/agent/src/agent-loop.ts",
+          "line": 246,
+          "end_line": 257,
+          "label": "错误退出"
+        }
+      ]
+    },
+    {
+      "id": "recover",
+      "lane": "settle",
+      "col": 3,
+      "yOffset": -85,
+      "label": "Session 后处理",
+      "sublabel": "重试 / 压缩 / 边界 / 队列",
+      "type": "backend",
+      "width": 170,
+      "height": 78,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 1775,
+          "end_line": 1869,
+          "label": "外层恢复循环"
+        }
+      ]
+    },
+    {
+      "id": "settled",
+      "lane": "settle",
+      "col": 3,
+      "yOffset": 85,
+      "label": "agent_settled",
+      "sublabel": "Session 本次活动收束",
+      "type": "frontend",
+      "width": 170,
+      "height": 78,
+      "sources": [
+        {
+          "path": "packages/coding-agent/src/core/agent-session.ts",
+          "line": 1050,
+          "end_line": 1070,
+          "label": "Session settled"
+        }
+      ]
+    }
+  ],
+  "mainPath": [
+    "host",
+    "session_prompt",
+    "assemble",
+    "active_run",
+    "projection",
+    "canonical",
+    "provider",
+    "assistant",
+    "turn",
+    "run_end",
+    "recover",
+    "settled"
+  ],
+  "edges": [
+    {
+      "from": "host",
+      "to": "session_prompt",
+      "role": "main",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight"
+    },
+    {
+      "from": "session_prompt",
+      "to": "assemble",
+      "role": "main",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight"
+    },
+    {
+      "from": "assemble",
+      "to": "active_run",
+      "role": "main",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight"
+    },
+    {
+      "from": "active_run",
+      "to": "projection",
+      "role": "main",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight"
+    },
+    {
+      "from": "projection",
+      "to": "canonical",
+      "role": "main",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight"
+    },
+    {
+      "from": "canonical",
+      "to": "provider",
+      "role": "main",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight"
+    },
+    {
+      "from": "provider",
+      "to": "assistant",
+      "role": "main",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight"
+    },
+    {
+      "from": "assistant",
+      "to": "tools",
+      "label": "有调用",
+      "role": "branch",
+      "variant": "emphasis",
+      "fromSide": "left",
+      "toSide": "top",
+      "route": "auto",
+      "via": [
+        [
+          133,
+          2063
+        ]
+      ]
+    },
+    {
+      "from": "tools",
+      "to": "turn",
+      "label": "结果回灌",
+      "role": "branch",
+      "variant": "emphasis",
+      "fromSide": "right",
+      "toSide": "left",
+      "route": "auto",
+      "via": [
+        [
+          300,
+          2233
+        ],
+        [
+          300,
+          2403
+        ]
+      ]
+    },
+    {
+      "from": "assistant",
+      "to": "turn",
+      "label": "无调用",
+      "role": "main",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight"
+    },
+    {
+      "from": "turn",
+      "to": "run_end",
+      "label": "无继续 / end",
+      "role": "main",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight"
+    },
+    {
+      "from": "turn",
+      "to": "projection",
+      "label": "下一 turn",
+      "role": "return",
+      "variant": "dashed",
+      "route": "auto"
+    },
+    {
+      "from": "assistant",
+      "to": "hard_exit",
+      "label": "错误",
+      "role": "error",
+      "variant": "security",
+      "fromSide": "right",
+      "toSide": "top",
+      "route": "auto",
+      "via": [
+        [
+          733,
+          2063
+        ]
+      ]
+    },
+    {
+      "from": "hard_exit",
+      "to": "run_end",
+      "role": "error",
+      "variant": "security",
+      "fromSide": "left",
+      "toSide": "right",
+      "route": "straight"
+    },
+    {
+      "from": "run_end",
+      "to": "recover",
+      "role": "main",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight"
+    },
+    {
+      "from": "recover",
+      "to": "active_run",
+      "label": "continue",
+      "role": "return",
+      "variant": "dashed",
+      "fromSide": "left",
+      "toSide": "left",
+      "route": "return-left",
+      "via": [
+        [
+          20,
+          2879
+        ],
+        [
+          20,
+          1111
+        ]
+      ]
+    },
+    {
+      "from": "recover",
+      "to": "settled",
+      "label": "无恢复 / 无继续",
+      "role": "main",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "调用责任",
+      "items": [
+        "Provider 解析原生流；Loop 消费统一事件",
+        "模型输出工具意图；Harness 验证并执行"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "结束边界",
+      "items": [
+        "agent_end 后 Session 仍可重试或继续",
+        "agent_settled 与低层 idle 是不同边界"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "范围",
+      "items": [
+        "默认路径没有固定 Planner / Reviewer 阶段",
+        "工具细节与停止矩阵见 Batch 3 报告"
+      ]
+    }
+  ]
+}
